@@ -71,7 +71,11 @@ export default class HomeScreen extends React.Component {
       );
   }
   addproject(){
-    this.setState({showSelect: true});
+    if(this.state.showSelect == true) {
+      this.setState({showSelect: false});
+    } else {
+      this.setState({showSelect: true});
+    }
   }
   createproject(navigate){
     this.setState({showSelect: false});
