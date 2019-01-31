@@ -33,8 +33,37 @@ export default class App extends React.Component {
       }
     })
   }
+  _loginWithGoogle = async () => {
+    try {
+      const result = await Expo.Google.logInAsync({
+        androidClientId:"254466724620-fub07e0bs573lmhs9b1v010n3kf7saoe.apps.googleusercontent.com",
+        iosClientId:"254466724620-rgm8nc62espnjrf3kvtj9om9nesu9nih.apps.googleusercontent.com",
+        scopes: ["profile", "email"]
+      });
+  
+      if (result.type === "success") {
+        const { idToken, accessToken } = result;
+        const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
+        firebase
+          .auth()
+          .signInAndRetrieveDataWithCredential(credential)
+          .then(res => {
+            // user res, create your user, do whatever you want
+          })
+          .catch(error => {
+            console.log("firebase cred err:", error);
+          });
+          await AsyncStorage.setItem('userToken', 'google');
+          this.props.navigation.navigate('App');
+      } else {
+        return { cancelled: true };
+      }
+    } catch (err) {
+      console.log("err:", err);
+    }
+  };
 
-  _signInFBAsync = async () => {
+  _loginWithFacebook = async () => {
     //ENTER YOUR APP ID 
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('653081438441571', { permissions: ['email', 'public_profile'] })
 
@@ -55,14 +84,14 @@ export default class App extends React.Component {
             full
             rounded
             primary
-            onPress={this._signInFBAsync}
+            onPress={this._loginWithFacebook}
           >
             <Text style={{ color: 'white' }}> Login With Facebook</Text>
           </Button>
           <Button style={{ marginTop: 10, backgroundColor: 'white' }}
             full
             rounded
-            onPress={this._signInFBAsync}
+            onPress={this._loginWithGoogle}
           >
             <Text style={{ color: 'black' }}> Login With Google</Text>
           </Button>
