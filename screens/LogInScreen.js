@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, AsyncStorage, } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage, Image } from 'react-native';
 import * as firebase from 'firebase';
 
 // Initialize Firebase
@@ -17,12 +17,13 @@ firebase.initializeApp(firebaseConfig);
 
 import { Container, Content, Header, Form, Input, Item, Button, Label } from 'native-base'
 
+
 export default class App extends React.Component {
 
   constructor(props) {
     super(props)
   }
-
+  static navigationOptions = { header: null }
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
@@ -47,9 +48,8 @@ export default class App extends React.Component {
           .signInAndRetrieveDataWithCredential(credential)
           .then(res => {
             // user res, create your user, do whatever you want
-            console.log('res', res)
-            // AsyncStorage.setItem('userToken', 'google');
-            // this.props.navigation.navigate('App');
+            AsyncStorage.setItem('userToken', idToken);
+            this.props.navigation.navigate('App');
           })
           .catch(error => {
             console.log("firebase cred err:", error);
@@ -71,7 +71,7 @@ export default class App extends React.Component {
       firebase.auth().signInAndRetrieveDataWithCredential(credential)
       .then(res => {
         // user res, create your user, do whatever you want
-        AsyncStorage.setItem('userToken', res);
+        AsyncStorage.setItem('userToken', token);
         this.props.navigation.navigate('App');
       })
       .catch((error) => {
@@ -82,23 +82,24 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <Container style={styles.container}>
-          <Button style={{ marginTop: 10 }}
-            full
-            rounded
-            primary
-            onPress={this._loginWithFacebook}
-          >
-            <Text style={{ color: 'white' }}> Login With Facebook</Text>
-          </Button>
-          <Button style={{ marginTop: 10, backgroundColor: 'white' }}
-            full
-            rounded
-            onPress={this._loginWithGoogle}
-          >
-            <Text style={{ color: 'black' }}> Login With Google</Text>
-          </Button>
-      </Container>
+        <Container style={styles.container}>
+        <Image source={require('../assets/images/text-nut.png')} style={styles.backgroundImage}></Image>
+            <Button style={{ marginTop: 10 }}
+              full
+              rounded
+              primary
+              onPress={this._loginWithFacebook}
+            >
+              <Text style={{ color: 'white' }}> Login With Facebook</Text>
+            </Button>
+            <Button style={{ marginTop: 10, backgroundColor: 'white' }}
+              full
+              rounded
+              onPress={this._loginWithGoogle}
+            >
+              <Text style={{ color: 'black' }}> Login With Google</Text>
+            </Button>
+        </Container>
       
     );
   }
@@ -107,8 +108,13 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#4A3C39',
     justifyContent: 'center',
+    alignItems: 'center',
     padding: 10
   },
+  backgroundImage: {
+    resizeMode: 'cover',
+    marginBottom: 200
+  }
 });
