@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  TouchableHighlight,
   Button,
 } from 'react-native';
 import Project from '../components/Project';
@@ -34,9 +35,10 @@ export default class HomeScreen extends React.Component {
   render() {
       const {navigate} = this.props.navigation;
       let projects = store.projectArray.map((val, key)=>{
-        return <Project key={key} keyval={key} val={val}
-        deleteMethod={()=>this.deleteProject(key, val)}
-        detailMethod={() => this.detailMethod(navigate, val)}/>
+        if(val.status == 'join')
+          return <Project key={key} keyval={key} val={val}
+          deleteMethod={()=>this.deleteProject(key, val)}
+          detailMethod={() => this.detailMethod(navigate, val)}/>
       });
       return (
           <View style={styles.container}>
@@ -45,16 +47,16 @@ export default class HomeScreen extends React.Component {
               </ScrollView>
               {this.state.showSelect == true ? 
                 <View style={styles.buttonAdd}>
-                  <Button style={styles.buttonAddStyle}
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
                     onPress={() => this.createproject(navigate)}
-                    title="Create Project"
-                    color="#E91E63"
-                  />
-                  <Button style={styles.buttonAddStyle}
-                    onPress={this.joinproject.bind(this)}
-                    title="Join Project"
-                    color="#D3D3D3"
-                  />
+                  >
+                  <Text style={styles.signUpText}>Create Project</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
+                    onPress={() => this.joinproject(navigate)}
+                  >
+                  <Text style={styles.signUpText}>Join Project</Text>
+                  </TouchableHighlight>
                 </View>
               : null }
               <View style={styles.footerFlex}>
@@ -72,9 +74,9 @@ export default class HomeScreen extends React.Component {
     this.setState({showSelect: false});
     navigate('CreateProject')
   }
-  joinproject(){
-    // this.setState({showJoin: true});
-    // this.setState({showSelect: false});
+  joinproject(navigate){
+    this.setState({showSelect: false});
+    navigate('JoinProject')
   }
   deleteProject(key, value){
       store.projectArray.splice(key, 1);
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scrollContainer: {
-      marginBottom: 210
+      marginBottom: 230
   },
   footer: {
       position: 'absolute',
@@ -117,8 +119,8 @@ const styles = StyleSheet.create({
       position: 'absolute',
       zIndex: 11,
       right: 20,
-      bottom: 50,
-      backgroundColor: '#E91E63',
+      bottom: 20,
+      backgroundColor: '#4A3C39',
       width: 70,
       height: 70,
       borderRadius: 35,
@@ -133,7 +135,7 @@ const styles = StyleSheet.create({
   buttonAdd: {
     position: 'absolute',
     zIndex: 11,
-    bottom: 130,
+    bottom: 120,
     width: 150,
     right: 17,
     height: 70,
@@ -142,6 +144,22 @@ const styles = StyleSheet.create({
   },
   buttonAddStyle: {
     marginBottom: 10,
-    backgroundColor: '#E91E63',
+    backgroundColor: '#4A3C39',
+  },
+  buttonContainer: {
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:150,
+    marginLeft:5,
+    borderRadius:30,
+  },
+  signupButton: {
+    backgroundColor: "#4A3C39",
+  },
+  signUpText: {
+    color: 'white',
   }
 });

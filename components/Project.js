@@ -4,13 +4,17 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
+    Image
 } from 'react-native';
 export default class Project extends React.Component {
   render() {
     return (
         <View key={this.props.keyval} style={styles.project}>
-            <Text style={styles.projectText}>Create Date : {this.props.val.date}</Text>
-            <Text style={styles.projectText}>Project : {this.props.val.ProjectName}</Text>
+            <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+            <View>
+              <Text style={styles.projectText}>Create Date : {this.props.val.date}</Text>
+              <Text style={styles.projectText}>Project : {this.props.val.ProjectName}</Text>
+            </View>
             <TouchableOpacity onPress={this.props.deleteMethod} style={styles.projectDelete}>
                 <Text style={styles.projectDeleteText}>Delete</Text>
             </TouchableOpacity>
@@ -23,11 +27,18 @@ export default class Project extends React.Component {
 }
 const styles = StyleSheet.create({
     project: {
-        position: 'relative',
+        flex: 1,
+        flexDirection: 'row',
         padding: 20,
         paddingRight: 100,
         borderBottomWidth:2,
-        borderBottomColor: '#ededed'
+        borderBottomColor: '#ededed',
+    },
+    inputIcon:{
+      width:30,
+      height:30,
+      margin:5,
+      justifyContent: 'center'
     },
     projectText: {
         paddingLeft: 20,
@@ -35,24 +46,22 @@ const styles = StyleSheet.create({
         borderLeftColor: '#E91E63'
     },
     projectDelete: {
-        position: 'absolute',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#2980b9',
+        backgroundColor: '#4A3C39',
         padding: 10,
-        top: 10,
-        bottom: 10,
-        right: 10
-    },
+        width: 70,
+        marginLeft: 20,
+        borderRadius:15,
+      },
     projectDetail: {
-      position: 'absolute',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#E91E63',
+      backgroundColor: '#4A3C39',
       padding: 10,
-      top: 10,
-      bottom: 10,
-      right: 75
+      width: 70,
+      marginLeft: 10,
+      borderRadius:15,
   },
     projectDeleteText: {
         color: 'white'

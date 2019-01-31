@@ -7,7 +7,7 @@ import {
   TouchableHighlight,
   Image,
   Alert,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
 import { store } from '../Store/Store';
 
@@ -16,7 +16,7 @@ export default class SignUpView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nameProject: '',
+      idProject: '',
     }
   }
 
@@ -29,14 +29,14 @@ export default class SignUpView extends Component {
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder='Project Name :'
-              onChangeText={(nameProject)=> this.setState({nameProject})}
-              value={this.state.nameProject}
+              placeholder='Project id :'
+              onChangeText={(idProject)=> this.setState({idProject})}
+              value={this.state.idProject}
               placeholderTextColor='black'
               underlineColorAndroid='transparent'/>
           </View>
           <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.addProject(navigate)}>
-            <Text style={styles.signUpText}>Add Project</Text>
+            <Text style={styles.signUpText}>Join Project</Text>
           </TouchableHighlight>
         </View>
       </ImageBackground>
@@ -44,24 +44,12 @@ export default class SignUpView extends Component {
   }
 
   addProject(navigate){
-    if(this.state.nameProject){
-        var d = new Date();
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      
-        for (var i = 0; i < 5; i++)
-          text += possible.charAt(Math.floor(Math.random() * possible.length));
-        store.projectArray.push({
-          'ProjectName': this.state.nameProject,
-          'date':d.getFullYear()+
-          "/"+(d.getMonth()+1) +
-          "/"+ d.getDate(),
-          'id': text,
-          'status': 'join',
-        });
-        this.setState({nameProject:''});
-        navigate('Home')
-    }
+    store.projectArray.map((val)=>{
+      if( this.state.idProject == val.id) {
+        val.status = 'join';
+        navigate('Home');
+      }
+    });
   }
 }
 
@@ -91,7 +79,7 @@ const styles = StyleSheet.create({
   inputIcon:{
     width:30,
     height:30,
-    marginLeft:10,
+    marginLeft:15,
     justifyContent: 'center'
   },
   buttonContainer: {

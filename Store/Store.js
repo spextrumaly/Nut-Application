@@ -1,5 +1,10 @@
 export const store = {
   ProjectName: '',
-  projectArray: [],
+  projectArray: [{
+    'ProjectName': 'Default',
+    'date':'-',
+    'id': 'aaaaa',
+    'status': 'disjoin',
+  }],
   taskArray: [],
 }

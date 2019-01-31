@@ -9,12 +9,14 @@ import SettingsScreen from '../screens/SettingsScreen';
 import ProjectScreen from '../screens/ProjectScreen';
 import CreateProjectScreen from '../screens/CreateProjectScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
+import JoinProjectScreen from '../screens/JoinProjectScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Project: ProjectScreen,
   CreateProject: CreateProjectScreen,
   CreateTask: CreateTaskScreen,
+  JoinProject: JoinProjectScreen,
 });
 
 HomeStack.navigationOptions = {

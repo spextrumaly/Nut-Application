@@ -32,10 +32,17 @@ export default class ProjectScreen extends React.Component {
           return <Task key={key} keyval={key} val={val}
                   deleteMethod={()=>this.deleteTask(key)}/>
       });
+      let id = store.projectArray.map((val, key)=>{
+        if( val.ProjectName == store.ProjectName)
+          return val.id
+      });
       return (
           <View style={styles.container}>
               <Text style={styles.textHeader}>
                 {store.ProjectName}
+              </Text>
+              <Text style={styles.textSubHeaderCenter}>
+                id : {id}
               </Text>
               <Text style={styles.textSubHeader}>
                 List Task
@@ -72,6 +79,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     padding: 5,
   },
+  textSubHeaderCenter: {
+    textAlign: 'center',
+    fontSize: 14,
+    padding: 5,
+  },
   scrollContainer: {
       flex: 1,
       marginBottom: 100,
@@ -96,7 +108,7 @@ const styles = StyleSheet.create({
       zIndex: 11,
       right: 20,
       bottom: 40,
-      backgroundColor: '#E91E63',
+      backgroundColor: '#4A3C39',
       width: 70,
       height: 70,
       borderRadius: 35,

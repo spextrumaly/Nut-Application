@@ -6,7 +6,8 @@ import {
   TextInput,
   TouchableHighlight,
   Image,
-  Alert
+  Alert,
+  ImageBackground
 } from 'react-native';
 import { store } from '../Store/Store';
 
@@ -23,31 +24,33 @@ export default class SignUpView extends Component {
   render() {
     const { goBack } = this.props.navigation;
     return (
-      <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={{uri: 'https://png.icons8.com/male-user/ultraviolet/50/3498db'}}/>
-          <TextInput style={styles.inputs}
-            style={styles.textInput}
-            placeholder='Task Name :'
-            onChangeText={(taskText)=> this.setState({taskText})}
-            value={this.state.taskText}
-            placeholderTextColor='black'
-            underlineColorAndroid='transparent'/>
+      <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
+        <View style={styles.container}>
+          <View style={styles.inputContainer}>
+            <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+            <TextInput style={styles.inputs}
+              style={styles.textInput}
+              placeholder='Task Name :'
+              onChangeText={(taskText)=> this.setState({taskText})}
+              value={this.state.taskText}
+              placeholderTextColor='black'
+              underlineColorAndroid='transparent'/>
+          </View>
+          <View style={styles.inputContainer}>
+            <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+            <TextInput style={styles.inputs}
+              style={styles.textInput}
+              placeholder='Task Owner :'
+              onChangeText={(taskOwner)=> this.setState({taskOwner})}
+              value={this.state.taskOwner}
+              placeholderTextColor='black'
+              underlineColorAndroid='transparent'/>
+          </View>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.addTask(goBack)}>
+            <Text style={styles.signUpText}>Add Task</Text>
+          </TouchableHighlight>
         </View>
-        <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={{uri: 'https://png.icons8.com/male-user/ultraviolet/50/3498db'}}/>
-          <TextInput style={styles.inputs}
-            style={styles.textInput}
-            placeholder='Task Owner :'
-            onChangeText={(taskOwner)=> this.setState({taskOwner})}
-            value={this.state.taskOwner}
-            placeholderTextColor='black'
-            underlineColorAndroid='transparent'/>
-        </View>
-        <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.addTask(goBack)}>
-          <Text style={styles.signUpText}>Add Task</Text>
-        </TouchableHighlight>
-      </View>
+      </ImageBackground>
     );
   }
 
@@ -74,7 +77,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#CD853F',
   },
   inputContainer: {
       borderBottomColor: '#F5FCFF',
@@ -110,9 +112,12 @@ const styles = StyleSheet.create({
     borderRadius:30,
   },
   signupButton: {
-    backgroundColor: "#A52A2A",
+    backgroundColor: "#f5f5dc",
   },
   signUpText: {
-    color: 'white',
+    color: '#4A3C39',
+  },
+  textInput: {
+    marginLeft:10,
   }
 });
