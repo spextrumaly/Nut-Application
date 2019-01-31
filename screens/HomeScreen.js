@@ -5,6 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  AsyncStorage,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -51,8 +52,13 @@ export default class HomeScreen extends React.Component {
               <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
             </TouchableOpacity>
           </View>
-        </ScrollView>
 
+          <View style={styles.helpContainer}>
+            <TouchableOpacity onPress={this.clearCache} style={styles.helpLink}>
+              <Text style={styles.helpLinkText}>Clear cache here!</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
         <View style={styles.tabBarInfoContainer}>
           <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
 
@@ -63,7 +69,10 @@ export default class HomeScreen extends React.Component {
       </View>
     );
   }
-
+  clearCache = async () => {
+    await AsyncStorage.clear();
+    alert('Clear cache complete!!')
+  }
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {
       const learnMoreButton = (

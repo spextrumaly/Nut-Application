@@ -6,12 +6,12 @@ import * as firebase from 'firebase';
 // Initialize Firebase
 const firebaseConfig = {
   // ADD YOUR FIREBASE CREDENTIALS
-  apiKey: "AIzaSyDf_02uKGSNdhxR9hN1V6K4CkoGQhvXfCo",
-  authDomain: "nut-application.firebaseapp.com",
-  databaseURL: "https://nut-application.firebaseio.com",
-  projectId: "nut-application",
-  storageBucket: "nut-application.appspot.com",
-  messagingSenderId: "382258542237"
+  apiKey: "AIzaSyCJysqR5oPg65e6WYeUWYqKihxh3Hdcyxs",
+  authDomain: "nut-project-32750.firebaseapp.com",
+  databaseURL: "https://nut-project-32750.firebaseio.com",
+  projectId: "nut-project-32750",
+  storageBucket: "nut-project-32750.appspot.com",
+  messagingSenderId: "748289478478"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -23,10 +23,6 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = ({
-      email: '',
-      password: ''
-    })
   }
 
   componentDidMount() {
@@ -38,101 +34,38 @@ export default class App extends React.Component {
     })
   }
 
-  signUpUser = (email, password) => {
-
-    try {
-
-      if (this.state.password.length < 6) {
-        alert("Please enter atleast 6 characters")
-        return;
-      }
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-    }
-    catch (error) {
-      console.log(error.toString())
-    }
-  }
-
-  loginUser = (email, password) => {
-
-    try {
-        firebase.auth().signInWithEmailAndPassword(email, password).then(function (user) {
-        AsyncStorage.setItem('userToken', 'test');
-        this.props.navigation.navigate('App');
-        console.log(user)
-
-      })
-    }
-    catch (error) {
-      console.log(error.toString())
-    }
-  }
-  
-  async loginWithFacebook() {
-
+  _signInFBAsync = async () => {
     //ENTER YOUR APP ID 
-    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('653081438441571', { permissions: ['public_profile'] })
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('653081438441571', { permissions: ['email', 'public_profile'] })
 
     if (type == 'success') {
       const credential = firebase.auth.FacebookAuthProvider.credential(token)
-      this.props.navigation.navigate('App');
       firebase.auth().signInAndRetrieveDataWithCredential(credential).catch((error) => {
         console.log(error)
       })
+      await AsyncStorage.setItem('userToken', 'facebook');
+      this.props.navigation.navigate('App');
     }
-  }
+  };
 
   render() {
     return (
       <Container style={styles.container}>
-        <Form>
-          <Item floatingLabel>
-            <Label>Email</Label>
-            <Input
-              autoCorrect={false}
-              autoCapitalize="none"
-              onChangeText={(email) => this.setState({ email })}
-            />
-
-          </Item>
-
-          <Item floatingLabel>
-            <Label>Password</Label>
-            <Input
-              secureTextEntry={true}
-              autoCorrect={false}
-              autoCapitalize="none"
-              onChangeText={(password) => this.setState({ password })}
-            />
-          </Item>
-
-          <Button style={{ marginTop: 10 }}
-            full
-            rounded
-            success
-            onPress={() => this.loginUser(this.state.email, this.state.password)}
-          >
-            <Text style={{ color: 'white' }}> Login</Text>
-          </Button>
-
           <Button style={{ marginTop: 10 }}
             full
             rounded
             primary
-            onPress={() => this.signUpUser(this.state.email, this.state.password)}
-          >
-            <Text style={{ color: 'white' }}> Sign Up</Text>
-          </Button>
-
-          <Button style={{ marginTop: 10 }}
-            full
-            rounded
-            primary
-            onPress={this.loginWithFacebook}
+            onPress={this._signInFBAsync}
           >
             <Text style={{ color: 'white' }}> Login With Facebook</Text>
           </Button>
-        </Form>
+          <Button style={{ marginTop: 10, backgroundColor: 'white' }}
+            full
+            rounded
+            onPress={this._signInFBAsync}
+          >
+            <Text style={{ color: 'black' }}> Login With Google</Text>
+          </Button>
       </Container>
       
     );
