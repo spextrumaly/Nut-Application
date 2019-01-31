@@ -2,11 +2,29 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
+import firebase from 'firebase';
 
+// Initialize Firebase
+const firebaseConfig = {
+  // ADD YOUR FIREBASE CREDENTIALS
+  apiKey: "AIzaSyCJysqR5oPg65e6WYeUWYqKihxh3Hdcyxs",
+  authDomain: "nut-project-32750.firebaseapp.com",
+  databaseURL: "https://nut-project-32750.firebaseio.com",
+  projectId: "nut-project-32750",
+  storageBucket: "nut-project-32750.appspot.com",
+  messagingSenderId: "748289478478"
+};
+
+
+firebase.initializeApp(firebaseConfig);
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
+
+  componentDidMount() {
+    
+  }
 
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {

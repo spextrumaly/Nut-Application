@@ -3,19 +3,6 @@ import { StyleSheet, Text, View, AsyncStorage, } from 'react-native';
 
 import * as firebase from 'firebase';
 
-// Initialize Firebase
-const firebaseConfig = {
-  // ADD YOUR FIREBASE CREDENTIALS
-  apiKey: "AIzaSyCJysqR5oPg65e6WYeUWYqKihxh3Hdcyxs",
-  authDomain: "nut-project-32750.firebaseapp.com",
-  databaseURL: "https://nut-project-32750.firebaseio.com",
-  projectId: "nut-project-32750",
-  storageBucket: "nut-project-32750.appspot.com",
-  messagingSenderId: "748289478478"
-};
-
-firebase.initializeApp(firebaseConfig);
-
 import { Container, Content, Header, Form, Input, Item, Button, Label } from 'native-base'
 
 export default class App extends React.Component {
@@ -25,14 +12,17 @@ export default class App extends React.Component {
 
   }
 
+  
+
   componentDidMount() {
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
-        console.log(user)
+        //console.log(user);
       }
     })
   }
+
   _loginWithGoogle = async () => {
     try {
       const result = await Expo.Google.logInAsync({
@@ -49,6 +39,7 @@ export default class App extends React.Component {
           .signInAndRetrieveDataWithCredential(credential)
           .then(res => {
             // user res, create your user, do whatever you want
+            console.log(res.profile.email);
           })
           .catch(error => {
             console.log("firebase cred err:", error);
@@ -63,13 +54,53 @@ export default class App extends React.Component {
     }
   };
 
+  isFacebookUserEqual = (facebookAuthResponse, firebaseUser) => {
+    if (firebaseUser) {
+      var providerData = firebaseUser.providerData;
+      for (var i = 0; i < providerData.length; i++) {
+        if (providerData[i].providerId === firebase.auth.FacebookAuthProvider.PROVIDER_ID &&
+            providerData[i].uid === facebookAuthResponse.userID) {
+          // We don't need to re-auth the Firebase connection.
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   _loginWithFacebook = async () => {
     //ENTER YOUR APP ID 
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('653081438441571', { permissions: ['email', 'public_profile'] })
 
     if (type == 'success') {
       const credential = firebase.auth.FacebookAuthProvider.credential(token)
-      firebase.auth().signInAndRetrieveDataWithCredential(credential).catch((error) => {
+      firebase
+       .auth()
+       .signInAndRetrieveDataWithCredential(credential)
+       .then( res => {
+         if (res.additionalUserInfo.isNewUser) {
+           console.log('new users');
+           console.log(res);
+           firebase
+            .database()
+            .ref('/users/' + res.user.uid)
+            .set({
+              name: res.user.displayName,
+              mail: res.user.email,
+              last_logged_in: Date.now(),
+            });
+         } else {
+           console.log('old user');
+           firebase
+            .database()
+            .ref('/users/' + res.user.uid)
+            .update({
+              last_logged_in: Date.now()
+            });
+
+         }
+       })
+       .catch((error) => {
         console.log(error)
       })
       await AsyncStorage.setItem('userToken', 'facebook');

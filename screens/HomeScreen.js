@@ -8,15 +8,28 @@ import {
   AsyncStorage,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 
+import firebase from 'firebase';
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
+  logCurrentUsers() {
+    var user = firebase.auth().currentUser;
+    if (user) {
+      console.log(user.displayName);
+      console.log(user.email);
+      console.log(user.lastLoginAt);
+      console.log(user.uid);
+      
+    } 
+  }
 
   render() {
     return (
@@ -58,6 +71,8 @@ export default class HomeScreen extends React.Component {
               <Text style={styles.helpLinkText}>Clear cache here!</Text>
             </TouchableOpacity>
           </View>
+
+          <Button title = 'log current user' onPress = {this.logCurrentUsers} />
         </ScrollView>
         <View style={styles.tabBarInfoContainer}>
           <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
