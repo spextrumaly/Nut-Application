@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, AsyncStorage, } from 'react-native';
-
 import * as firebase from 'firebase';
 
 // Initialize Firebase
@@ -22,11 +21,9 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props)
-
   }
 
   componentDidMount() {
-
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
         console.log(user)
@@ -38,6 +35,7 @@ export default class App extends React.Component {
       const result = await Expo.Google.logInAsync({
         androidClientId:"254466724620-fub07e0bs573lmhs9b1v010n3kf7saoe.apps.googleusercontent.com",
         iosClientId:"254466724620-rgm8nc62espnjrf3kvtj9om9nesu9nih.apps.googleusercontent.com",
+        webClientId:"254466724620-nrevos06qg3fnsoh4ps873kte5rujqmk.apps.googleusercontent.com",
         scopes: ["profile", "email"]
       });
   
@@ -49,12 +47,13 @@ export default class App extends React.Component {
           .signInAndRetrieveDataWithCredential(credential)
           .then(res => {
             // user res, create your user, do whatever you want
+            console.log('res', res)
+            // AsyncStorage.setItem('userToken', 'google');
+            // this.props.navigation.navigate('App');
           })
           .catch(error => {
             console.log("firebase cred err:", error);
           });
-          await AsyncStorage.setItem('userToken', 'google');
-          this.props.navigation.navigate('App');
       } else {
         return { cancelled: true };
       }
@@ -69,11 +68,15 @@ export default class App extends React.Component {
 
     if (type == 'success') {
       const credential = firebase.auth.FacebookAuthProvider.credential(token)
-      firebase.auth().signInAndRetrieveDataWithCredential(credential).catch((error) => {
+      firebase.auth().signInAndRetrieveDataWithCredential(credential)
+      .then(res => {
+        // user res, create your user, do whatever you want
+        AsyncStorage.setItem('userToken', res);
+        this.props.navigation.navigate('App');
+      })
+      .catch((error) => {
         console.log(error)
       })
-      await AsyncStorage.setItem('userToken', 'facebook');
-      this.props.navigation.navigate('App');
     }
   };
 
