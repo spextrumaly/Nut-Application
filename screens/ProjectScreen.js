@@ -11,6 +11,9 @@ import Task from '../components/Task';
 import { store } from '../Store/Store';
 
 export default class ProjectScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  };
   constructor(props){
     super(props);
     this.state = {

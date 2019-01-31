@@ -12,7 +12,7 @@ import { store } from '../Store/Store';
 
 export default class TaskScreen extends React.Component {
   static navigationOptions = {
-    title: 'Task',
+    header: null,
   };
   constructor(props){
     super(props);

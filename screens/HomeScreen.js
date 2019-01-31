@@ -13,6 +13,9 @@ import Project from '../components/Project';
 import { store } from '../Store/Store';
 
 export default class HomeScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  };
   constructor(props){
     super(props);
     this.state = {

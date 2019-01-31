@@ -12,7 +12,9 @@ import {
 import { store } from '../Store/Store';
 
 export default class SignUpView extends Component {
-
+  static navigationOptions = {
+    header: null,
+  };
   constructor(props) {
     super(props);
     this.state = {
