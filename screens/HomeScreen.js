@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableHighlight,
   Button,
+  Image
 } from 'react-native';
 import Project from '../components/Project';
 import { store } from '../Store/Store';
@@ -45,6 +46,12 @@ export default class HomeScreen extends React.Component {
       });
       return (
           <View style={styles.container}>
+            <View key={this.props.keyval} style={styles.task}>
+              <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+              <View>
+                <Text style={styles.taskText}>Projects</Text>
+              </View>
+            </View>
               <ScrollView style={styles.scrollContainer}>
                 {projects}
               </ScrollView>
@@ -168,5 +175,25 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     color: 'white',
-  }
+  },
+  task: {
+    position: 'relative',
+    padding: 15,
+    flexDirection: 'row',
+    backgroundColor: "#f5f5dc",
+  },
+  inputIcon:{
+    width:50,
+    height:50,
+    margin:5,
+    justifyContent: 'center'
+  },
+  taskText: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 30,
+    paddingLeft: 10,
+    paddingTop: 10,
+    color: '#4A3C39'
+  },
 });

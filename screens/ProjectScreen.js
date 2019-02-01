@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
   TextInput,
 } from 'react-native';
 import Task from '../components/Task';
@@ -41,15 +42,13 @@ export default class ProjectScreen extends React.Component {
       });
       return (
           <View style={styles.container}>
-              <Text style={styles.textHeader}>
-                {store.ProjectName}
-              </Text>
-              <Text style={styles.textSubHeaderCenter}>
-                id : {id}
-              </Text>
-              <Text style={styles.textSubHeader}>
-                List Task
-              </Text>
+              <View style={styles.task}>
+                <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+                <View>
+                  <Text style={styles.taskText}>{store.ProjectName}</Text>
+                  <Text style={styles.taskSubText}>id : {id}</Text>
+                </View>
+              </View>
               <ScrollView style={styles.scrollContainer}>
                   {tasks}
               </ScrollView>
@@ -99,13 +98,6 @@ const styles = StyleSheet.create({
       right: 0,
       zIndex: 10
   },
-  textInput: {
-      alignSelf: 'stretch',
-      color: '#fff',
-      padding: 10,
-      backgroundColor: '#252525',
-      borderTopColor: '#ededed'
-  },
   addButton: {
       position: 'absolute',
       zIndex: 11,
@@ -122,5 +114,33 @@ const styles = StyleSheet.create({
   addButtonText: {
       color: '#fff',
       fontSize: 24
+  },
+  task: {
+    position: 'relative',
+    padding: 15,
+    flexDirection: 'row',
+    backgroundColor: "#f5f5dc",
+  },
+  inputIcon:{
+    width:50,
+    height:50,
+    margin:5,
+    justifyContent: 'center'
+  },
+  taskText: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 25,
+    paddingLeft: 10,
+    paddingTop: 5,
+    color: '#4A3C39'
+  },
+  taskSubText: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 15,
+    paddingLeft: 10,
+    paddingTop: 5,
+    color: '#4A3C39'
   },
 });

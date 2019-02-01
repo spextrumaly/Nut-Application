@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
   TextInput,
 } from 'react-native';
 import Task from '../components/Task';
@@ -33,9 +34,15 @@ export default class TaskScreen extends React.Component {
       });
       return (
           <View style={styles.container}>
-              <ScrollView style={styles.scrollContainer}>
-                  {tasks}
-              </ScrollView>
+            <View key={this.props.keyval} style={styles.task}>
+              <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+              <View>
+                <Text style={styles.taskText}>Tasks</Text>
+              </View>
+            </View>
+            <ScrollView style={styles.scrollContainer}>
+              {tasks}
+            </ScrollView>
           </View>
       );
   }
@@ -83,5 +90,25 @@ const styles = StyleSheet.create({
   addButtonText: {
       color: '#fff',
       fontSize: 24
+  },
+  task: {
+    position: 'relative',
+    padding: 15,
+    flexDirection: 'row',
+    backgroundColor: "#f5f5dc",
+  },
+  inputIcon:{
+    width:50,
+    height:50,
+    margin:5,
+    justifyContent: 'center'
+  },
+  taskText: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 30,
+    paddingLeft: 10,
+    paddingTop: 10,
+    color: '#4A3C39'
   },
 });

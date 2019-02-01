@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
         paddingTop: 30
     },
     inputIcon:{
-      width:30,
-      height:30,
+      width:50,
+      height:50,
       margin:5,
       justifyContent: 'center'
     },
@@ -51,9 +51,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#4A3C39',
         padding: 10,
-        top: 10,
+        top: 30,
         bottom: 10,
         right: 10,
+        width: 80,
+        height: 50,
         borderRadius:15,
       },
     taskDeleteText: {
