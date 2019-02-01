@@ -1,197 +1,199 @@
 import React from 'react';
 import {
-  Image,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
-  AsyncStorage,
   TouchableOpacity,
   View,
+  TextInput,
+  TouchableHighlight,
+  Button,
+  Image
 } from 'react-native';
-import { WebBrowser } from 'expo';
-
-import { MonoText } from '../components/StyledText';
+import Project from '../components/Project';
+import { store } from '../Store/Store';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+  constructor(props){
+    super(props);
+    this.state = {
+        showSelect: false,
+        showCreate: false,
+        showJoin: false,
+        projectText: '',
+        projectId: '',
+        projectOwner: '',
+    };
+  }
+  componentDidMount() {
+    setInterval(() => {
+        this.setState(() => {
+            return { unseen: "does not display" }
+        });
+    }, 1000);
+  }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/logo-dev.png')
-                  : require('../assets/images/logo-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-          </View>
-
-          <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
-
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
+      const {navigate} = this.props.navigation;
+      let projects = store.projectArray.map((val, key)=>{
+        if(val.status == 'join')
+          return <Project key={key} keyval={key} val={val}
+          deleteMethod={()=>this.deleteProject(key, val)}
+          detailMethod={() => this.detailMethod(navigate, val)}/>
+      });
+      return (
+          <View style={styles.container}>
+            <View key={this.props.keyval} style={styles.task}>
+              <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+              <View>
+                <Text style={styles.taskText}>Projects</Text>
+              </View>
             </View>
-
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
-            </Text>
+              <ScrollView style={styles.scrollContainer}>
+                {projects}
+              </ScrollView>
+              {this.state.showSelect == true ? 
+                <View style={styles.buttonAdd}>
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
+                    onPress={() => this.createproject(navigate)}
+                  >
+                  <Text style={styles.signUpText}>Create Project</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
+                    onPress={() => this.joinproject(navigate)}
+                  >
+                  <Text style={styles.signUpText}>Join Project</Text>
+                  </TouchableHighlight>
+                </View>
+              : null }
+              <View style={styles.footerFlex}>
+                <TouchableOpacity onPress={ this.addproject.bind(this) } style={styles.addButton}>
+                    <Text style={styles.addButtonText}>+</Text>
+                </TouchableOpacity>
+              </View>
           </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this.clearCache} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Clear cache here!</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-          </View>
-        </View>
-      </View>
-    );
-  }
-  clearCache = async () => {
-    await AsyncStorage.clear();
-    alert('Clear cache complete!!')
-  }
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
       );
-
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
+  }
+  addproject(){
+    if(this.state.showSelect == true) {
+      this.setState({showSelect: false});
     } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
+      this.setState({showSelect: true});
     }
   }
-
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
-
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
+  createproject(navigate){
+    this.setState({showSelect: false});
+    navigate('CreateProject')
+  }
+  joinproject(navigate){
+    this.setState({showSelect: false});
+    navigate('JoinProject')
+  }
+  deleteProject(key, value){
+      store.projectArray.splice(key, 1);
+      store.taskArray.map((val, key)=>{
+        if( val.ProjectName == value.ProjectName)
+          store.taskArray.splice(key, 1);
+      });
+      this.setState({projectArray: this.state.projectArray});
+  }
+  detailMethod(navigate, val){
+    store.ProjectName = val.ProjectName;
+    navigate('Project')
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
+  scrollContainer: {
+      marginBottom: 230
   },
-  contentContainer: {
-    paddingTop: 30,
+  footer: {
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      zIndex: 10
   },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
+  textInput: {
+      alignSelf: 'stretch',
+      color: '#fff',
+      padding: 10,
+      backgroundColor: '#252525',
+      borderTopColor: '#ededed'
   },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
+  addButton: {
+      position: 'absolute',
+      zIndex: 11,
+      right: 20,
+      bottom: 20,
+      backgroundColor: '#4A3C39',
+      width: 70,
+      height: 70,
+      borderRadius: 35,
+      alignItems: 'center',
+      justifyContent: 'center',
+      elevation: 8
   },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
+  addButtonText: {
+      color: '#fff',
+      fontSize: 24
   },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  tabBarInfoContainer: {
+  buttonAdd: {
     position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
+    zIndex: 11,
+    bottom: 120,
+    width: 150,
+    right: 17,
+    height: 70,
     alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
+    justifyContent: 'center',
   },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
+  buttonAddStyle: {
+    marginBottom: 10,
+    backgroundColor: '#4A3C39',
   },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
+  buttonContainer: {
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
+    marginBottom:20,
+    width:150,
+    marginLeft:5,
+    borderRadius:30,
   },
-  helpLink: {
-    paddingVertical: 15,
+  signupButton: {
+    backgroundColor: "#4A3C39",
   },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
+  signUpText: {
+    color: 'white',
+  },
+  task: {
+    position: 'relative',
+    padding: 15,
+    flexDirection: 'row',
+    backgroundColor: "#f5f5dc",
+  },
+  inputIcon:{
+    width:50,
+    height:50,
+    margin:5,
+    justifyContent: 'center'
+  },
+  taskText: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 30,
+    paddingLeft: 10,
+    paddingTop: 10,
+    color: '#4A3C39'
   },
 });
