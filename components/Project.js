@@ -27,12 +27,16 @@ export default class Project extends React.Component {
 }
 const styles = StyleSheet.create({
     project: {
-        flex: 1,
-        flexDirection: 'row',
-        padding: 20,
-        paddingRight: 100,
-        borderBottomWidth:2,
-        borderBottomColor: '#ededed',
+      flex: 1,
+      flexDirection: 'row',
+      padding: 20,
+      borderBottomWidth:1,
+      borderBottomColor: '#ededed',
+      borderTopWidth:1,
+      borderTopColor: '#ededed',
+      margin: 5,
+      marginLeft: 0,
+      marginRight: 0,
     },
     inputIcon:{
       width:30,

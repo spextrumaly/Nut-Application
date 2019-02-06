@@ -42,7 +42,8 @@ export default class HomeScreen extends React.Component {
         if(val.status == 'join')
           return <Project key={key} keyval={key} val={val}
           deleteMethod={()=>this.deleteProject(key, val)}
-          detailMethod={() => this.detailMethod(navigate, val)}/>
+          detailMethod={() => this.detailMethod(navigate, val)}
+          />
       });
       return (
           <View style={styles.container}>
@@ -53,7 +54,9 @@ export default class HomeScreen extends React.Component {
               </View>
             </View>
               <ScrollView style={styles.scrollContainer}>
+              <View style={styles.projectContainer}>
                 {projects}
+              </View>
               </ScrollView>
               {this.state.showSelect == true ? 
                 <View style={styles.buttonAdd}>
@@ -113,7 +116,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scrollContainer: {
-      marginBottom: 230
+    marginBottom: 230
   },
   footer: {
       position: 'absolute',

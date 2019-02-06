@@ -26,13 +26,17 @@ export default class Task extends Component {
 }
 const styles = StyleSheet.create({
     task: {
-        position: 'relative',
-        padding: 20,
-        flex: 1,
-        flexDirection: 'row',
-        borderBottomWidth:2,
-        borderBottomColor: '#ededed',
-        paddingTop: 30
+      position: 'relative',
+      padding: 20,
+      flex: 1,
+      flexDirection: 'row',
+      borderBottomWidth:1,
+      borderBottomColor: '#ededed',
+      borderTopWidth:1,
+      borderTopColor: '#ededed',
+      margin: 5,
+      marginLeft: 0,
+      marginRight: 0,
     },
     inputIcon:{
       width:50,

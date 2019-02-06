@@ -10,6 +10,7 @@ import ProjectScreen from '../screens/ProjectScreen';
 import CreateProjectScreen from '../screens/CreateProjectScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
 import JoinProjectScreen from '../screens/JoinProjectScreen';
+import LoginScreen from '../screens/LogInScreen'
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -51,6 +52,7 @@ LinksStack.navigationOptions = {
 
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
+  Login: LoginScreen,
 });
 
 SettingsStack.navigationOptions = {
