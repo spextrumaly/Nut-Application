@@ -10,6 +10,7 @@ import {
   ImageBackground
 } from 'react-native';
 import { store } from '../Store/Store';
+import moment from "moment";
 
 export default class SignUpView extends Component {
   static navigationOptions = {
