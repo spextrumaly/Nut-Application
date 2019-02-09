@@ -27,19 +27,17 @@ export default class CalendarScreen extends Component {
     const {navigate} = this.props.navigation;
     return (
       <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
-        <Text style={styles.textStep}>
+        {/* <Text style={styles.textStep}>
           STEP 2/2
-        </Text>
+        </Text> */}
         <View style={styles.container}>
-          <Text style={styles.textHeader}>
-            WHAT IS YOUR DEADLINE ?
-          </Text>
+          <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../assets/images/topic2.png')}/>
           <Calendar
-              style={{
-                borderWidth: 1,
-                borderColor: 'gray',
-                width: '90%',
-              }}
+            style={{
+              borderWidth: 1,
+              borderColor: 'gray',
+              width: '90%',
+            }}
             theme={{
               backgroundColor: '#ffffff',
               calendarBackground: '#ffffff',
@@ -71,6 +69,7 @@ export default class CalendarScreen extends Component {
   
     for (var i = 0; i < 5; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
+    console.log(date);
     store.projectArray.push({
       'ProjectName': store.projectState.name,
       'projectDetail': store.projectState.details,
@@ -84,7 +83,7 @@ export default class CalendarScreen extends Component {
     this.setState({date:''});
     store.projectState.name = '';
     store.projectState.details = '';
-    navigate('Home');
+    navigate('HomeProject');
   }
 }
 
@@ -93,6 +92,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  topicContainer: {
+    width: '100%',
+    height: 100,
   },
   textStep: {
     fontSize: 20,

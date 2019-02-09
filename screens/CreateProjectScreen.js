@@ -27,13 +27,14 @@ export default class SignUpView extends Component {
     const {navigate} = this.props.navigation;
     return (
       <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
-        <Text style={styles.textStep}>
+        {/* <Text style={styles.textStep}>
           STEP 1/2
-        </Text>
+        </Text> */}
         <View style={styles.container}>
-          <Text style={styles.textHeader}>
+          {/* <Text style={styles.textHeader}>
             What is your project ?
-          </Text>
+          </Text> */}
+          <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../assets/images/topic.png')}/>
           <View style={styles.inputContainer}>
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
@@ -83,6 +84,10 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     color: '#f5f5dc',
     textAlign: 'center',
+  },
+  topicContainer: {
+    width: '100%',
+    height: 100,
   },
   textHeader: {
     fontSize: 30,
