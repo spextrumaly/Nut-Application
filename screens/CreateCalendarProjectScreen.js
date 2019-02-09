@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { store } from '../Store/Store';
+import moment from "moment";
 
 export default class CalendarScreen extends Component {
   static navigationOptions = {
@@ -64,6 +65,7 @@ export default class CalendarScreen extends Component {
 
   addProject(date, navigate) {
     var d = new Date();
+    var timestamp = moment().format();
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   
@@ -73,12 +75,15 @@ export default class CalendarScreen extends Component {
     store.projectArray.push({
       'ProjectName': store.projectState.name,
       'projectDetail': store.projectState.details,
-      'createDate':d.getFullYear()+
-      "/"+(d.getMonth()+1) +
-      "/"+ d.getDate(),
+      'createDate': timestamp,
       'id': text,
       'deadlineDate': date.dateString,
       'status': 'join',
+    });
+    store.newFeedArray.push({
+      'ProjectName': store.projectState.name,
+      'createDate': timestamp,
+      'status': 'createProject',
     });
     this.setState({date:''});
     store.projectState.name = '';

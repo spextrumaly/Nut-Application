@@ -11,7 +11,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import Project from '../components/Project';
+import NewFeed from '../components/NewFeed';
 import { store } from '../Store/Store';
 
 export default class HomeScreen extends React.Component {
@@ -39,10 +39,8 @@ export default class HomeScreen extends React.Component {
 
   render() {
       const {navigate} = this.props.navigation;
-      let projects = store.projectArray.map((val, key)=>{
-        if(val.status == 'join')
-          return <Project key={key} keyval={key} val={val}
-          deleteMethod={()=>this.deleteProject(key, val)}
+      let newfeeds = store.newFeedArray.map((val, key)=>{
+          return <NewFeed key={key} keyval={key} val={val}
           detailMethod={() => this.detailMethod(navigate, val)}
           />
       });
@@ -54,11 +52,11 @@ export default class HomeScreen extends React.Component {
                 <Text style={styles.taskText}>New Feeds</Text>
               </View>
             </View>
-            <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../assets/images/whatisnut.png')}/>
+            {/* <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../assets/images/whatisnut.png')}/> */}
             <View style={styles.body}>
               <ScrollView style={styles.scrollContainer}>
               <View style={styles.projectContainer}>
-                {projects}
+                {newfeeds.reverse()}
               </View>
               </ScrollView>
             </View>
@@ -76,9 +74,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#DCDCDC',
-  },
-  scrollContainer: {
-    marginBottom: 100
   },
   topicContainer: {
     width: '100%',

@@ -57,15 +57,20 @@ export default class SignUpView extends Component {
   }
 
   addTask(goBack){
+    var timestamp = moment().format();
     if(this.state.taskText || this.setState.taskOwner){
         var d = new Date();
         store.taskArray.push({
-            'ProjectName': store.ProjectName,
-            'date':d.getFullYear()+
-            "/"+(d.getMonth()+1) +
-            "/"+ d.getDate(),
-            'task': this.state.taskText,
-            'owner': this.state.taskOwner,
+          'ProjectName': store.ProjectName,
+          'createDate': timestamp,
+          'task': this.state.taskText,
+          'owner': this.state.taskOwner,
+        });
+        store.newFeedArray.push({
+          'ProjectName': store.projectState.name,
+          'task': this.state.taskText,
+          'createDate': timestamp,
+          'status': 'createTask',
         });
         this.setState({taskText:''});
         this.setState({taskOwner:''});
