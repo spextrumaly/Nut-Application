@@ -12,7 +12,7 @@ export default class Project extends React.Component {
         <View key={this.props.keyval} style={styles.project}>
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <View>
-              <Text style={styles.projectText}>Create Date : {this.props.val.date}</Text>
+              <Text style={styles.projectText}>Create Date : {this.props.val.createDate}</Text>
               <Text style={styles.projectText}>Project : {this.props.val.ProjectName}</Text>
             </View>
             <TouchableOpacity onPress={this.props.deleteMethod} style={styles.projectDelete}>

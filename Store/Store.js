@@ -7,4 +7,8 @@ export const store = {
     'status': 'disjoin',
   }],
   taskArray: [],
+  projectState: {
+    name: '',
+    details: '',
+  },
 }
