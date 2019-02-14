@@ -19,6 +19,7 @@ export default class SignUpView extends Component {
     super(props);
     this.state = {
       nameProject: '',
+      detailProject: '',
     }
   }
 
@@ -26,7 +27,14 @@ export default class SignUpView extends Component {
     const {navigate} = this.props.navigation;
     return (
       <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
+        {/* <Text style={styles.textStep}>
+          STEP 1/2
+        </Text> */}
         <View style={styles.container}>
+          {/* <Text style={styles.textHeader}>
+            What is your project ?
+          </Text> */}
+          <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../assets/images/topic.png')}/>
           <View style={styles.inputContainer}>
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
@@ -37,32 +45,29 @@ export default class SignUpView extends Component {
               placeholderTextColor='black'
               underlineColorAndroid='transparent'/>
           </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.addProject(navigate)}>
-            <Text style={styles.signUpText}>Add Project</Text>
+          <View style={styles.inputContainer}>
+            <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+            <TextInput style={styles.inputs}
+              style={styles.textInput}
+              placeholder='Project Detail :'
+              onChangeText={(detailProject)=> this.setState({detailProject})}
+              value={this.state.detailProject}
+              placeholderTextColor='black'
+              underlineColorAndroid='transparent'/>
+          </View>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.continue(navigate)}>
+            <Text style={styles.signUpText}>Continue</Text>
           </TouchableHighlight>
         </View>
       </ImageBackground>
     );
   }
 
-  addProject(navigate){
+  continue(navigate){
     if(this.state.nameProject){
-        var d = new Date();
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      
-        for (var i = 0; i < 5; i++)
-          text += possible.charAt(Math.floor(Math.random() * possible.length));
-        store.projectArray.push({
-          'ProjectName': this.state.nameProject,
-          'date':d.getFullYear()+
-          "/"+(d.getMonth()+1) +
-          "/"+ d.getDate(),
-          'id': text,
-          'status': 'join',
-        });
-        this.setState({nameProject:''});
-        navigate('Home')
+      store.projectState.name = this.state.nameProject;
+      store.projectState.details = this.state.detailProject;
+      navigate('Calendar')
     }
   }
 }
@@ -73,22 +78,40 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  textStep: {
+    fontSize: 20,
+    paddingLeft: 10,
+    paddingTop: 10,
+    color: '#f5f5dc',
+    textAlign: 'center',
+  },
+  topicContainer: {
+    width: '100%',
+    height: 100,
+  },
+  textHeader: {
+    fontSize: 30,
+    paddingLeft: 10,
+    paddingTop: 10,
+    color: '#f5f5dc',
+    marginBottom:20,
+  },
   inputContainer: {
-      borderBottomColor: '#F5FCFF',
-      backgroundColor: '#FFFFFF',
-      borderRadius:30,
-      borderBottomWidth: 1,
-      width:250,
-      height:45,
-      marginBottom:20,
-      flexDirection: 'row',
-      alignItems:'center'
+    borderBottomColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
+    borderRadius:30,
+    borderBottomWidth: 1,
+    width:250,
+    height:45,
+    marginBottom:20,
+    flexDirection: 'row',
+    alignItems:'center'
   },
   inputs:{
-      height:45,
-      marginLeft:16,
-      borderBottomColor: '#FFFFFF',
-      flex:1,
+    height:45,
+    marginLeft:16,
+    borderBottomColor: '#FFFFFF',
+    flex:1,
   },
   inputIcon:{
     width:30,

@@ -6,7 +6,9 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
-export default class Project extends React.Component {
+import moment from "moment";
+
+export default class NewFeed extends React.Component {
   render() {
     return (
         <View key={this.props.keyval} style={styles.project}>
@@ -14,11 +16,20 @@ export default class Project extends React.Component {
             <View style={styles.headCard}>
               <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
               <View>
-                <Text style={styles.projectNameText}>{this.props.val.ProjectName}</Text>
-                <Text style={styles.projectOwnerText}>Undefind User</Text>
+              {this.props.val.status == 'createProject' ? 
+                <View>
+                  <Text style={styles.projectNameText}>Created project {this.props.val.ProjectName}</Text>
+                  <Text style={styles.projectOwnerText}>by Undefind User</Text>
+                </View>
+              : 
+                <View>
+                  <Text style={styles.projectNameText}>Created task {this.props.val.task}</Text>
+                  <Text style={styles.projectOwnerText}>on {this.props.val.ProjectName} Project</Text>
+                  <Text style={styles.projectOwnerText}>by Undefind User</Text>
+                </View> }
               </View>
               <View style={styles.bodyDeadline}>
-                <Text style={styles.projectText}>Deadline : {this.props.val.deadlineDate}</Text>
+                <Text style={styles.projectText}>{this.relativeTime(this.props.val.createDate)}</Text>
               </View>
             </View>
           {/* <TouchableOpacity onPress={this.props.deleteMethod} style={styles.projectDelete}>
@@ -30,6 +41,10 @@ export default class Project extends React.Component {
           </TouchableOpacity>
         </View>
     );
+  }
+
+  relativeTime(date) {
+    return moment(date).fromNow();
   }
 }
 const styles = StyleSheet.create({
@@ -59,6 +74,7 @@ const styles = StyleSheet.create({
       position: 'absolute',
       zIndex: 11,
       right: 5,
+      bottom: 5,
       alignItems: 'center',
       justifyContent: 'center',
     },

@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   View,
   Image,
-  TextInput,
 } from 'react-native';
 import Task from '../components/Task';
 import { store } from '../Store/Store';
@@ -47,6 +46,9 @@ export default class ProjectScreen extends React.Component {
                 <View>
                   <Text style={styles.taskText}>{store.ProjectName}</Text>
                   <Text style={styles.taskSubText}>id : {id}</Text>
+                  <TouchableOpacity onPress={() => this.deleteProject(navigate)} style={styles.projectDelete}>
+                    <Text style={styles.projectDeleteText}>Delete</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
               <ScrollView style={styles.scrollContainer}>
@@ -64,6 +66,17 @@ export default class ProjectScreen extends React.Component {
   deleteTask(key){
       store.taskArray.splice(key, 1);
       this.setState({taskText: this.state.taskText});
+  }
+  deleteProject(navigate) {
+    store.taskArray.map((val, key)=>{
+      if( val.ProjectName == store.ProjectName)
+        store.taskArray.splice(key, 1);
+    });
+    store.projectArray.map((val, key)=>{
+      if( val.ProjectName == store.ProjectName)
+        store.projectArray.splice(key, 1);
+    });
+    navigate('HomeProject')
   }
 }
 
@@ -87,33 +100,33 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   scrollContainer: {
-      flex: 1,
-      marginBottom: 100,
-      paddingTop: 10
+    flex: 1,
+    marginBottom: 100,
+    paddingTop: 10
   },
   footer: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      zIndex: 10
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10
   },
   addButton: {
-      position: 'absolute',
-      zIndex: 11,
-      right: 20,
-      bottom: 40,
-      backgroundColor: '#4A3C39',
-      width: 70,
-      height: 70,
-      borderRadius: 35,
-      alignItems: 'center',
-      justifyContent: 'center',
-      elevation: 8
+    position: 'absolute',
+    zIndex: 11,
+    right: 20,
+    bottom: 40,
+    backgroundColor: '#4A3C39',
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 8
   },
   addButtonText: {
-      color: '#fff',
-      fontSize: 24
+    color: '#fff',
+    fontSize: 24
   },
   task: {
     position: 'relative',
@@ -142,5 +155,19 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingTop: 5,
     color: '#4A3C39'
+  },
+  projectDeleteText: {
+    fontSize: 13,
+    color: '#f5f5dc',
+  },
+  projectDelete: {
+    backgroundColor: '#4A3C39',
+    padding: 10,
+    width: 60,
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderRadius:5,
+    margin: 10,
+    marginBottom: 5,
   },
 });

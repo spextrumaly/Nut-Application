@@ -10,17 +10,44 @@ import ProjectScreen from '../screens/ProjectScreen';
 import CreateProjectScreen from '../screens/CreateProjectScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
 import JoinProjectScreen from '../screens/JoinProjectScreen';
+import CalendarScreen from '../screens/CreateCalendarProjectScreen';
+import HomeProjectScreen from '../screens/HomeProjectScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+  HomeProject: HomeProjectScreen,
   Project: ProjectScreen,
   CreateProject: CreateProjectScreen,
   CreateTask: CreateTaskScreen,
   JoinProject: JoinProjectScreen,
+  Calendar: CalendarScreen,
 });
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
+
+const ProjectStack = createStackNavigator({
+  HomeProject: HomeProjectScreen,
+  Project: ProjectScreen,
+  CreateProject: CreateProjectScreen,
+  CreateTask: CreateTaskScreen,
+  JoinProject: JoinProjectScreen,
+  Calendar: CalendarScreen,
+});
+
+ProjectStack.navigationOptions = {
+  tabBarLabel: 'Project',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -65,6 +92,7 @@ SettingsStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   HomeStack,
+  ProjectStack,
   LinksStack,
   SettingsStack,
 });

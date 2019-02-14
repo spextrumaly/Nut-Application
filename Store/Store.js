@@ -4,7 +4,12 @@ export const store = {
     'ProjectName': 'Default',
     'date':'-',
     'id': 'aaaaa',
-    'status': 'disjoin',
+    'status': 'join',
   }],
   taskArray: [],
+  projectState: {
+    name: '',
+    details: '',
+  },
+  newFeedArray: [],
 }
