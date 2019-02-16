@@ -5,184 +5,100 @@ import {
   Text,
   TouchableOpacity,
   View,
-  TextInput,
-  TouchableHighlight,
-  Button,
-  Image
+  Image,
+  Dimensions,
+  ImageBackground,
 } from 'react-native';
-import Project from '../components/Project';
+import { CheckBox } from 'react-native-elements'
+import * as Progress from 'react-native-progress';
+
+import Task from '../components/Task';
 import { store } from '../Store/Store';
 
-export default class HomeProjectScreen extends React.Component {
+export default class HomeTaskScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
   constructor(props){
     super(props);
     this.state = {
-        showSelect: false,
-        showCreate: false,
-        showJoin: false,
-        projectText: '',
-        projectId: '',
-        projectOwner: '',
+      checked: false,
     };
   }
-  componentDidMount() {
-    setInterval(() => {
-        this.setState(() => {
-            return { unseen: "does not display" }
-        });
-    }, 1000);
-  }
-
   render() {
       const {navigate} = this.props.navigation;
-      let projects = store.projectArray.map((val, key)=>{
-        if(val.status == 'join')
-          return <Project key={key} keyval={key} val={val}
-          deleteMethod={()=>this.deleteProject(key, val)}
-          detailMethod={() => this.detailMethod(navigate, val)}
-          />
-      });
       return (
-          <View style={styles.container}>
-            <View key={this.props.keyval} style={styles.task}>
-              <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
-              <View>
-                <Text style={styles.taskText}>Projects</Text>
-              </View>
+        <View style={styles.container}>
+          <View key={this.props.keyval} style={styles.task}>
+            <Image style={styles.taskIcon} source={require('../assets/images/task.png')}/>
+            <View>
+              <Text style={styles.taskText}>Task</Text>
+              <Text style={styles.inListText}>in list : Active</Text>
             </View>
-            <View style={styles.body}>
-              <ScrollView style={styles.scrollContainer}>
-              <View style={styles.projectContainer}>
-                {projects}
-              </View>
-              </ScrollView>
-              {this.state.showSelect == true ? 
-                <View style={styles.buttonAdd}>
-                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
-                    onPress={() => this.createproject(navigate)}
-                  >
-                  <Text style={styles.signUpText}>Create Project</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
-                    onPress={() => this.joinproject(navigate)}
-                  >
-                  <Text style={styles.signUpText}>Join Project</Text>
-                  </TouchableHighlight>
-                </View>
-              : null }
-              <View style={styles.footerFlex}>
-                <TouchableOpacity onPress={ this.addproject.bind(this) } style={styles.addButton}>
-                    <Text style={styles.addButtonText}>+</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+            <Progress.Circle size={45} progress={0.9} color={'green'} showsText={true}/>
           </View>
+          <View style = { styles.containerScrollViewHolder }>
+            <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
+              <View style = { styles.scrollViewHolder }>
+                <ScrollView>
+                  <View style = { [styles.item, {width: '100%'} ]}>
+                    <View style = { styles.containerTopic }>
+                      <View style = { styles.containerMember } >
+                        <Image style={styles.memberIcon} source={require('../assets/images/people.png')}/>
+                        <Text style= { styles.headCard} >MEMBERS</Text>
+                      </View>
+                      <View style = { styles.containerMember } >
+                        <Image style={styles.avatarIcon} source={require('../assets/images/avatar.png')}/>
+                        <Text style= { styles.memberText} >Undefinded User</Text>
+                      </View>
+                    </View>
+                    <View style = { styles.containerTopic }>
+                      <View style = { styles.containerMember } >
+                        <Image style={styles.memberIcon} source={require('../assets/images/due_date.png')}/>
+                        <Text style= { styles.headCard} >DUE DATE</Text>
+                      </View>
+                      <View style = { styles.containerMember } >
+                        <Text style= { styles.deadlineText} >Undefinded deadline</Text>
+                      </View>
+                    </View>
+                    <View style = { styles.containerTopic }>
+                      <View style = { styles.containerMember } >
+                        <Image style={styles.memberIcon} source={require('../assets/images/des.png')}/>
+                        <Text style= { styles.headCard} >DESCRIPTION</Text>
+                      </View>
+                      <View style = { styles.containerMember } >
+                        <Text style= { styles.deadlineText} >Undefinded DESCRIPTION</Text>
+                      </View>
+                    </View>
+                    <View style = { styles.containerTopic }>
+                      <View style = { styles.containerMember } >
+                        <Image style={styles.memberIcon} source={require('../assets/images/checkList.png')}/>
+                        <Text style= { styles.headCard} >CHECKLIST</Text>
+                      </View>
+                      <View style = { styles.containerCheckList } >
+                        <CheckBox
+                          title='Click Here'
+                          checked={this.state.checked}
+                        />
+                        <CheckBox
+                          title='Click Here'
+                          checked={this.state.checked}
+                        />
+                      </View>
+                    </View>
+                  </View>                         
+                </ScrollView>
+              </View>
+            </ImageBackground>
+          </View>
+        </View>
       );
-  }
-  addproject(){
-    if(this.state.showSelect == true) {
-      this.setState({showSelect: false});
-    } else {
-      this.setState({showSelect: true});
-    }
-  }
-  createproject(navigate){
-    this.setState({showSelect: false});
-    navigate('CreateProject')
-  }
-  joinproject(navigate){
-    this.setState({showSelect: false});
-    navigate('JoinProject')
-  }
-  deleteProject(key, value){
-      store.projectArray.splice(key, 1);
-      store.taskArray.map((val, key)=>{
-        if( val.ProjectName == value.ProjectName)
-          store.taskArray.splice(key, 1);
-      });
-      this.setState({projectArray: this.state.projectArray});
-  }
-  detailMethod(navigate, val){
-    store.ProjectName = val.ProjectName;
-    navigate('Project')
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-  },
-  scrollContainer: {
-    marginBottom: 100
-  },
-  body: {
-    backgroundColor: '#DCDCDC',
-    flex: 1,
-  },
-  footer: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      zIndex: 10
-  },
-  textInput: {
-      alignSelf: 'stretch',
-      color: '#fff',
-      padding: 10,
-      backgroundColor: '#252525',
-      borderTopColor: '#ededed'
-  },
-  addButton: {
-      position: 'absolute',
-      zIndex: 11,
-      right: 20,
-      bottom: 20,
-      backgroundColor: '#4A3C39',
-      width: 70,
-      height: 70,
-      borderRadius: 35,
-      alignItems: 'center',
-      justifyContent: 'center',
-      elevation: 8
-  },
-  addButtonText: {
-      color: '#fff',
-      fontSize: 24
-  },
-  buttonAdd: {
-    position: 'absolute',
-    zIndex: 11,
-    bottom: 120,
-    width: 150,
-    right: 17,
-    height: 70,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonAddStyle: {
-    marginBottom: 10,
-    backgroundColor: '#4A3C39',
-  },
-  buttonContainer: {
-    height:45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom:20,
-    width:150,
-    marginLeft:5,
-    borderRadius:30,
-  },
-  signupButton: {
-    backgroundColor: "#4A3C39",
-  },
-  signUpText: {
-    color: 'white',
   },
   task: {
     position: 'relative',
@@ -190,19 +106,75 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: "#f5f5dc",
   },
-  inputIcon:{
+  containerTopic: {
+    marginBottom: 20,
+  },
+  taskIcon:{
     width:50,
     height:50,
     margin:5,
     justifyContent: 'center'
+  },
+  containerMember: {
+    flexDirection: 'row',
+  },
+  containerCheckList: {
+    flexDirection: 'column',
+  },
+  memberIcon:{
+    width:25,
+    height:25,
+    margin:5,
+    justifyContent: 'center'
+  },
+  avatarIcon:{
+    width:20,
+    height:20,
+    margin:5,
+    justifyContent: 'center',
+    marginLeft: 20,
   },
   taskText: {
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 30,
     paddingLeft: 10,
-    paddingTop: 10,
+    paddingTop: 15,
     paddingBottom: 10,
-    color: '#4A3C39'
+    color: 'black'
+  },
+  inListText: {
+    paddingLeft: 10,
+  },
+  containerScrollViewHolder: {
+    flex: 1,
+  },
+  scrollViewHolder:
+  { 
+    margin: 10,
+    flex: 1,
+    marginTop: 20,
+    marginBottom: 20,
+    backgroundColor: '#D3D3D3',
+  },
+  item:
+  {
+    flexDirection: 'column',
+    flex: 1,
+    padding: 10,
+    marginRight: 10,
+  },
+  headCard: {
+    fontSize: 18,
+    padding: 5,
+  },
+  memberText: {
+    fontSize: 15,
+    padding: 5,
+  },
+  deadlineText: {
+    fontSize: 15,
+    padding: 5,
+    marginLeft: 15,
   },
 });

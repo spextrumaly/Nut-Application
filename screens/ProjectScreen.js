@@ -32,10 +32,35 @@ export default class ProjectScreen extends React.Component {
   }
   render() {
       const {navigate} = this.props.navigation;
-      let tasks = store.taskArray.map((val, key)=>{
-        if( val.ProjectID == store.ProjectId)
-          return <Task key={key} keyval={key} val={val}
-                  deleteMethod={()=>this.deleteTask(key)}/>
+      let activeTasks = store.taskArray.map((val, key)=>{
+        if( val.ProjectID == store.ProjectId){
+          if(val.status == 'active') {
+            return <Task key={key} keyval={key} val={val}
+            deleteMethod={()=>this.deleteTask(key)}
+            detailTaskMethod={() => this.detailTaskMethod(navigate, val)}
+            />
+          }
+        }
+      });
+      let lateTasks = store.taskArray.map((val, key)=>{
+        if( val.ProjectID == store.ProjectId){
+          if(val.status == 'late') {
+            return <Task key={key} keyval={key} val={val}
+            deleteMethod={()=>this.deleteTask(key)}
+            detailTaskMethod={() => this.detailTaskMethod(navigate, val)}
+            />
+          }
+        }
+      });
+      let doneTasks = store.taskArray.map((val, key)=>{
+        if( val.ProjectID == store.ProjectId){
+          if(val.status == 'done') {
+            return <Task key={key} keyval={key} val={val}
+            deleteMethod={()=>this.deleteTask(key)}
+            detailTaskMethod={() => this.detailTaskMethod(navigate, val)}
+            />
+          }
+        }
       });
       let id = store.projectArray.map((val, key)=>{
         if( val.id == store.ProjectId)
@@ -61,19 +86,19 @@ export default class ProjectScreen extends React.Component {
                       <View style = { [styles.item, {width: screenWidth/1.5} ]}>
                         <Text style= { styles.headCard} >Active</Text>
                         <ScrollView>
-                          {tasks}
+                          {activeTasks}
                         </ScrollView>                      
                       </View>
                       <View style = { [styles.item, {width: screenWidth/1.5} ]}>
                         <Text style= { styles.headCard} >Late</Text>
                         <ScrollView>
-                          {tasks}
+                          {lateTasks}
                         </ScrollView>                      
                       </View>                 
                       <View style = { [styles.item, {width: screenWidth/1.5} ]}>
                         <Text style= { styles.headCard} >Done</Text>
                         <ScrollView>
-                          {tasks}
+                          {doneTasks}
                         </ScrollView>                      
                       </View>                             
                     </ScrollView>
@@ -106,6 +131,11 @@ export default class ProjectScreen extends React.Component {
         store.projectArray.splice(key, 1);
     });
     navigate('HomeProject')
+  }
+  detailTaskMethod(navigate, val){
+    store.TaskName = val.task;
+    store.TaskId = val.id;
+    navigate('HomeTask')
   }
 }
 

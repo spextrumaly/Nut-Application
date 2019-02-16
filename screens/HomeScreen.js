@@ -71,6 +71,7 @@ export default class HomeScreen extends React.Component {
   }
   detailTaskMethod(navigate, val){
     store.TaskName = val.task;
+    store.TaskId = val.id;
     navigate('HomeTask')
   }
 }

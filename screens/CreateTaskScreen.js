@@ -72,6 +72,7 @@ export default class SignUpView extends Component {
           'task': this.state.taskText,
           'id': text,
           'owner': this.state.taskOwner,
+          'status': 'active',
         });
         store.newFeedArray.push({
           'ProjectName': store.ProjectName,

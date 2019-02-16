@@ -10,19 +10,21 @@ export default class Task extends Component {
     render() {
         return (
             <View key={this.props.keyval} style={styles.task}>
-              <View style={styles.taskText}>
-                {/* <Text style={styles.taskText}>Create Date : {this.props.val.date}</Text> */}
-                {/* <Text style={styles.taskText}>Project : {this.props.val.ProjectName}</Text> */}
-                <Text>{this.props.val.task}</Text>
-                {/* <Text style={styles.taskText}>OWNER : {this.props.val.owner}</Text> */}
-              </View>
-              <View style={styles.containerPeople}>
-                <Text style={styles.taskText}>1 people</Text>
-                <Image style={styles.peopleIcon} source={require('../assets/images/people.png')}/>
-              </View>
-              {/* <TouchableOpacity onPress={this.props.deleteMethod} style={styles.taskDelete}>
-                  <Text style={styles.taskDeleteText}>Delete</Text>
-              </TouchableOpacity> */}
+              <TouchableOpacity onPress={this.props.detailTaskMethod}>
+                <View style={styles.taskText}>
+                  {/* <Text style={styles.taskText}>Create Date : {this.props.val.date}</Text> */}
+                  {/* <Text style={styles.taskText}>Project : {this.props.val.ProjectName}</Text> */}
+                  <Text>{this.props.val.task}</Text>
+                  {/* <Text style={styles.taskText}>OWNER : {this.props.val.owner}</Text> */}
+                </View>
+                <View style={styles.containerPeople}>
+                  <Text style={styles.taskText}>1 people</Text>
+                  <Image style={styles.peopleIcon} source={require('../assets/images/people.png')}/>
+                </View>
+                {/* <TouchableOpacity onPress={this.props.deleteMethod} style={styles.taskDelete}>
+                    <Text style={styles.taskDeleteText}>Delete</Text>
+                </TouchableOpacity> */}
+              </TouchableOpacity>
             </View>
         );
     }
