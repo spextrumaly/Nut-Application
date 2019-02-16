@@ -8,13 +8,12 @@ import {
   TextInput,
   TouchableHighlight,
   Button,
-  Image,
-  Dimensions,
+  Image
 } from 'react-native';
-import NewFeed from '../components/NewFeed';
+import Project from '../components/Project';
 import { store } from '../Store/Store';
 
-export default class HomeScreen extends React.Component {
+export default class HomeProjectScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -39,10 +38,11 @@ export default class HomeScreen extends React.Component {
 
   render() {
       const {navigate} = this.props.navigation;
-      let newfeeds = store.newFeedArray.map((val, key)=>{
-          return <NewFeed key={key} keyval={key} val={val}
-          detailProjectMethod={() => this.detailProjectMethod(navigate, val)}
-          detailTaskMethod={() => this.detailTaskMethod(navigate, val)}
+      let projects = store.projectArray.map((val, key)=>{
+        if(val.status == 'join')
+          return <Project key={key} keyval={key} val={val}
+          deleteMethod={()=>this.deleteProject(key, val)}
+          detailMethod={() => this.detailMethod(navigate, val)}
           />
       });
       return (
@@ -50,28 +50,64 @@ export default class HomeScreen extends React.Component {
             <View key={this.props.keyval} style={styles.task}>
               <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
               <View>
-                <Text style={styles.taskText}>New Feeds</Text>
+                <Text style={styles.taskText}>Projects</Text>
               </View>
             </View>
-            {/* <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../assets/images/whatisnut.png')}/> */}
             <View style={styles.body}>
               <ScrollView style={styles.scrollContainer}>
               <View style={styles.projectContainer}>
-                {newfeeds.reverse()}
+                {projects}
               </View>
               </ScrollView>
+              {this.state.showSelect == true ? 
+                <View style={styles.buttonAdd}>
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
+                    onPress={() => this.createproject(navigate)}
+                  >
+                  <Text style={styles.signUpText}>Create Project</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
+                    onPress={() => this.joinproject(navigate)}
+                  >
+                  <Text style={styles.signUpText}>Join Project</Text>
+                  </TouchableHighlight>
+                </View>
+              : null }
+              <View style={styles.footerFlex}>
+                <TouchableOpacity onPress={ this.addproject.bind(this) } style={styles.addButton}>
+                    <Text style={styles.addButtonText}>+</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
       );
   }
-  detailProjectMethod(navigate, val){
-    store.ProjectName = val.ProjectName;
-    store.ProjectId = val.ProjectID;
-    navigate('Project')
+  addproject(){
+    if(this.state.showSelect == true) {
+      this.setState({showSelect: false});
+    } else {
+      this.setState({showSelect: true});
+    }
   }
-  detailTaskMethod(navigate, val){
-    store.TaskName = val.task;
-    navigate('HomeTask')
+  createproject(navigate){
+    this.setState({showSelect: false});
+    navigate('CreateProject')
+  }
+  joinproject(navigate){
+    this.setState({showSelect: false});
+    navigate('JoinProject')
+  }
+  deleteProject(key, value){
+      store.projectArray.splice(key, 1);
+      store.taskArray.map((val, key)=>{
+        if( val.ProjectName == value.ProjectName)
+          store.taskArray.splice(key, 1);
+      });
+      this.setState({projectArray: this.state.projectArray});
+  }
+  detailMethod(navigate, val){
+    store.ProjectName = val.ProjectName;
+    navigate('Project')
   }
 }
 
@@ -79,16 +115,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#DCDCDC',
   },
-  topicContainer: {
-    width: '100%',
-    height: 100,
+  scrollContainer: {
+    marginBottom: 100
   },
   body: {
+    backgroundColor: '#DCDCDC',
     flex: 1,
-  },
-  whatIsNut: {
   },
   footer: {
       position: 'absolute',
@@ -161,12 +194,6 @@ const styles = StyleSheet.create({
     width:50,
     height:50,
     margin:5,
-    justifyContent: 'center'
-  },
-  inputFeed: {
-    width:75,
-    height:75,
-    margin:10,
     justifyContent: 'center'
   },
   taskText: {

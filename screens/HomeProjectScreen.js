@@ -107,6 +107,7 @@ export default class HomeProjectScreen extends React.Component {
   }
   detailMethod(navigate, val){
     store.ProjectName = val.ProjectName;
+    store.ProjectId = val.id;
     navigate('Project')
   }
 }

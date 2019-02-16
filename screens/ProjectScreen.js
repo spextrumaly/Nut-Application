@@ -33,12 +33,12 @@ export default class ProjectScreen extends React.Component {
   render() {
       const {navigate} = this.props.navigation;
       let tasks = store.taskArray.map((val, key)=>{
-        if( val.ProjectName == store.ProjectName)
+        if( val.ProjectID == store.ProjectId)
           return <Task key={key} keyval={key} val={val}
                   deleteMethod={()=>this.deleteTask(key)}/>
       });
       let id = store.projectArray.map((val, key)=>{
-        if( val.ProjectName == store.ProjectName)
+        if( val.id == store.ProjectId)
           return val.id
       });
       let screenWidth = Dimensions.get('window').width;

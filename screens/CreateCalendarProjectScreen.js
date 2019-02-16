@@ -64,14 +64,12 @@ export default class CalendarScreen extends Component {
   }
 
   addProject(date, navigate) {
-    var d = new Date();
     var timestamp = moment().format();
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   
     for (var i = 0; i < 5; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
-    console.log(date);
     store.projectArray.push({
       'ProjectName': store.projectState.name,
       'projectDetail': store.projectState.details,
@@ -82,7 +80,9 @@ export default class CalendarScreen extends Component {
     });
     store.newFeedArray.push({
       'ProjectName': store.projectState.name,
+      'ProjectID': text,
       'createDate': timestamp,
+      'id': text,
       'status': 'createProject',
     });
     this.setState({date:''});
