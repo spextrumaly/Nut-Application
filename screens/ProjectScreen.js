@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Task from '../components/Task';
 import { store } from '../Store/Store';
+import moment from "moment";
 
 export default class ProjectScreen extends React.Component {
   static navigationOptions = {
@@ -32,6 +33,13 @@ export default class ProjectScreen extends React.Component {
   }
   render() {
       const {navigate} = this.props.navigation;
+      store.taskArray.map((val, key)=>{
+        if( moment().isAfter(val.deadlineDate)){
+          if(val.status == 'active') {
+            val.status = 'late'
+          }
+        }
+      });
       let activeTasks = store.taskArray.map((val, key)=>{
         if( val.ProjectID == store.ProjectId){
           if(val.status == 'active') {
