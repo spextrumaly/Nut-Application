@@ -118,8 +118,8 @@ export default class ProjectScreen extends React.Component {
     navigate('CreateTask')
   }
   deleteTask(key){
-      store.taskArray.splice(key, 1);
-      this.setState({taskText: this.state.taskText});
+    store.taskArray.splice(key, 1);
+    this.setState({taskText: this.state.taskText});
   }
   deleteProject(navigate) {
     store.taskArray.map((val, key)=>{

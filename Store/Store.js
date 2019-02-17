@@ -14,5 +14,9 @@ export const store = {
     name: '',
     details: '',
   },
+  taskState: {
+    name: '',
+    details: '',
+  },
   newFeedArray: [],
 }

@@ -3,16 +3,14 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
+  TouchableHighlight,
   View,
   Image,
-  Dimensions,
   ImageBackground,
 } from 'react-native';
 import { CheckBox } from 'react-native-elements'
 import * as Progress from 'react-native-progress';
 
-import Task from '../components/Task';
 import { store } from '../Store/Store';
 
 export default class HomeTaskScreen extends React.Component {
@@ -27,15 +25,37 @@ export default class HomeTaskScreen extends React.Component {
   }
   render() {
       const {navigate} = this.props.navigation;
+      let taskName = store.taskArray.map((val, key)=>{
+        if( val.id == store.TaskId){
+          return val.task
+        }
+      });
+      let taskStatus = store.taskArray.map((val, key)=>{
+        if( val.id == store.TaskId){
+          return val.status
+        }
+      });
+      let taskDes = store.taskArray.map((val, key)=>{
+        if( val.id == store.TaskId){
+          return val.description
+        }
+      });
+      let taskDeadline = store.taskArray.map((val, key)=>{
+        if( val.id == store.TaskId){
+          return val.deadlineDate
+        }
+      });
       return (
         <View style={styles.container}>
           <View key={this.props.keyval} style={styles.task}>
             <Image style={styles.taskIcon} source={require('../assets/images/task.png')}/>
             <View>
-              <Text style={styles.taskText}>Task</Text>
-              <Text style={styles.inListText}>in list : Active</Text>
+              <Text style={styles.taskText}>{taskName}</Text>
+              <Text style={styles.inListText}>in list : {taskStatus}</Text>
             </View>
-            <Progress.Circle size={45} progress={0.9} color={'green'} showsText={true}/>
+            <View style={styles.containerProgress}>
+              <Progress.Circle size={50} progress={0.9} color={'green'} showsText={true}/>
+            </View>
           </View>
           <View style = { styles.containerScrollViewHolder }>
             <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
@@ -47,9 +67,11 @@ export default class HomeTaskScreen extends React.Component {
                         <Image style={styles.memberIcon} source={require('../assets/images/people.png')}/>
                         <Text style= { styles.headCard} >MEMBERS</Text>
                       </View>
-                      <View style = { styles.containerMember } >
-                        <Image style={styles.avatarIcon} source={require('../assets/images/avatar.png')}/>
-                        <Text style= { styles.memberText} >Undefinded User</Text>
+                      <View style = { styles.containerMembers }>
+                        <View style = { styles.containerMember }>
+                          <Image style={styles.avatarIcon} source={require('../assets/images/avatar.png')}/>
+                          <Text style= { styles.memberText} >Undefinded User</Text>
+                        </View>
                       </View>
                     </View>
                     <View style = { styles.containerTopic }>
@@ -58,7 +80,7 @@ export default class HomeTaskScreen extends React.Component {
                         <Text style= { styles.headCard} >DUE DATE</Text>
                       </View>
                       <View style = { styles.containerMember } >
-                        <Text style= { styles.deadlineText} >Undefinded deadline</Text>
+                        <Text style= { styles.deadlineText} >{taskDeadline}</Text>
                       </View>
                     </View>
                     <View style = { styles.containerTopic }>
@@ -67,7 +89,7 @@ export default class HomeTaskScreen extends React.Component {
                         <Text style= { styles.headCard} >DESCRIPTION</Text>
                       </View>
                       <View style = { styles.containerMember } >
-                        <Text style= { styles.deadlineText} >Undefinded DESCRIPTION</Text>
+                        <Text style= { styles.deadlineText} >{taskDes}</Text>
                       </View>
                     </View>
                     <View style = { styles.containerTopic }>
@@ -89,10 +111,37 @@ export default class HomeTaskScreen extends React.Component {
                   </View>                         
                 </ScrollView>
               </View>
+              <View style={styles.containerFooter}>
+                <View style={styles.footer}>
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.doneTask(navigate)}>
+                    <Text style={styles.signUpText}>Done Task</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.deleteTask(navigate)}>
+                    <Text style={styles.signUpText}>Delete Task</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
             </ImageBackground>
           </View>
         </View>
       );
+  }
+
+  doneTask(navigate) {
+    store.taskArray.map((val)=>{
+      if( val.id == store.TaskId){
+        val.status = 'done';
+      }
+    });
+    navigate('Project');
+  }
+  deleteTask(navigate) {
+    store.taskArray.map((val, key)=>{
+      if( val.id == store.TaskId){
+        store.taskArray.splice(key, 1);
+      }
+    });
+    navigate('Project');
   }
 }
 
@@ -109,6 +158,12 @@ const styles = StyleSheet.create({
   containerTopic: {
     marginBottom: 20,
   },
+  containerProgress: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 3,
+  },
   taskIcon:{
     width:50,
     height:50,
@@ -117,6 +172,9 @@ const styles = StyleSheet.create({
   },
   containerMember: {
     flexDirection: 'row',
+  },
+  containerMembers: {
+    flexDirection: 'column',
   },
   containerCheckList: {
     flexDirection: 'column',
@@ -147,14 +205,22 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   containerScrollViewHolder: {
-    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   scrollViewHolder:
   { 
+    maxHeight: '70%',
     margin: 10,
-    flex: 1,
     marginTop: 20,
-    marginBottom: 20,
+    backgroundColor: '#D3D3D3',
+  },
+  containerFooter: {
+    margin: 10,
+  },
+  footer: {
+    flex: 1,
+    flexDirection: 'row',
     backgroundColor: '#D3D3D3',
   },
   item:
@@ -176,5 +242,21 @@ const styles = StyleSheet.create({
     fontSize: 15,
     padding: 5,
     marginLeft: 15,
+  },
+  buttonContainer: {
+    height: 45,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    marginLeft: 5,
+    borderRadius:10,
+  },
+  signupButton: {
+    backgroundColor: "#f5f5dc",
+  },
+  signUpText: {
+    color: '#4A3C39',
   },
 });
