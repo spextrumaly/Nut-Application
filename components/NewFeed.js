@@ -12,33 +12,38 @@ export default class NewFeed extends React.Component {
   render() {
     return (
         <View key={this.props.keyval} style={styles.project}>
-          <TouchableOpacity onPress={this.props.detailMethod}>
+        {this.props.val.status == 'createProject' ? 
+          <TouchableOpacity onPress={this.props.detailProjectMethod}>
             <View style={styles.headCard}>
               <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
               <View>
-              {this.props.val.status == 'createProject' ? 
                 <View>
                   <Text style={styles.projectNameText}>Created project {this.props.val.ProjectName}</Text>
                   <Text style={styles.projectOwnerText}>by Undefind User</Text>
                 </View>
-              : 
-                <View>
-                  <Text style={styles.projectNameText}>Created task {this.props.val.task}</Text>
-                  <Text style={styles.projectOwnerText}>on {this.props.val.ProjectName} Project</Text>
-                  <Text style={styles.projectOwnerText}>by Undefind User</Text>
-                </View> }
               </View>
               <View style={styles.bodyDeadline}>
                 <Text style={styles.projectText}>{this.relativeTime(this.props.val.createDate)}</Text>
               </View>
             </View>
-          {/* <TouchableOpacity onPress={this.props.deleteMethod} style={styles.projectDelete}>
-              <Text style={styles.projectDeleteText}>Delete</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.props.detailMethod} style={styles.projectDetail}>
-              <Text style={styles.projectDeleteText}>Detail</Text>
-          </TouchableOpacity> */}
+          :
+          <TouchableOpacity onPress={this.props.detailTaskMethod}>
+            <View style={styles.headCard}>
+              <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+              <View>
+                <View>
+                  <Text style={styles.projectNameText}>Created task {this.props.val.task}</Text>
+                  <Text style={styles.projectOwnerText}>on {this.props.val.ProjectName} Project</Text>
+                  <Text style={styles.projectOwnerText}>by Undefind User</Text>
+                </View>
+              </View>
+              <View style={styles.bodyDeadline}>
+                <Text style={styles.projectText}>{this.relativeTime(this.props.val.createDate)}</Text>
+              </View>
+            </View>
           </TouchableOpacity>
+          }
         </View>
     );
   }

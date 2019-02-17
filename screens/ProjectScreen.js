@@ -6,9 +6,12 @@ import {
   TouchableOpacity,
   View,
   Image,
+  Dimensions,
+  ImageBackground,
 } from 'react-native';
 import Task from '../components/Task';
 import { store } from '../Store/Store';
+import moment from "moment";
 
 export default class ProjectScreen extends React.Component {
   static navigationOptions = {
@@ -30,15 +33,48 @@ export default class ProjectScreen extends React.Component {
   }
   render() {
       const {navigate} = this.props.navigation;
-      let tasks = store.taskArray.map((val, key)=>{
-        if( val.ProjectName == store.ProjectName)
-          return <Task key={key} keyval={key} val={val}
-                  deleteMethod={()=>this.deleteTask(key)}/>
+      store.taskArray.map((val, key)=>{
+        if( moment().isAfter(val.deadlineDate)){
+          if(val.status == 'active') {
+            val.status = 'late'
+          }
+        }
+      });
+      let activeTasks = store.taskArray.map((val, key)=>{
+        if( val.ProjectID == store.ProjectId){
+          if(val.status == 'active') {
+            return <Task key={key} keyval={key} val={val}
+            deleteMethod={()=>this.deleteTask(key)}
+            detailTaskMethod={() => this.detailTaskMethod(navigate, val)}
+            />
+          }
+        }
+      });
+      let lateTasks = store.taskArray.map((val, key)=>{
+        if( val.ProjectID == store.ProjectId){
+          if(val.status == 'late') {
+            return <Task key={key} keyval={key} val={val}
+            deleteMethod={()=>this.deleteTask(key)}
+            detailTaskMethod={() => this.detailTaskMethod(navigate, val)}
+            />
+          }
+        }
+      });
+      let doneTasks = store.taskArray.map((val, key)=>{
+        if( val.ProjectID == store.ProjectId){
+          if(val.status == 'done') {
+            return <Task key={key} keyval={key} val={val}
+            deleteMethod={()=>this.deleteTask(key)}
+            detailTaskMethod={() => this.detailTaskMethod(navigate, val)}
+            />
+          }
+        }
       });
       let id = store.projectArray.map((val, key)=>{
-        if( val.ProjectName == store.ProjectName)
+        if( val.id == store.ProjectId)
           return val.id
       });
+      let screenWidth = Dimensions.get('window').width;
       return (
           <View style={styles.container}>
               <View style={styles.task}>
@@ -51,9 +87,35 @@ export default class ProjectScreen extends React.Component {
                   </TouchableOpacity>
                 </View>
               </View>
-              <ScrollView style={styles.scrollContainer}>
+              <View style = { styles.containerScrollViewHolder }>
+                <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
+                  <View style = { styles.scrollViewHolder }>
+                    <ScrollView horizontal = { true } showsHorizontalScrollIndicator = { false }>
+                      <View style = { [styles.item, {width: screenWidth/1.5} ]}>
+                        <Text style= { styles.headCard} >Active</Text>
+                        <ScrollView>
+                          {activeTasks}
+                        </ScrollView>                      
+                      </View>
+                      <View style = { [styles.item, {width: screenWidth/1.5} ]}>
+                        <Text style= { styles.headCard} >Late</Text>
+                        <ScrollView>
+                          {lateTasks}
+                        </ScrollView>                      
+                      </View>                 
+                      <View style = { [styles.item, {width: screenWidth/1.5} ]}>
+                        <Text style= { styles.headCard} >Done</Text>
+                        <ScrollView>
+                          {doneTasks}
+                        </ScrollView>                      
+                      </View>                             
+                    </ScrollView>
+                  </View>
+                </ImageBackground>
+              </View>
+              {/* <ScrollView style={styles.scrollContainer}>
                   {tasks}
-              </ScrollView>
+              </ScrollView> */}
               <TouchableOpacity onPress={ () => this.addtask(navigate) } style={styles.addButton}>
                   <Text style={styles.addButtonText}>+</Text>
               </TouchableOpacity>
@@ -64,8 +126,8 @@ export default class ProjectScreen extends React.Component {
     navigate('CreateTask')
   }
   deleteTask(key){
-      store.taskArray.splice(key, 1);
-      this.setState({taskText: this.state.taskText});
+    store.taskArray.splice(key, 1);
+    this.setState({taskText: this.state.taskText});
   }
   deleteProject(navigate) {
     store.taskArray.map((val, key)=>{
@@ -78,11 +140,33 @@ export default class ProjectScreen extends React.Component {
     });
     navigate('HomeProject')
   }
+  detailTaskMethod(navigate, val){
+    store.TaskName = val.task;
+    store.TaskId = val.id;
+    navigate('HomeTask')
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  containerScrollViewHolder: {
+    flex: 1,
+  },
+  scrollViewHolder:
+  { 
+    margin: 10,
+    flex: 1,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  item:
+  {
+    backgroundColor: '#D3D3D3',
+    flex: 1,
+    padding: 10,
+    marginRight: 10,
   },
   textHeader: {
     textAlign: 'center',
@@ -169,5 +253,10 @@ const styles = StyleSheet.create({
     borderRadius:5,
     margin: 10,
     marginBottom: 5,
+  },
+  headCard: {
+    fontSize: 17,
+    color: '#4A3C39',
+    marginBottom: 10,
   },
 });

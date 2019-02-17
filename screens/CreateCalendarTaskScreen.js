@@ -55,40 +55,45 @@ export default class CalendarScreen extends Component {
             }}
             onDayPress={(day) => {this.setState({date:day})}}
           />
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.addProject(this.state.date, navigate)}>
-            <Text style={styles.signUpText}>Add Project</Text>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.addTask(this.state.date, navigate)}>
+            <Text style={styles.signUpText}>Add Task</Text>
           </TouchableHighlight>
         </View>
       </ImageBackground>
     );
   }
 
-  addProject(date, navigate) {
+  addTask(date, navigate){
     var timestamp = moment().format();
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
     for (var i = 0; i < 5; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
-    store.projectArray.push({
-      'ProjectName': store.projectState.name,
-      'projectDetail': store.projectState.details,
-      'createDate': timestamp,
-      'id': text,
-      'deadlineDate': date.dateString,
-      'status': 'join',
-    });
-    store.newFeedArray.push({
-      'ProjectName': store.projectState.name,
-      'ProjectID': text,
-      'createDate': timestamp,
-      'id': text,
-      'status': 'createProject',
-    });
-    this.setState({date:''});
-    store.projectState.name = '';
-    store.projectState.details = '';
-    navigate('HomeProject');
+    if(date){
+      var d = new Date();
+      store.taskArray.push({
+        'ProjectName': store.ProjectName,
+        'ProjectID': store.ProjectId,
+        'createDate': timestamp,
+        'task': store.taskState.name,
+        'id': text,
+        'description': store.taskState.details,
+        'status': 'active',
+        'deadlineDate': date.dateString,
+      });
+      store.newFeedArray.push({
+        'ProjectName': store.ProjectName,
+        'ProjectID': store.ProjectID,
+        'task': store.taskState.name,
+        'createDate': timestamp,
+        'id': text,
+        'status': 'createTask',
+      });
+      this.setState({date:''});
+      store.TaskName = store.taskState.name;
+      store.TaskId = text;
+      navigate('HomeTask');
+    }
   }
 }
 

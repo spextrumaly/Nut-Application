@@ -12,6 +12,8 @@ import CreateTaskScreen from '../screens/CreateTaskScreen';
 import JoinProjectScreen from '../screens/JoinProjectScreen';
 import CalendarScreen from '../screens/CreateCalendarProjectScreen';
 import HomeProjectScreen from '../screens/HomeProjectScreen';
+import HomeTaskScreen from '../screens/HomeTaskScreen';
+import CalendarTaskScreen from '../screens/CreateCalendarTaskScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -44,6 +46,8 @@ const ProjectStack = createStackNavigator({
   CreateTask: CreateTaskScreen,
   JoinProject: JoinProjectScreen,
   Calendar: CalendarScreen,
+  CalendarTask: CalendarTaskScreen,
+  HomeTask: HomeTaskScreen,
 });
 
 ProjectStack.navigationOptions = {

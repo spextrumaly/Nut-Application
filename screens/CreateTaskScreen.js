@@ -6,11 +6,9 @@ import {
   TextInput,
   TouchableHighlight,
   Image,
-  Alert,
   ImageBackground
 } from 'react-native';
 import { store } from '../Store/Store';
-import moment from "moment";
 
 export default class SignUpView extends Component {
   static navigationOptions = {
@@ -19,13 +17,13 @@ export default class SignUpView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      taskText: '',
-      taskOwner: '',
+      taskName: '',
+      taskDetails: '',
     };
   }
 
   render() {
-    const { goBack } = this.props.navigation;
+    const { navigate } = this.props.navigation;
     return (
       <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
         <View style={styles.container}>
@@ -34,8 +32,8 @@ export default class SignUpView extends Component {
             <TextInput style={styles.inputs}
               style={styles.textInput}
               placeholder='Task Name :'
-              onChangeText={(taskText)=> this.setState({taskText})}
-              value={this.state.taskText}
+              onChangeText={(taskName)=> this.setState({taskName})}
+              value={this.state.taskName}
               placeholderTextColor='black'
               underlineColorAndroid='transparent'/>
           </View>
@@ -43,41 +41,57 @@ export default class SignUpView extends Component {
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder='Task Owner :'
-              onChangeText={(taskOwner)=> this.setState({taskOwner})}
-              value={this.state.taskOwner}
+              placeholder='Task description :'
+              onChangeText={(taskDetails)=> this.setState({taskDetails})}
+              value={this.state.taskDetails}
               placeholderTextColor='black'
               underlineColorAndroid='transparent'/>
           </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.addTask(goBack)}>
-            <Text style={styles.signUpText}>Add Task</Text>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.continue(navigate)}>
+            <Text style={styles.signUpText}>Continue</Text>
           </TouchableHighlight>
         </View>
       </ImageBackground>
     );
   }
-
-  addTask(goBack){
-    var timestamp = moment().format();
-    if(this.state.taskText || this.setState.taskOwner){
-        var d = new Date();
-        store.taskArray.push({
-          'ProjectName': store.ProjectName,
-          'createDate': timestamp,
-          'task': this.state.taskText,
-          'owner': this.state.taskOwner,
-        });
-        store.newFeedArray.push({
-          'ProjectName': store.projectState.name,
-          'task': this.state.taskText,
-          'createDate': timestamp,
-          'status': 'createTask',
-        });
-        this.setState({taskText:''});
-        this.setState({taskOwner:''});
-        goBack();
+    continue(navigate){
+      if(this.state.taskName){
+        store.taskState.name = this.state.taskName;
+        store.taskState.details = this.state.taskDetails;
+        navigate('CalendarTask')
+      }
     }
-  }
+
+  // addTask(goBack){
+  //   var timestamp = moment().format();
+  //   var text = "";
+  //   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  //   for (var i = 0; i < 5; i++)
+  //     text += possible.charAt(Math.floor(Math.random() * possible.length));
+  //   if(this.state.taskName || this.setState.taskDetails){
+  //       var d = new Date();
+  //       store.taskArray.push({
+  //         'ProjectName': store.ProjectName,
+  //         'ProjectID': store.ProjectId,
+  //         'createDate': timestamp,
+  //         'task': this.state.taskName,
+  //         'id': text,
+  //         'owner': this.state.taskDetails,
+  //         'status': 'active',
+  //       });
+  //       store.newFeedArray.push({
+  //         'ProjectName': store.ProjectName,
+  //         'ProjectID': store.ProjectID,
+  //         'task': this.state.taskName,
+  //         'createDate': timestamp,
+  //         'id': text,
+  //         'status': 'createTask',
+  //       });
+  //       this.setState({taskName:''});
+  //       this.setState({taskDetails:''});
+  //       goBack();
+  //   }
+  // }
 }
 
 const styles = StyleSheet.create({

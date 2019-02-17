@@ -1,5 +1,8 @@
 export const store = {
   ProjectName: '',
+  ProjectId: '',
+  TaskName: '',
+  TaskId: '',
   projectArray: [{
     'ProjectName': 'Default',
     'date':'-',
@@ -8,6 +11,10 @@ export const store = {
   }],
   taskArray: [],
   projectState: {
+    name: '',
+    details: '',
+  },
+  taskState: {
     name: '',
     details: '',
   },

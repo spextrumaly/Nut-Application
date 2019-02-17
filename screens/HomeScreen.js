@@ -41,7 +41,8 @@ export default class HomeScreen extends React.Component {
       const {navigate} = this.props.navigation;
       let newfeeds = store.newFeedArray.map((val, key)=>{
           return <NewFeed key={key} keyval={key} val={val}
-          detailMethod={() => this.detailMethod(navigate, val)}
+          detailProjectMethod={() => this.detailProjectMethod(navigate, val)}
+          detailTaskMethod={() => this.detailTaskMethod(navigate, val)}
           />
       });
       return (
@@ -63,9 +64,15 @@ export default class HomeScreen extends React.Component {
           </View>
       );
   }
-  detailMethod(navigate, val){
+  detailProjectMethod(navigate, val){
     store.ProjectName = val.ProjectName;
+    store.ProjectId = val.ProjectID;
     navigate('Project')
+  }
+  detailTaskMethod(navigate, val){
+    store.TaskName = val.task;
+    store.TaskId = val.id;
+    navigate('HomeTask')
   }
 }
 

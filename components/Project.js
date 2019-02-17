@@ -6,6 +6,8 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
+import moment from "moment";
+
 export default class Project extends React.Component {
   render() {
     return (
@@ -18,7 +20,7 @@ export default class Project extends React.Component {
                 <Text style={styles.projectOwnerText}>Undefind User</Text>
               </View>
               <View style={styles.bodyDeadline}>
-                <Text style={styles.projectText}>Deadline : {this.props.val.deadlineDate}</Text>
+                <Text style={styles.projectText}>Deadline : {this.countDown(this.props.val.deadlineDate,this.props.val.createDate)}</Text>
               </View>
             </View>
           {/* <TouchableOpacity onPress={this.props.deleteMethod} style={styles.projectDelete}>
@@ -30,6 +32,10 @@ export default class Project extends React.Component {
           </TouchableOpacity>
         </View>
     );
+  }
+
+  countDown(deadlineDate, createDate) {
+    return moment(deadlineDate).from(createDate);
   }
 }
 const styles = StyleSheet.create({
