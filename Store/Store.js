@@ -19,4 +19,5 @@ export const store = {
     details: '',
   },
   newFeedArray: [],
+  checklistTaskArray: [],
 }

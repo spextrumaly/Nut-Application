@@ -7,24 +7,40 @@ import {
   View,
   Image,
   ImageBackground,
+  TextInput,
 } from 'react-native';
-import { CheckBox } from 'react-native-elements'
 import * as Progress from 'react-native-progress';
 
 import { store } from '../Store/Store';
+import CheckBoxListTask from '../components/CheckBoxListTask';
 
 export default class HomeTaskScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
   constructor(props){
     super(props);
     this.state = {
-      checked: false,
+      checklist: [],
+      text: 'Add item',
     };
   }
+
+  componentDidMount() {
+    setInterval(() => {
+        this.setState(() => {
+            return { unseen: "does not display" }
+        });
+    }, 1000);
+  }
+
   render() {
       const {navigate} = this.props.navigation;
+      let checklists = store.checklistTaskArray.map((val, key)=>{
+        return <CheckBoxListTask key={key} keyval={key} val={val}
+        checkBoxMethod={() => this.checkBoxMethod(val)}/>
+      });
       let taskName = store.taskArray.map((val, key)=>{
         if( val.id == store.TaskId){
           return val.task
@@ -98,14 +114,21 @@ export default class HomeTaskScreen extends React.Component {
                         <Text style= { styles.headCard} >CHECKLIST</Text>
                       </View>
                       <View style = { styles.containerCheckList } >
-                        <CheckBox
+                        {checklists ? checklists : null}
+                        {/* <CheckBox
                           title='Click Here'
                           checked={this.state.checked}
-                        />
-                        <CheckBox
-                          title='Click Here'
-                          checked={this.state.checked}
-                        />
+                        /> */}
+                        <View style={{flexDirection: 'row',}}>
+                          <TextInput
+                            style={{height: 30, borderColor: 'gray', borderWidth: 1, width: '40%', margin: 10, marginLeft: 15,}}
+                            onChangeText={(text) => this.setState({text})}
+                            value={this.state.text}
+                          />
+                          <TouchableHighlight style={[styles.buttonContainerAddList, styles.addTaskButton]} onPress={() => this.addListTask()}>
+                            <Text style={styles.signUpText}>Add CheckList</Text>
+                          </TouchableHighlight>
+                        </View>
                       </View>
                     </View>
                   </View>                         
@@ -135,6 +158,30 @@ export default class HomeTaskScreen extends React.Component {
     });
     navigate('Project');
   }
+
+  addListTask() {
+    var id = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 5; i++)
+      id += possible.charAt(Math.floor(Math.random() * possible.length));
+    store.checklistTaskArray.push({
+      'checkListName': this.state.text,
+      'taskId': store.TaskId,
+      'checked': false ,
+      'id': id,
+    });
+  }
+
+  checkBoxMethod(value) {
+    console.log('==here===')
+    store.checklistTaskArray.map((val)=>{
+      console.log('==here===')
+      if( val.id == value.id){
+        val.checked = !val.checked
+      }
+    });
+  }
+
   deleteTask(navigate) {
     store.taskArray.map((val, key)=>{
       if( val.id == store.TaskId){
@@ -199,7 +246,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingTop: 15,
     paddingBottom: 10,
-    color: 'black'
+    color: 'black',
+    maxWidth: '80%',
   },
   inListText: {
     paddingLeft: 10,
@@ -210,7 +258,7 @@ const styles = StyleSheet.create({
   },
   scrollViewHolder:
   { 
-    maxHeight: '70%',
+    maxHeight: '65%',
     margin: 10,
     marginTop: 20,
     backgroundColor: '#D3D3D3',
@@ -253,8 +301,20 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     borderRadius:10,
   },
+  buttonContainerAddList: {
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '50%',
+    margin: 10,
+    marginLeft: 8,
+    borderRadius:10,
+  },
   signupButton: {
     backgroundColor: "#f5f5dc",
+  },
+  addTaskButton: {
+    backgroundColor: "#FFFFFF",
   },
   signUpText: {
     color: '#4A3C39',
