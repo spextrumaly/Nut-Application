@@ -38,8 +38,9 @@ export default class HomeTaskScreen extends React.Component {
   render() {
       const {navigate} = this.props.navigation;
       let checklists = store.checklistTaskArray.map((val, key)=>{
-        return <CheckBoxListTask key={key} keyval={key} val={val}
-        checkBoxMethod={() => this.checkBoxMethod(val)}/>
+        if(val.taskId == store.TaskId)
+          return <CheckBoxListTask key={key} keyval={key} val={val}
+          checkBoxMethod={() => this.checkBoxMethod(val)}/>
       });
       let taskName = store.taskArray.map((val, key)=>{
         if( val.id == store.TaskId){
@@ -173,9 +174,7 @@ export default class HomeTaskScreen extends React.Component {
   }
 
   checkBoxMethod(value) {
-    console.log('==here===')
     store.checklistTaskArray.map((val)=>{
-      console.log('==here===')
       if( val.id == value.id){
         val.checked = !val.checked
       }
