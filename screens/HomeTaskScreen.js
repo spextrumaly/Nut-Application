@@ -23,6 +23,8 @@ export default class HomeTaskScreen extends React.Component {
     super(props);
     this.state = {
       checklist: [],
+      checklistLength: 0,
+      checklistSuccess: 0,
       text: 'Add item',
     };
   }
@@ -42,26 +44,34 @@ export default class HomeTaskScreen extends React.Component {
           return <CheckBoxListTask key={key} keyval={key} val={val}
           checkBoxMethod={() => this.checkBoxMethod(val)}/>
       });
-      let taskName = store.taskArray.map((val, key)=>{
+      let taskName = store.taskArray.map((val)=>{
         if( val.id == store.TaskId){
           return val.task
         }
       });
-      let taskStatus = store.taskArray.map((val, key)=>{
+      let taskStatus = store.taskArray.map((val)=>{
         if( val.id == store.TaskId){
           return val.status
         }
       });
-      let taskDes = store.taskArray.map((val, key)=>{
+      let taskDes = store.taskArray.map((val)=>{
         if( val.id == store.TaskId){
           return val.description
         }
       });
-      let taskDeadline = store.taskArray.map((val, key)=>{
+      let taskDeadline = store.taskArray.map((val)=>{
         if( val.id == store.TaskId){
           return val.deadlineDate
         }
       });
+      const checklist = store.checklistTaskArray.filter(val => val.taskId === store.TaskId)
+      console.log(checklist)
+      const checklistLength = checklist.length
+      console.log(checklistLength)
+      const checklistSuccess = checklist.filter(val => val.checked).length
+      this.setState(prevState => ({ ...prevState, checklistLength, checklistSuccess }), () => {
+        console.log(this.state.checklistSuccess/this.state.checklistLength)
+      })
       return (
         <View style={styles.container}>
           <View key={this.props.keyval} style={styles.task}>
@@ -71,7 +81,7 @@ export default class HomeTaskScreen extends React.Component {
               <Text style={styles.inListText}>in list : {taskStatus}</Text>
             </View>
             <View style={styles.containerProgress}>
-              <Progress.Circle size={50} progress={0.9} color={'green'} showsText={true}/>
+              <Progress.Circle size={50} progress={(this.state.checklistSuccess/this.state.checklistLength) || 0} color={'green'} showsText={true}/>
             </View>
           </View>
           <View style = { styles.containerScrollViewHolder }>
@@ -179,6 +189,14 @@ export default class HomeTaskScreen extends React.Component {
         val.checked = !val.checked
       }
     });
+    const checklist = store.checklistTaskArray.filter(val => val.taskId === store.TaskId)
+    console.log(checklist)
+    const checklistLength = checklist.length
+    console.log(checklistLength)
+    const checklistSuccess = checklist.filter(val => val.checked).length
+    this.setState(prevState => ({ ...prevState, checklistLength, checklistSuccess }), () => {
+      console.log(this.state.checklistSuccess/this.state.checklistLength)
+    })
   }
 
   deleteTask(navigate) {
@@ -188,6 +206,20 @@ export default class HomeTaskScreen extends React.Component {
       }
     });
     navigate('Project');
+  }
+
+  progressBarPercent() {
+    // console.log('-===here===')
+    // store.checklistTaskArray.map((val)=>{
+    //   if(val.taskId == store.TaskId){
+    //     this.setState({checklistLength: this.state.checklistLength +1 })
+    //     if(val.checked){
+    //       this.setState({checklistSuccess: this.state.checklistSuccess +1 })
+    //     }
+    //   }
+    // });
+    console.log(this.state.checklistSuccess/this.state.checklistLength)
+    return this.state.checklistSuccess/this.state.checklistLength
   }
 }
 
