@@ -7,40 +7,64 @@ import {
   View,
   Image,
   ImageBackground,
+  TextInput,
 } from 'react-native';
-import { CheckBox } from 'react-native-elements'
 import * as Progress from 'react-native-progress';
 
 import { store } from '../Store/Store';
+import CheckBoxListTask from '../components/CheckBoxListTask';
 
 export default class HomeTaskScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
   constructor(props){
     super(props);
     this.state = {
-      checked: false,
+      checklist: [],
+      checklistLength: 0,
+      checklistSuccess: 0,
+      text: 'Add item',
     };
   }
+
+  componentDidMount() {
+    setInterval(() => {
+      this.setState(() => {
+          return { unseen: "does not display" }
+      });
+      const checklist = store.checklistTaskArray.filter(val => val.taskId === store.TaskId)
+      const checklistLength = checklist.length
+      const checklistSuccess = checklist.filter(val => val.checked).length
+      this.setState(prevState => ({ ...prevState, checklistLength, checklistSuccess }), () => {
+      })
+    }, 1000);
+  }
+
   render() {
       const {navigate} = this.props.navigation;
-      let taskName = store.taskArray.map((val, key)=>{
+      let checklists = store.checklistTaskArray.map((val, key)=>{
+        if(val.taskId == store.TaskId)
+          return <CheckBoxListTask key={key} keyval={key} val={val}
+          checkBoxMethod={() => this.checkBoxMethod(val)}/>
+      });
+      let taskName = store.taskArray.map((val)=>{
         if( val.id == store.TaskId){
           return val.task
         }
       });
-      let taskStatus = store.taskArray.map((val, key)=>{
+      let taskStatus = store.taskArray.map((val)=>{
         if( val.id == store.TaskId){
           return val.status
         }
       });
-      let taskDes = store.taskArray.map((val, key)=>{
+      let taskDes = store.taskArray.map((val)=>{
         if( val.id == store.TaskId){
           return val.description
         }
       });
-      let taskDeadline = store.taskArray.map((val, key)=>{
+      let taskDeadline = store.taskArray.map((val)=>{
         if( val.id == store.TaskId){
           return val.deadlineDate
         }
@@ -54,7 +78,7 @@ export default class HomeTaskScreen extends React.Component {
               <Text style={styles.inListText}>in list : {taskStatus}</Text>
             </View>
             <View style={styles.containerProgress}>
-              <Progress.Circle size={50} progress={0.9} color={'green'} showsText={true}/>
+              <Progress.Circle size={50} progress={(this.state.checklistSuccess/this.state.checklistLength) || 0} color={'green'} showsText={true}/>
             </View>
           </View>
           <View style = { styles.containerScrollViewHolder }>
@@ -98,14 +122,21 @@ export default class HomeTaskScreen extends React.Component {
                         <Text style= { styles.headCard} >CHECKLIST</Text>
                       </View>
                       <View style = { styles.containerCheckList } >
-                        <CheckBox
+                        {checklists ? checklists : null}
+                        {/* <CheckBox
                           title='Click Here'
                           checked={this.state.checked}
-                        />
-                        <CheckBox
-                          title='Click Here'
-                          checked={this.state.checked}
-                        />
+                        /> */}
+                        <View style={{flexDirection: 'row',}}>
+                          <TextInput
+                            style={{height: 30, borderColor: 'gray', borderWidth: 1, width: '40%', margin: 10, marginLeft: 15,}}
+                            onChangeText={(text) => this.setState({text})}
+                            value={this.state.text}
+                          />
+                          <TouchableHighlight style={[styles.buttonContainerAddList, styles.addTaskButton]} onPress={() => this.addListTask()}>
+                            <Text style={styles.signUpText}>Add CheckList</Text>
+                          </TouchableHighlight>
+                        </View>
                       </View>
                     </View>
                   </View>                         
@@ -135,6 +166,36 @@ export default class HomeTaskScreen extends React.Component {
     });
     navigate('Project');
   }
+
+  addListTask() {
+    var id = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 5; i++)
+      id += possible.charAt(Math.floor(Math.random() * possible.length));
+    store.checklistTaskArray.push({
+      'checkListName': this.state.text,
+      'taskId': store.TaskId,
+      'checked': false ,
+      'id': id,
+    });
+  }
+
+  checkBoxMethod(value) {
+    store.checklistTaskArray.map((val)=>{
+      if( val.id == value.id){
+        val.checked = !val.checked
+      }
+    });
+    // const checklist = store.checklistTaskArray.filter(val => val.taskId === store.TaskId)
+    // console.log(checklist)
+    // const checklistLength = checklist.length
+    // console.log(checklistLength)
+    // const checklistSuccess = checklist.filter(val => val.checked).length
+    // this.setState(prevState => ({ ...prevState, checklistLength, checklistSuccess }), () => {
+    //   console.log(this.state.checklistSuccess/this.state.checklistLength)
+    // })
+  }
+
   deleteTask(navigate) {
     store.taskArray.map((val, key)=>{
       if( val.id == store.TaskId){
@@ -142,6 +203,20 @@ export default class HomeTaskScreen extends React.Component {
       }
     });
     navigate('Project');
+  }
+
+  progressBarPercent() {
+    // console.log('-===here===')
+    // store.checklistTaskArray.map((val)=>{
+    //   if(val.taskId == store.TaskId){
+    //     this.setState({checklistLength: this.state.checklistLength +1 })
+    //     if(val.checked){
+    //       this.setState({checklistSuccess: this.state.checklistSuccess +1 })
+    //     }
+    //   }
+    // });
+    console.log(this.state.checklistSuccess/this.state.checklistLength)
+    return this.state.checklistSuccess/this.state.checklistLength
   }
 }
 
@@ -199,7 +274,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingTop: 15,
     paddingBottom: 10,
-    color: 'black'
+    color: 'black',
+    maxWidth: '80%',
   },
   inListText: {
     paddingLeft: 10,
@@ -210,7 +286,7 @@ const styles = StyleSheet.create({
   },
   scrollViewHolder:
   { 
-    maxHeight: '70%',
+    maxHeight: '65%',
     margin: 10,
     marginTop: 20,
     backgroundColor: '#D3D3D3',
@@ -253,8 +329,20 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     borderRadius:10,
   },
+  buttonContainerAddList: {
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '50%',
+    margin: 10,
+    marginLeft: 8,
+    borderRadius:10,
+  },
   signupButton: {
     backgroundColor: "#f5f5dc",
+  },
+  addTaskButton: {
+    backgroundColor: "#FFFFFF",
   },
   signUpText: {
     color: '#4A3C39',
