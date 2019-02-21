@@ -31,9 +31,14 @@ export default class HomeTaskScreen extends React.Component {
 
   componentDidMount() {
     setInterval(() => {
-        this.setState(() => {
-            return { unseen: "does not display" }
-        });
+      this.setState(() => {
+          return { unseen: "does not display" }
+      });
+      const checklist = store.checklistTaskArray.filter(val => val.taskId === store.TaskId)
+      const checklistLength = checklist.length
+      const checklistSuccess = checklist.filter(val => val.checked).length
+      this.setState(prevState => ({ ...prevState, checklistLength, checklistSuccess }), () => {
+      })
     }, 1000);
   }
 
@@ -64,14 +69,6 @@ export default class HomeTaskScreen extends React.Component {
           return val.deadlineDate
         }
       });
-      const checklist = store.checklistTaskArray.filter(val => val.taskId === store.TaskId)
-      console.log(checklist)
-      const checklistLength = checklist.length
-      console.log(checklistLength)
-      const checklistSuccess = checklist.filter(val => val.checked).length
-      this.setState(prevState => ({ ...prevState, checklistLength, checklistSuccess }), () => {
-        console.log(this.state.checklistSuccess/this.state.checklistLength)
-      })
       return (
         <View style={styles.container}>
           <View key={this.props.keyval} style={styles.task}>
@@ -189,14 +186,14 @@ export default class HomeTaskScreen extends React.Component {
         val.checked = !val.checked
       }
     });
-    const checklist = store.checklistTaskArray.filter(val => val.taskId === store.TaskId)
-    console.log(checklist)
-    const checklistLength = checklist.length
-    console.log(checklistLength)
-    const checklistSuccess = checklist.filter(val => val.checked).length
-    this.setState(prevState => ({ ...prevState, checklistLength, checklistSuccess }), () => {
-      console.log(this.state.checklistSuccess/this.state.checklistLength)
-    })
+    // const checklist = store.checklistTaskArray.filter(val => val.taskId === store.TaskId)
+    // console.log(checklist)
+    // const checklistLength = checklist.length
+    // console.log(checklistLength)
+    // const checklistSuccess = checklist.filter(val => val.checked).length
+    // this.setState(prevState => ({ ...prevState, checklistLength, checklistSuccess }), () => {
+    //   console.log(this.state.checklistSuccess/this.state.checklistLength)
+    // })
   }
 
   deleteTask(navigate) {
