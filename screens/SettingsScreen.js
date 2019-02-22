@@ -16,25 +16,69 @@ export default class SettingScreen extends React.Component {
   };
     
   render() {
-    const {navigate} = this.props.navigation;
-      return (
-        <View style={styles.container}>
-          <View key={this.props.keyval} style={styles.task}>
-            <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
-            <View>
-              <Text style={styles.taskText}>Setting</Text>
-            </View>
+    return (
+      <View style={styles.container}>
+        <View key={this.props.keyval} style={styles.task}>
+          <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+          <View>
+            <Text style={styles.taskText}>Setting</Text>
           </View>
-          <ScrollView style={styles.scrollContainer}>
-            <View style={styles.logoutContainer}>
-              <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
-                  onPress={this._signOutAsync}
-                >
-                <Text style={styles.signUpText}>Logout</Text>
-              </TouchableHighlight>
-            </View>
-          </ScrollView>
         </View>
+        <ScrollView style={styles.scrollContainer}>
+          <TouchableHighlight>
+            <View style={styles.containerSetting}>
+              <Image style={styles.settingIcon} source={require('../assets/images/profile.png')}/>
+              <View style={styles.containerTopicSetting}>
+                <Text style={styles.textSetting}>Edit Profile</Text>
+              </View>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight>
+            <View style={styles.containerSetting}>
+              <Image style={styles.settingIcon} source={require('../assets/images/reminder.png')}/>
+              <View style={styles.containerTopicSetting}>
+                <Text style={styles.textSetting}>Reminder</Text>
+              </View>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={this._signOutAsync}>
+            <View style={styles.containerSetting}>
+              <View style={styles.containerIconTopicSetting}>
+                <Image style={styles.settingIcon} source={require('../assets/images/logout.png')}/>
+              </View>
+              <View style={styles.containerTopicSetting}>
+                <Text style={styles.textSetting}>Logout</Text>
+              </View>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight>
+            <View style={styles.containerSetting}>
+              <Image style={styles.settingIcon} source={require('../assets/images/aboutUs.png')}/>
+              <View style={styles.containerTopicSetting}>
+                <Text style={styles.textSetting}>About Us</Text>
+              </View>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight>
+            <View style={styles.containerSetting}>
+              <Image style={styles.settingIcon} source={require('../assets/images/privacy.png')}/>
+              <View style={styles.containerTopicSetting}>
+                <Text style={styles.textSetting}>Terms & Privacy</Text>
+              </View>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight>
+            <View style={styles.containerSetting}>
+              <View style={styles.containerIconTopicSetting}>
+                <Image style={styles.settingIcon} source={require('../assets/images/donate.png')}/>
+              </View>
+              <View style={styles.containerTopicSetting}>
+                <Text style={styles.textSetting}>Donate & Support</Text>
+              </View>
+            </View>
+          </TouchableHighlight>
+        </ScrollView>
+      </View>
     );
   }
   _signOutAsync = async () => {
@@ -49,8 +93,12 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
+    flexDirection: 'column',
     marginBottom: 100
   },
+  containerSetting: {
+    flexDirection: 'row'
+  },  
   logoutContainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -81,6 +129,13 @@ const styles = StyleSheet.create({
     margin:5,
     justifyContent: 'center'
   },
+  settingIcon:{
+    width:40,
+    height:40,
+    margin:15,
+    marginLeft: 30,
+    justifyContent: 'center'
+  },
   taskText: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -89,4 +144,18 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     color: '#4A3C39'
   },
+  textSetting: {
+    fontSize: 20,
+    padding: 15,
+    paddingTop: 20,
+  },
+  containerTopicSetting: {
+    width: '100%',
+    borderBottomWidth:1,
+    borderBottomColor: '#696969',
+  },
+  containerIconTopicSetting: {
+    borderBottomWidth:1,
+    borderBottomColor: '#696969',
+  }
 });
