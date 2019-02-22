@@ -14,6 +14,11 @@ export const store = {
     name: '',
     details: '',
   },
+  meetingState: {
+    name: '',
+    details: '',
+    date: '',
+  },
   taskState: {
     name: '',
     details: '',

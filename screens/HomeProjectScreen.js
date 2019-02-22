@@ -23,9 +23,6 @@ export default class HomeProjectScreen extends React.Component {
         showSelect: false,
         showCreate: false,
         showJoin: false,
-        projectText: '',
-        projectId: '',
-        projectOwner: '',
     };
   }
   componentDidMount() {
