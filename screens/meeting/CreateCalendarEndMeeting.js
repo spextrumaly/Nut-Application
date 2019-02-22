@@ -15,7 +15,7 @@ import { store } from '../../Store/Store';
 import moment from "moment";
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
-export default class CreateMeetingCalendar extends Component {
+export default class CreateMeetingEndCalendar extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -68,13 +68,13 @@ export default class CreateMeetingCalendar extends Component {
           />
           <View style={styles.containerPickTime}>
             <TouchableHighlight style={[styles.textPickContainer, styles.bg]}>
-              <Text style={styles.signUpText}>Start time {this.state.hour} : {this.state.minutes}</Text>
+              <Text style={styles.signUpText}>End time {this.state.hour} : {this.state.minutes}</Text>
             </TouchableHighlight>
             <TouchableHighlight style={[styles.buttonPickContainer, styles.signupButton]} onPress={this._showDateTimePicker}>
-              <Text style={styles.signUpText}>Pick Start time</Text>
+              <Text style={styles.signUpText}>Pick End time</Text>
             </TouchableHighlight>
           </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.continue(this.state.date, this.state.hour, this.state.minutes, navigate)}>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={this.continue(this.state.date, this.state.hour, this.state.minutes, navigate)}>
             <Text style={styles.signUpText}>Continue</Text>
           </TouchableHighlight>
         </View>
@@ -87,7 +87,7 @@ export default class CreateMeetingCalendar extends Component {
       store.meetingState.date = date;
       store.meetingState.startHour = hour;
       store.meetingState.startMinutes = minutes;
-      navigate('CalendarMeetingEnd')
+      navigate('Calendar')
     }
   }
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });

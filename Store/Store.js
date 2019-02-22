@@ -18,6 +18,10 @@ export const store = {
     name: '',
     details: '',
     date: '',
+    startHour: '',
+    startMinutes: '',
+    endHour: '',
+    endMinutes: '',
   },
   taskState: {
     name: '',
