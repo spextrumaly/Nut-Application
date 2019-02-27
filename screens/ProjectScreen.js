@@ -12,8 +12,10 @@ import {
 import Task from '../components/Task';
 import { store } from '../Store/Store';
 import moment from "moment";
-
+import { fetchProject } from './../src/codeNshit';
 export default class ProjectScreen extends React.Component {
+
+  
   static navigationOptions = {
     header: null,
   };
@@ -25,7 +27,10 @@ export default class ProjectScreen extends React.Component {
     };
   }
   componentDidMount() {
+
+    
     setInterval(() => {
+      console.log(fetchProject);
         this.setState(() => {
             return { unseen: "does not display" }
         });

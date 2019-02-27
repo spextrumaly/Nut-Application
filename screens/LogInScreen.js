@@ -1,18 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, AsyncStorage, Image } from 'react-native';
 import * as firebase from 'firebase';
+import { firebaseConfig } from './../src/firebaseConfig';
 
 // Initialize Firebase
-const firebaseConfig = {
-  // ADD YOUR FIREBASE CREDENTIALS
-  apiKey: "AIzaSyCJysqR5oPg65e6WYeUWYqKihxh3Hdcyxs",
-  authDomain: "nut-project-32750.firebaseapp.com",
-  databaseURL: "https://nut-project-32750.firebaseio.com",
-  projectId: "nut-project-32750",
-  storageBucket: "nut-project-32750.appspot.com",
-  messagingSenderId: "748289478478"
-};
-
 firebase.initializeApp(firebaseConfig);
 
 import { Container, Content, Header, Form, Input, Item, Button, Label } from 'native-base'
@@ -27,7 +18,9 @@ export default class App extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
-        console.log(user)
+        console.log(user.displayName + ' login Screen');
+        this.props.navigation.navigate('App');
+
       }
     })
   }
@@ -44,16 +37,34 @@ export default class App extends React.Component {
         const { idToken, accessToken } = result;
         const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
         firebase
-          .auth()
-          .signInAndRetrieveDataWithCredential(credential)
-          .then(res => {
-            // user res, create your user, do whatever you want
-            AsyncStorage.setItem('userToken', idToken);
-            this.props.navigation.navigate('App');
-          })
-          .catch(error => {
-            console.log("firebase cred err:", error);
-          });
+       .auth()
+       .signInAndRetrieveDataWithCredential(credential)
+       .then( res => {
+         if (res.additionalUserInfo.isNewUser) {
+           console.log('new users');
+           firebase
+            .database()
+            .ref('/user/' + res.user.uid)
+            .set({
+              name: res.user.displayName,
+              mail: res.user.email,
+              last_logged_in: Date.now(),
+            });
+         } else {
+           console.log('old user');
+           firebase
+            .database()
+            .ref('/user/' + res.user.uid)
+            .update({
+              last_logged_in: Date.now()
+            });
+         }
+         AsyncStorage.setItem('userToken', idToken);
+         this.props.navigation.navigate('App');
+       })
+       .catch( error => {
+        console.log("firebase cred err:", error);
+       })
       } else {
         return { cancelled: true };
       }
@@ -68,15 +79,35 @@ export default class App extends React.Component {
 
     if (type == 'success') {
       const credential = firebase.auth.FacebookAuthProvider.credential(token)
-      firebase.auth().signInAndRetrieveDataWithCredential(credential)
-      .then(res => {
-        // user res, create your user, do whatever you want
-        AsyncStorage.setItem('userToken', token);
-        this.props.navigation.navigate('App');
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+      firebase
+       .auth()
+       .signInAndRetrieveDataWithCredential(credential)
+       .then( res => {
+         if (res.additionalUserInfo.isNewUser) {
+           console.log('new users');
+           firebase
+            .database()
+            .ref('/user/' + res.user.uid)
+            .set({
+              name: res.user.displayName,
+              mail: res.user.email,
+              last_logged_in: Date.now(),
+            });
+         } else {
+           console.log('old user');
+           firebase
+            .database()
+            .ref('/user/' + res.user.uid)
+            .update({
+              last_logged_in: Date.now()
+            });
+         }
+         AsyncStorage.setItem('userToken', idToken);
+         this.props.navigation.navigate('App');
+       })
+       .catch( error => {
+        console.log("firebase cred err:", error);
+       })
     }
   };
 
