@@ -4,7 +4,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { store } from '../../Store/Store';
 import moment from "moment";
 
-export default class CreateMeetingCalendar extends Component {
+export default class LocationMeeting extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -90,10 +90,10 @@ export default class CreateMeetingCalendar extends Component {
       'meetingDetail': store.meetingState.details,
       'createDate': timestamp,
       'id': text,
-      'startDate': store.meetingState.startDate.dataString,
+      'startDate': store.meetingState.startDate.dateString,
       'startHour': store.meetingState.startHour,
       'startMinutes': store.meetingState.startMinutes,
-      'endDate': store.meetingState.endDate.dataString,
+      'endDate': store.meetingState.endDate.dateString,
       'endHour': store.meetingState.endHour,
       'endMinutes': store.meetingState.endMinutes,
       'status': 'join',
@@ -108,7 +108,7 @@ export default class CreateMeetingCalendar extends Component {
     // });
     this.setState({location:{}});
     console.log(store.meetingArray)
-    navigate('HomeProject');
+    navigate('Links');
   }
 }
 

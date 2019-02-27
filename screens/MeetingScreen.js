@@ -8,7 +8,7 @@ import {
   Image,
   TouchableHighlight,
 } from 'react-native';
-import Task from '../components/Task';
+import Meeting from '../components/Meeting';
 import { store } from '../Store/Store';
 
 export default class MeetingScreen extends React.Component {
@@ -34,8 +34,8 @@ export default class MeetingScreen extends React.Component {
     
   render() {
     const {navigate} = this.props.navigation;
-    let tasks = store.taskArray.map((val, key)=>{
-        return <Task key={key} keyval={key} val={val}
+    let meetings = store.meetingArray.map((val, key)=>{
+        return <Meeting key={key} keyval={key} val={val}
                 deleteMethod={()=>this.deleteTask(key)}/>
     });
     return (
@@ -49,6 +49,7 @@ export default class MeetingScreen extends React.Component {
         <View style={styles.body}>
           <ScrollView style={styles.scrollContainer}>
           <View style={styles.projectContainer}>
+            {meetings}
           </View>
           </ScrollView>
           {this.state.showSelect == true ? 
