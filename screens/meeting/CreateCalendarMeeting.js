@@ -12,7 +12,6 @@ import {
 
 import { Calendar } from 'react-native-calendars';
 import { store } from '../../Store/Store';
-import moment from "moment";
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
 export default class CreateMeetingCalendar extends Component {
@@ -84,7 +83,7 @@ export default class CreateMeetingCalendar extends Component {
 
   continue(date, hour, minutes, navigate){
     if(date){
-      store.meetingState.date = date;
+      store.meetingState.startDate = date;
       store.meetingState.startHour = hour;
       store.meetingState.startMinutes = minutes;
       navigate('CalendarMeetingEnd')

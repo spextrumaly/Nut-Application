@@ -74,7 +74,7 @@ export default class CreateMeetingEndCalendar extends Component {
               <Text style={styles.signUpText}>Pick End time</Text>
             </TouchableHighlight>
           </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={this.continue(this.state.date, this.state.hour, this.state.minutes, navigate)}>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.continue(this.state.date, this.state.hour, this.state.minutes, navigate)}>
             <Text style={styles.signUpText}>Continue</Text>
           </TouchableHighlight>
         </View>
@@ -84,10 +84,10 @@ export default class CreateMeetingEndCalendar extends Component {
 
   continue(date, hour, minutes, navigate){
     if(date){
-      store.meetingState.date = date;
-      store.meetingState.startHour = hour;
-      store.meetingState.startMinutes = minutes;
-      navigate('Calendar')
+      store.meetingState.endDate = date;
+      store.meetingState.endHour = hour;
+      store.meetingState.endMinutes = minutes;
+      navigate('LocationMeeting')
     }
   }
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
