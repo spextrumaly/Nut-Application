@@ -4,6 +4,8 @@ export const store = {
   ProjectId: '',
   TaskName: '',
   TaskId: '',
+  MeetingName: '',
+  MeetingId: '',
   projectArray: [{
     'ProjectName': 'Default',
     'date':'-',

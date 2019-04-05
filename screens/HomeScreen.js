@@ -34,7 +34,7 @@ export default class HomeScreen extends React.Component {
         this.setState(() => {
             return { unseen: "does not display" }
         });
-    }, 1000);
+    }, 3000);
   }
 
   render() {

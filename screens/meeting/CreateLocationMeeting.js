@@ -85,30 +85,23 @@ export default class LocationMeeting extends Component {
   
     for (var i = 0; i < 5; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
-    store.meetingArray.push({
-      'meetingName': store.meetingState.name,
-      'meetingDetail': store.meetingState.details,
-      'createDate': timestamp,
-      'id': text,
-      'startDate': store.meetingState.startDate.dateString,
-      'startHour': store.meetingState.startHour,
-      'startMinutes': store.meetingState.startMinutes,
-      'endDate': store.meetingState.endDate.dateString,
-      'endHour': store.meetingState.endHour,
-      'endMinutes': store.meetingState.endMinutes,
-      'status': 'join',
-      'meetingLocation': store.meetingState.location,
-    });
-    // store.newFeedArray.push({
-    //   'ProjectName': store.projectState.name,
-    //   'ProjectID': text,
-    //   'createDate': timestamp,
-    //   'id': text,
-    //   'status': 'createProject',
-    // });
-    this.setState({location:{}});
-    console.log(store.meetingArray)
-    navigate('Links');
+      store.meetingArray.push({
+        'meetingName': store.meetingState.name,
+        'meetingDetail': store.meetingState.details,
+        'createDate': timestamp,
+        'id': text,
+        'startDate': store.meetingState.startDate.dateString,
+        'startHour': store.meetingState.startHour,
+        'startMinutes': store.meetingState.startMinutes,
+        'endDate': store.meetingState.endDate.dateString,
+        'endHour': store.meetingState.endHour,
+        'endMinutes': store.meetingState.endMinutes,
+        'status': 'join',
+        'meetingLocation': store.meetingState.location,
+      });
+      this.setState({location:{}});
+      console.log(store.meetingArray)
+      navigate('Links');
   }
 }
 

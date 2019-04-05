@@ -29,14 +29,15 @@ export default class MeetingScreen extends React.Component {
         this.setState(() => {
             return { unseen: "does not display" }
         });
-    }, 1000);
+    }, 3000);
   }
     
   render() {
     const {navigate} = this.props.navigation;
     let meetings = store.meetingArray.map((val, key)=>{
         return <Meeting key={key} keyval={key} val={val}
-                deleteMethod={()=>this.deleteTask(key)}/>
+                detailMethod={() => this.detailMethod(navigate, val)}
+               />
     });
     return (
       <View style={styles.container}>
@@ -90,18 +91,10 @@ export default class MeetingScreen extends React.Component {
     this.setState({showSelect: false});
     navigate('JoinProject')
   }
-  deleteProject(key, value){
-      store.projectArray.splice(key, 1);
-      store.taskArray.map((val, key)=>{
-        if( val.ProjectName == value.ProjectName)
-          store.taskArray.splice(key, 1);
-      });
-      this.setState({projectArray: this.state.projectArray});
-  }
   detailMethod(navigate, val){
-    store.ProjectName = val.ProjectName;
-    store.ProjectId = val.id;
-    navigate('Project')
+    store.MeetingName = val.meetingName;
+    store.MeetingId = val.id;
+    navigate('Meeting')
   }
 }
 
