@@ -9,9 +9,9 @@ import {
   Alert,
   ImageBackground
 } from 'react-native';
-import { store } from '../Store/Store';
+import { connect } from 'react-redux';
 
-export default class SignUpView extends Component {
+class SignUpView extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -55,22 +55,35 @@ export default class SignUpView extends Component {
               placeholderTextColor='black'
               underlineColorAndroid='transparent'/>
           </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.continue(navigate)}>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.props.Continue(this.state.nameProject, this.state.detailProject, navigate)}>
             <Text style={styles.signUpText}>Continue</Text>
           </TouchableHighlight>
         </View>
       </ImageBackground>
     );
   }
+}
 
-  continue(navigate){
-    if(this.state.nameProject){
-      store.projectState.name = this.state.nameProject;
-      store.projectState.details = this.state.detailProject;
+function mapStateToProps(state) {
+  return {
+      projects: state.projects,
+      newfeeds: state.newfeeds
+  }
+}
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    Continue: (name, detail, navigate) => {
+      dispatch({ type: 'ADD_PROJECT_STATE',  
+        name: name, detail : detail
+      })
       navigate('Calendar')
     }
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpView)
 
 const styles = StyleSheet.create({
   container: {

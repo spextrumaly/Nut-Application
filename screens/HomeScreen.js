@@ -13,33 +13,21 @@ import {
 } from 'react-native';
 import NewFeed from '../components/NewFeed';
 import { store } from '../Store/Store';
+import { connect } from 'react-redux';
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+  
   constructor(props){
     super(props);
-    this.state = {
-        showSelect: false,
-        showCreate: false,
-        showJoin: false,
-        projectText: '',
-        projectId: '',
-        projectOwner: '',
-    };
-  }
-  componentDidMount() {
-    setInterval(() => {
-        this.setState(() => {
-            return { unseen: "does not display" }
-        });
-    }, 3000);
   }
 
   render() {
+    console.log(this.props.newfeeds)
       const {navigate} = this.props.navigation;
-      let newfeeds = store.newFeedArray.map((val, key)=>{
+      let newfeeds = this.props.newfeeds.map((val, key)=>{
           return <NewFeed key={key} keyval={key} val={val}
           detailProjectMethod={() => this.detailProjectMethod(navigate, val)}
           detailTaskMethod={() => this.detailTaskMethod(navigate, val)}
@@ -75,6 +63,15 @@ export default class HomeScreen extends React.Component {
     navigate('HomeTask')
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    newfeeds: state.newfeeds
+  }
+}
+
+export default connect(mapStateToProps, null)(HomeScreen)
+
 
 const styles = StyleSheet.create({
   container: {

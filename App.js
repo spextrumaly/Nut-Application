@@ -2,6 +2,60 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+
+const initialState = {
+  ProjectId: '',
+  TaskId: '',
+  MeetingId: '',
+  projects: [{
+    'ProjectName': 'Default',
+    'date':'-',
+    'id': 'aaaaa',
+    'status': 'join',
+  }],
+  taskArray: [],
+  meetingArray: [],
+  projectStateName: '',
+  projectStateDetail: '',
+  meetingState: {
+    name: '',
+    details: '',
+    startDate: '',
+    startHour: '',
+    startMinutes: '',
+    endHour: '',
+    endMinutes: '',
+    endDate: '',
+    location: '',
+  },
+  taskState: {
+    name: '',
+    details: '',
+  },
+  newfeeds: [],
+  checklistTaskArray: [],
+}
+
+const reducer = (state = initialState, action) => {
+  console.log(state.projects, state.newfeeds);
+  switch (action.type) {
+      case 'ADD_PROJECT_STATE':
+        return { projectStateName : action.name, projectStateDetail : action.detail}
+      case 'ADD_PROJECT':
+        return { projects: [...state.projects, action.project],
+          newfeeds: [...state.newfeeds, action.newfeed]
+        }
+      case 'DETAIL_PROJECT':
+        return {
+          ProjectId: action.id
+        }  
+  }
+  return state
+}
+
+const store = createStore(reducer)
 
 export default class App extends React.Component {
   state = {
@@ -19,10 +73,12 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
-        </View>
+        <Provider store={store}>
+          <View style={styles.container}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <AppNavigator />
+          </View>
+        </Provider>
       );
     }
   }
