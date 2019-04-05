@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 import { AsyncStorage } from 'react-native';
+import { store } from '../Store/Store';
 
 export function authUser(credential){
     firebase
@@ -47,6 +48,7 @@ export function fetchProject(uid) {
              .ref('project/'+ projectID)
              .once('value', function(snapshot) {
                 console.log(snapshot.val().name);
+                store.test = snapshot.val().name;
              });
         });
      });

@@ -65,6 +65,7 @@ export default class HomeProjectScreen extends React.Component {
                   </TouchableHighlight>
                   <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
                     onPress={() => this.joinproject(navigate)}
+                    // onPress={() => fetchProject(firebase.auth().currentUser.uid)}
                   >
                   <Text style={styles.signUpText}>Join Project</Text>
                   </TouchableHighlight>
