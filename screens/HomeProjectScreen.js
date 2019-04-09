@@ -13,11 +13,11 @@ import {
 import Project from '../components/Project';
 import { connect } from 'react-redux'
 
-
 class HomeProjectScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
   constructor(props){
     super(props);
     this.state = {

@@ -25,7 +25,7 @@ class HomeScreen extends React.Component {
   }
 
   render() {
-    console.log(this.props.newfeeds)
+    console.log("Home newfeed", this.props.newfeeds)
       const {navigate} = this.props.navigation;
       let newfeeds = this.props.newfeeds.map((val, key)=>{
           return <NewFeed key={key} keyval={key} val={val}
@@ -70,7 +70,7 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(HomeScreen)
+export default connect(mapStateToProps)(HomeScreen)
 
 
 const styles = StyleSheet.create({

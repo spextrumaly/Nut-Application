@@ -13,12 +13,13 @@ import Task from '../components/Task';
 import { store } from '../Store/Store';
 import moment from "moment";
 import { fetchProject } from './../src/codeNshit';
-export default class ProjectScreen extends React.Component {
+import { connect } from 'react-redux'
 
-  
+class ProjectScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
   constructor(props){
     super(props);
     this.state = {
@@ -26,27 +27,33 @@ export default class ProjectScreen extends React.Component {
         taskOwner: '',
     };
   }
-  componentDidMount() {
 
-    
-    setInterval(() => {
-      console.log(fetchProject);
-        this.setState(() => {
-            return { unseen: "does not display" }
-        });
-    }, 3000);
-  }
   render() {
       const {navigate} = this.props.navigation;
-      store.taskArray.map((val, key)=>{
+      console.log("Home Project : ", this.props.projects)
+      console.log("Task : ", this.props.tasks)
+      let id = this.props.projects.map((val) => {
+        if(val.id == this.props.ProjectId) {
+          return val.id
+        }
+      })
+
+      let name = this.props.projects.map((val) => {
+        if(val.id == this.props.ProjectId) {
+          return val.ProjectName
+        }
+      })
+
+      this.props.tasks.map((val, key)=>{
         if( moment().isAfter(val.deadlineDate)){
           if(val.status == 'active') {
             val.status = 'late'
           }
         }
       });
-      let activeTasks = store.taskArray.map((val, key)=>{
-        if( val.ProjectID == store.ProjectId){
+
+      let activeTasks = this.props.tasks.map((val, key)=>{
+        if( val.ProjectID == this.props.ProjectId){
           if(val.status == 'active') {
             return <Task key={key} keyval={key} val={val}
             deleteMethod={()=>this.deleteTask(key)}
@@ -55,8 +62,9 @@ export default class ProjectScreen extends React.Component {
           }
         }
       });
-      let lateTasks = store.taskArray.map((val, key)=>{
-        if( val.ProjectID == store.ProjectId){
+
+      let lateTasks = this.props.tasks.map((val, key)=>{
+        if( val.ProjectID == this.props.ProjectId){
           if(val.status == 'late') {
             return <Task key={key} keyval={key} val={val}
             deleteMethod={()=>this.deleteTask(key)}
@@ -65,8 +73,9 @@ export default class ProjectScreen extends React.Component {
           }
         }
       });
-      let doneTasks = store.taskArray.map((val, key)=>{
-        if( val.ProjectID == store.ProjectId){
+
+      let doneTasks = this.props.tasks.map((val, key)=>{
+        if( val.ProjectID == this.props.ProjectId){
           if(val.status == 'done') {
             return <Task key={key} keyval={key} val={val}
             deleteMethod={()=>this.deleteTask(key)}
@@ -75,17 +84,15 @@ export default class ProjectScreen extends React.Component {
           }
         }
       });
-      let id = store.projectArray.map((val, key)=>{
-        if( val.id == store.ProjectId)
-          return val.id
-      });
+
       let screenWidth = Dimensions.get('window').width;
+
       return (
           <View style={styles.container}>
               <View style={styles.task}>
                 <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
                 <View>
-                  <Text style={styles.taskText}>{store.ProjectName}</Text>
+                  <Text style={styles.taskText}>{name}</Text>
                   <Text style={styles.taskSubText}>id : {id}</Text>
                   <TouchableOpacity onPress={() => this.deleteProject(navigate)} style={styles.projectDelete}>
                     <Text style={styles.projectDeleteText}>Delete</Text>
@@ -151,6 +158,16 @@ export default class ProjectScreen extends React.Component {
     navigate('HomeTask')
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    tasks: state.tasks,
+    projects: state.projects,
+    ProjectId: state.ProjectId,
+  }
+}
+
+export default connect(mapStateToProps)(ProjectScreen)
 
 const styles = StyleSheet.create({
   container: {

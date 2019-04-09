@@ -10,8 +10,9 @@ import {
   ImageBackground
 } from 'react-native';
 import { store } from '../../Store/Store';
+import { connect } from 'react-redux';
 
-export default class CreateMeeting extends Component {
+class CreateMeeting extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -55,7 +56,7 @@ export default class CreateMeeting extends Component {
               placeholderTextColor='black'
               underlineColorAndroid='transparent'/>
           </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.continue(navigate)}>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.props.Continue(this.state.nameMeeting, this.state.detailMeeting, navigate)}>
             <Text style={styles.signUpText}>Continue</Text>
           </TouchableHighlight>
         </View>
@@ -63,14 +64,28 @@ export default class CreateMeeting extends Component {
     );
   }
 
-  continue(navigate){
-    if(this.state.nameMeeting){
-      store.meetingState.name = this.state.nameMeeting;
-      store.meetingState.details = this.state.detailMeeting;
+  // continue(navigate){
+  //   if(this.state.nameMeeting){
+  //     store.meetingState.name = this.state.nameMeeting;
+  //     store.meetingState.details = this.state.detailMeeting;
+  //     navigate('CalendarMeeting')
+  //   }
+  // }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    Continue: (name, detail, navigate) => {
+      dispatch({ type: 'ADD_MEETING_STATE',
+        name: name, detail : detail
+      })
       navigate('CalendarMeeting')
     }
   }
 }
+
+export default connect(null, mapDispatchToProps)(CreateMeeting)
+
 
 const styles = StyleSheet.create({
   container: {

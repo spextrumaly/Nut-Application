@@ -12,8 +12,9 @@ import {
 import { Calendar } from 'react-native-calendars';
 import { store } from '../Store/Store';
 import moment from "moment";
+import { connect } from 'react-redux'
 
-export default class CalendarScreen extends Component {
+class CalendarScreenTask extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -55,47 +56,57 @@ export default class CalendarScreen extends Component {
             }}
             onDayPress={(day) => {this.setState({date:day})}}
           />
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.addTask(this.state.date, navigate)}>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.addTask(this.state.date, this.props.taskStateName, this.props.taskStateDetail, this.props.ProjectId, navigate)}>
             <Text style={styles.signUpText}>Add Task</Text>
           </TouchableHighlight>
         </View>
       </ImageBackground>
     );
   }
+}
 
-  addTask(date, navigate){
-    var timestamp = moment().format();
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (var i = 0; i < 5; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    if(date){
-      var d = new Date();
-      store.taskArray.push({
-        'ProjectName': store.ProjectName,
-        'ProjectID': store.ProjectId,
-        'createDate': timestamp,
-        'task': store.taskState.name,
-        'id': text,
-        'description': store.taskState.details,
-        'status': 'active',
-        'deadlineDate': date.dateString,
-      });
-      store.newFeedArray.push({
-        'ProjectName': store.ProjectName,
-        'ProjectID': store.ProjectID,
-        'task': store.taskState.name,
-        'createDate': timestamp,
-        'id': text,
-        'status': 'createTask',
-      });
-      this.setState({date:''});
-      store.TaskName = store.taskState.name;
-      store.TaskId = text;
-      navigate('HomeTask');
+function mapStateToProps(state) {
+  return {
+    tasks: state.tasks,
+    taskStateName: state.taskStateName,
+    taskStateDetail: state.taskStateDetail,
+    ProjectId: state.ProjectId
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  var timestamp = moment().format();
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return {
+    addTask: (date, name, detail, projectId, navigate) => {
+      dispatch({ type: 'ADD_TASK',  
+        task: {
+          'ProjectName': name,
+          'ProjectID': projectId,
+          'createDate': timestamp,
+          'task': name,
+          'id': text,
+          'description': detail,
+          'status': 'active',
+          'deadlineDate': date.dateString,
+        }, newfeed : {
+          'ProjectID': projectId,
+          'task': name,
+          'createDate': timestamp,
+          'id': text,
+          'status': 'createTask',
+        }
+      })
+      navigate('Project');
     }
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(CalendarScreenTask)
 
 const styles = StyleSheet.create({
   container: {

@@ -9,13 +9,14 @@ import {
   Alert,
   ImageBackground
 } from 'react-native';
+import { connect } from 'react-redux';
 
 import { Calendar } from 'react-native-calendars';
 import { store } from '../../Store/Store';
 import moment from "moment";
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
-export default class CreateMeetingEndCalendar extends Component {
+class CreateMeetingEndCalendar extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -74,7 +75,7 @@ export default class CreateMeetingEndCalendar extends Component {
               <Text style={styles.signUpText}>Pick End time</Text>
             </TouchableHighlight>
           </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.continue(this.state.date, this.state.hour, this.state.minutes, navigate)}>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.Continue(this.state.date, this.state.hour, this.state.minutes, navigate)}>
             <Text style={styles.signUpText}>Continue</Text>
           </TouchableHighlight>
         </View>
@@ -82,14 +83,14 @@ export default class CreateMeetingEndCalendar extends Component {
     );
   }
 
-  continue(date, hour, minutes, navigate){
-    if(date){
-      store.meetingState.endDate = date;
-      store.meetingState.endHour = hour;
-      store.meetingState.endMinutes = minutes;
-      navigate('LocationMeeting')
-    }
-  }
+  // continue(date, hour, minutes, navigate){
+  //   if(date){
+  //     store.meetingState.endDate = date;
+  //     store.meetingState.endHour = hour;
+  //     store.meetingState.endMinutes = minutes;
+  //     navigate('LocationMeeting')
+  //   }
+  // }
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
@@ -101,6 +102,19 @@ export default class CreateMeetingEndCalendar extends Component {
     this._hideDateTimePicker();
   };
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    Continue: (date, hour, minutes, navigate) => {
+      dispatch({ type: 'ADD_MEETING_END_STATE',
+        date: date, hour : hour, minutes: minutes
+      })
+      navigate('LocationMeeting')
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(CreateMeetingEndCalendar)
 
 const styles = StyleSheet.create({
   container: {

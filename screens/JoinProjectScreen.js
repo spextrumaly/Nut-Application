@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { store } from '../Store/Store';
 
-export default class SignUpView extends Component {
+export default class JoinProjectScreen extends Component {
   static navigationOptions = {
     header: null,
   };

@@ -15,44 +15,73 @@ const initialState = {
     'id': 'aaaaa',
     'status': 'join',
   }],
-  taskArray: [],
-  meetingArray: [],
+  tasks: [],
+  meetings: [],
   projectStateName: '',
   projectStateDetail: '',
-  meetingState: {
-    name: '',
-    details: '',
-    startDate: '',
-    startHour: '',
-    startMinutes: '',
-    endHour: '',
-    endMinutes: '',
-    endDate: '',
-    location: '',
-  },
-  taskState: {
-    name: '',
-    details: '',
-  },
+  meetingStateName: '',
+  meetingStateDetail: '',
+  meetingStateStartDate: '',
+  meetingStateStartHour: '',
+  meetingStateStartMinutes: '',
+  meetingStateEndDate: '',
+  meetingStateEndHour: '',
+  meetingStateEndMinutes: '',
+  meetingStateLocation: '',
+  taskStateName: '',
+  taskStateDetail: '',
   newfeeds: [],
   checklistTaskArray: [],
 }
 
 const reducer = (state = initialState, action) => {
-  console.log(state.projects, state.newfeeds);
   switch (action.type) {
-      case 'ADD_PROJECT_STATE':
-        return { projectStateName : action.name, projectStateDetail : action.detail}
-      case 'ADD_PROJECT':
-        return { projects: [...state.projects, action.project],
-          newfeeds: [...state.newfeeds, action.newfeed]
-        }
-      case 'DETAIL_PROJECT':
-        return {
-          ProjectId: action.id
-        }  
+    case 'ADD_PROJECT_STATE':
+      return Object.assign({}, state, {
+        projectStateName : action.name, projectStateDetail : action.detail
+      })
+    case 'ADD_TASK_STATE':
+      return Object.assign({}, state, {
+        taskStateName : action.name, taskStateDetail : action.detail
+      })
+    case 'ADD_MEETING_STATE':
+      return Object.assign({}, state, {
+        meetingStateName : action.name, meetingStateDetail : action.detail
+      })
+    case 'ADD_MEETING_START_STATE':
+      return Object.assign({}, state, {
+        meetingStateStartDate : action.date,
+        meetingStateStartHour : action.hour,
+        meetingStateStartMinutes : action.minutes
+      })
+    case 'ADD_MEETING_END_STATE':
+      return Object.assign({}, state, {
+        meetingStateEndDate : action.date,
+        meetingStateEndHour : action.hour,
+        meetingStateEndMinutes : action.minutes
+      })
+    case 'ADD_MEETING_LOCATION_STATE':
+      return Object.assign({}, state, {
+        meetingStateLocation : action.location
+      })
+    case 'ADD_MEETING':
+      return { meetings: [...state.meetings, action.meeting]
+      }
+    case 'ADD_PROJECT':
+      return { projects: [...state.projects, action.project],
+        newfeeds: [...state.newfeeds, action.newfeed]
+      }
+    case 'ADD_TASK':
+      return { tasks: [...state.tasks, action.task],
+        newfeeds: [...state.newfeeds, action.newfeed]
+      }
+    case 'DETAIL_PROJECT':
+      return Object.assign({}, state, {
+        ProjectId: action.id
+      })
+    default:
+      return state
   }
-  return state
 }
 
 const store = createStore(reducer)

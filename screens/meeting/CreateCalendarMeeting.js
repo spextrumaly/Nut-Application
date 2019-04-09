@@ -9,12 +9,12 @@ import {
   Alert,
   ImageBackground
 } from 'react-native';
+import { connect } from 'react-redux';
 
 import { Calendar } from 'react-native-calendars';
-import { store } from '../../Store/Store';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
-export default class CreateMeetingCalendar extends Component {
+class CreateMeetingCalendar extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -73,7 +73,7 @@ export default class CreateMeetingCalendar extends Component {
               <Text style={styles.signUpText}>Pick Start time</Text>
             </TouchableHighlight>
           </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.continue(this.state.date, this.state.hour, this.state.minutes, navigate)}>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.Continue(this.state.date, this.state.hour, this.state.minutes, navigate)}>
             <Text style={styles.signUpText}>Continue</Text>
           </TouchableHighlight>
         </View>
@@ -81,14 +81,14 @@ export default class CreateMeetingCalendar extends Component {
     );
   }
 
-  continue(date, hour, minutes, navigate){
-    if(date){
-      store.meetingState.startDate = date;
-      store.meetingState.startHour = hour;
-      store.meetingState.startMinutes = minutes;
-      navigate('CalendarMeetingEnd')
-    }
-  }
+  // continue(date, hour, minutes, navigate){
+  //   if(date){
+  //     store.meetingState.startDate = date;
+  //     store.meetingState.startHour = hour;
+  //     store.meetingState.startMinutes = minutes;
+  //     navigate('CalendarMeetingEnd')
+  //   }
+  // }
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
@@ -100,6 +100,19 @@ export default class CreateMeetingCalendar extends Component {
     this._hideDateTimePicker();
   };
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    Continue: (date, hour, minutes, navigate) => {
+      dispatch({ type: 'ADD_MEETING_START_STATE',
+        date: date, hour : hour, minutes: minutes
+      })
+      navigate('CalendarMeetingEnd')
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(CreateMeetingCalendar)
 
 const styles = StyleSheet.create({
   container: {

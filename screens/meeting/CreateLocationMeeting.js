@@ -3,8 +3,9 @@ import { View, Image, Text, ImageBackground, StyleSheet, TouchableHighlight} fro
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { store } from '../../Store/Store';
 import moment from "moment";
+import { connect } from 'react-redux';
 
-export default class LocationMeeting extends Component {
+class LocationMeeting extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -29,8 +30,7 @@ export default class LocationMeeting extends Component {
               fetchDetails={true}
               onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
                 // this.setState({location: data});
-                store.meetingState.location = data.description;
-                console.log(data, details);
+                this.props.AddLocation(data.description);
               }}
               styles={{
                 container: {
@@ -70,7 +70,7 @@ export default class LocationMeeting extends Component {
               types: 'food'
             }}
           />      
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.addMeeting(this.state.location, navigate)}>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.AddMeeting(this.props.meetingStateName, this.props.meetingStateDetail, this.props.meetingStateStartDate, this.props.meetingStateStartHour, this.props.meetingStateStartMinutes, this.props.meetingStateEndDate, this.props.meetingStateEndHour, this.props.meetingStateEndMinutes, this.props.meetingStateLocation, navigate)}>
             <Text style={styles.signUpText}>Add Meeting</Text>
           </TouchableHighlight>
         </View>
@@ -78,32 +78,84 @@ export default class LocationMeeting extends Component {
     );
   }
 
-  addMeeting(location, navigate) {
-    var timestamp = moment().format();
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  // addMeeting(location, navigate) {
+  //   var timestamp = moment().format();
+  //   var text = "";
+  //   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   
-    for (var i = 0; i < 5; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-      store.meetingArray.push({
-        'meetingName': store.meetingState.name,
-        'meetingDetail': store.meetingState.details,
-        'createDate': timestamp,
-        'id': text,
-        'startDate': store.meetingState.startDate.dateString,
-        'startHour': store.meetingState.startHour,
-        'startMinutes': store.meetingState.startMinutes,
-        'endDate': store.meetingState.endDate.dateString,
-        'endHour': store.meetingState.endHour,
-        'endMinutes': store.meetingState.endMinutes,
-        'status': 'join',
-        'meetingLocation': store.meetingState.location,
-      });
-      this.setState({location:{}});
-      console.log(store.meetingArray)
-      navigate('Links');
+  //   for (var i = 0; i < 5; i++)
+  //     text += possible.charAt(Math.floor(Math.random() * possible.length));
+  //   store.meetingArray.push({
+  //     'meetingName': store.meetingState.name,
+  //     'meetingDetail': store.meetingState.details,
+  //     'createDate': timestamp,
+  //     'id': text,
+  //     'startDate': store.meetingState.startDate.dateString,
+  //     'startHour': store.meetingState.startHour,
+  //     'startMinutes': store.meetingState.startMinutes,
+  //     'endDate': store.meetingState.endDate.dateString,
+  //     'endHour': store.meetingState.endHour,
+  //     'endMinutes': store.meetingState.endMinutes,
+  //     'status': 'join',
+  //     'meetingLocation': store.meetingState.location,
+  //   });
+  //   this.setState({location:{}});
+  //   navigate('Links');
+  // }
+}
+
+function mapStateToProps(state) {
+  return {
+    meetingStateName: state.meetingStateName,
+    meetingStateDetail: state.meetingStateDetail,
+    meetingStateStartDate: state.meetingStateStartDate,
+    meetingStateStartHour: state.meetingStateStartHour,
+    meetingStateStartMinutes: state.meetingStateStartMinutes,
+    meetingStateEndDate: state.meetingStateEndDate,
+    meetingStateEndHour: state.meetingStateEndHour,
+    meetingStateEndMinutes: state.meetingStateEndMinutes,
+    meetingStateLocation: state.meetingStateLocation,
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  var timestamp = moment().format();
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return {
+    AddMeeting: (name, detail, startDate, startHour, startMinutes, endDate, endHour, endMinutes, location, navigate) => {
+      dispatch({ type: 'ADD_MEETING',
+        meeting: {
+          'meetingName': name,
+          'meetingDetail': detail,
+          'createDate': timestamp,
+          'id': text,
+          'startDate': startDate.dateString,
+          'startHour': startHour,
+          'startMinutes': startMinutes,
+          'endDate': endDate.dateString,
+          'endHour': endHour,
+          'endMinutes': endMinutes,
+          'status': 'join',
+          'meetingLocation': location,
+        }
+      })
+      this.setState({location:{}});
+      navigate('Links');
+    },
+    AddLocation: (location) => {
+      dispatch({ type: 'ADD_MEETING_LOCATION_STATE',
+        location: location
+      })
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LocationMeeting)
+
 
 const styles = StyleSheet.create({
   container: {

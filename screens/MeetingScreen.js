@@ -10,8 +10,9 @@ import {
 } from 'react-native';
 import Meeting from '../components/Meeting';
 import { store } from '../Store/Store';
+import { connect } from 'react-redux'
 
-export default class MeetingScreen extends React.Component {
+class MeetingScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -23,18 +24,11 @@ export default class MeetingScreen extends React.Component {
       showJoin: false,
     };
   }
-
-  componentDidMount() {
-    setInterval(() => {
-        this.setState(() => {
-            return { unseen: "does not display" }
-        });
-    }, 3000);
-  }
     
   render() {
+    console.log("MEETING :", this.props.meetings)
     const {navigate} = this.props.navigation;
-    let meetings = store.meetingArray.map((val, key)=>{
+    let meetings = this.props.meetings.map((val, key)=>{
         return <Meeting key={key} keyval={key} val={val}
                 detailMethod={() => this.detailMethod(navigate, val)}
                />
@@ -97,6 +91,14 @@ export default class MeetingScreen extends React.Component {
     navigate('Meeting')
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    meetings: state.meetings,
+  }
+}
+
+export default connect(mapStateToProps)(MeetingScreen)
 
 const styles = StyleSheet.create({
   container: {

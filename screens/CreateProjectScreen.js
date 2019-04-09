@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-class SignUpView extends Component {
+class CreateProjectScreen extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -64,14 +64,6 @@ class SignUpView extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-      projects: state.projects,
-      newfeeds: state.newfeeds
-  }
-}
-
-
 function mapDispatchToProps(dispatch) {
   return {
     Continue: (name, detail, navigate) => {
@@ -83,7 +75,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpView)
+export default connect(null, mapDispatchToProps)(CreateProjectScreen)
 
 const styles = StyleSheet.create({
   container: {
