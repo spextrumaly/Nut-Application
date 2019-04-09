@@ -10,10 +10,10 @@ import {
   ImageBackground
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-import { store } from '../Store/Store';
 import moment from "moment";
+import { connect } from 'react-redux'
 
-export default class CalendarScreen extends Component {
+class CalendarScreen extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -55,42 +55,55 @@ export default class CalendarScreen extends Component {
             }}
             onDayPress={(day) => {this.setState({date:day})}}
           />
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.addProject(this.state.date, navigate)}>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.AddProject(this.state.date, this.props.projectStateName, this.props.projectStateDetail, navigate)}>
             <Text style={styles.signUpText}>Add Project</Text>
           </TouchableHighlight>
         </View>
       </ImageBackground>
     );
   }
+}
 
-  addProject(date, navigate) {
-    var timestamp = moment().format();
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
-    for (var i = 0; i < 5; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    store.projectArray.push({
-      'ProjectName': store.projectState.name,
-      'projectDetail': store.projectState.details,
-      'createDate': timestamp,
-      'id': text,
-      'deadlineDate': date.dateString,
-      'status': 'join',
-    });
-    store.newFeedArray.push({
-      'ProjectName': store.projectState.name,
-      'ProjectID': text,
-      'createDate': timestamp,
-      'id': text,
-      'status': 'createProject',
-    });
-    this.setState({date:''});
-    store.projectState.name = '';
-    store.projectState.details = '';
-    navigate('HomeProject');
+function mapStateToProps(state) {
+  return {
+      projects: state.projects,
+      projectStateName: state.projectStateName,
+      projectStateDetail: state.projectStateDetail,
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  var timestamp = moment().format();
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return {
+    AddProject: (date, name, detail, navigate) => {
+      dispatch({ type: 'ADD_PROJECT',  
+        project: {
+          'ProjectName': name,
+          'projectDetail':detail,
+          'createDate': timestamp,
+          'id': text,
+          'deadlineDate': date.dateString,
+          'status': 'join',
+        }, newfeed : {
+          'ProjectName': name,
+          'ProjectID': text,
+          'createDate': timestamp,
+          'id': text,
+          'status': 'createProject',
+        }
+      })
+      navigate('HomeProject');
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CalendarScreen)
+
 
 const styles = StyleSheet.create({
   container: {

@@ -11,38 +11,29 @@ import {
   Image
 } from 'react-native';
 import Project from '../components/Project';
-import { store } from '../Store/Store';
+import { connect } from 'react-redux'
 
-export default class HomeProjectScreen extends React.Component {
+class HomeProjectScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
   constructor(props){
     super(props);
     this.state = {
         showSelect: false,
         showCreate: false,
         showJoin: false,
-        projectText: '',
-        projectId: '',
-        projectOwner: '',
     };
-  }
-  componentDidMount() {
-    setInterval(() => {
-        this.setState(() => {
-            return { unseen: "does not display" }
-        });
-    }, 1000);
   }
 
   render() {
       const {navigate} = this.props.navigation;
-      let projects = store.projectArray.map((val, key)=>{
+      let projects = this.props.projects.map((val, key)=>{
         if(val.status == 'join')
           return <Project key={key} keyval={key} val={val}
           deleteMethod={()=>this.deleteProject(key, val)}
-          detailMethod={() => this.detailMethod(navigate, val)}
+          detailMethod={() => this.props.detailMethod(navigate, val)}
           />
       });
       return (
@@ -68,6 +59,7 @@ export default class HomeProjectScreen extends React.Component {
                   </TouchableHighlight>
                   <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
                     onPress={() => this.joinproject(navigate)}
+                    // onPress={() => fetchProject(firebase.auth().currentUser.uid)}
                   >
                   <Text style={styles.signUpText}>Join Project</Text>
                   </TouchableHighlight>
@@ -82,6 +74,7 @@ export default class HomeProjectScreen extends React.Component {
           </View>
       );
   }
+
   addproject(){
     if(this.state.showSelect == true) {
       this.setState({showSelect: false});
@@ -89,28 +82,37 @@ export default class HomeProjectScreen extends React.Component {
       this.setState({showSelect: true});
     }
   }
+
   createproject(navigate){
     this.setState({showSelect: false});
     navigate('CreateProject')
   }
+
   joinproject(navigate){
     this.setState({showSelect: false});
     navigate('JoinProject')
   }
-  deleteProject(key, value){
-      store.projectArray.splice(key, 1);
-      store.taskArray.map((val, key)=>{
-        if( val.ProjectName == value.ProjectName)
-          store.taskArray.splice(key, 1);
-      });
-      this.setState({projectArray: this.state.projectArray});
-  }
-  detailMethod(navigate, val){
-    store.ProjectName = val.ProjectName;
-    store.ProjectId = val.id;
-    navigate('Project')
+}
+
+function mapStateToProps(state) {
+  return {
+      projects: state.projects
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    detailMethod: (navigate, val) => {
+      dispatch({ type: 'DETAIL_PROJECT',  
+        id: val.id
+      })
+      navigate('Project')
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeProjectScreen)
+
 
 const styles = StyleSheet.create({
   container: {

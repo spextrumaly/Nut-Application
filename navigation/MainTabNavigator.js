@@ -4,7 +4,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/TaskScreen';
+import LinksScreen from '../screens/MeetingScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ProjectScreen from '../screens/ProjectScreen';
 import CreateProjectScreen from '../screens/CreateProjectScreen';
@@ -14,6 +14,11 @@ import CalendarScreen from '../screens/CreateCalendarProjectScreen';
 import HomeProjectScreen from '../screens/HomeProjectScreen';
 import HomeTaskScreen from '../screens/HomeTaskScreen';
 import CalendarTaskScreen from '../screens/CreateCalendarTaskScreen';
+import CreateMeetingScreen from '../screens/meeting/CreateMeetingScreen'
+import CalendarMeetingScreen from '../screens/meeting/CreateCalendarMeeting'
+import CalendarMeetingEndScreen from '../screens/meeting/CreateCalendarEndMeeting'
+import LocationMeetingScreen from '../screens/meeting/CreateLocationMeeting'
+import MeetingScreen from '../screens/meeting/HomeMeetingScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -66,12 +71,15 @@ ProjectStack.navigationOptions = {
 
 const LinksStack = createStackNavigator({
   Links: LinksScreen,
-  Project: ProjectScreen,
-  CreateTask: CreateTaskScreen,
+  Meeting: MeetingScreen,
+  CreateMeeting: CreateMeetingScreen,
+  CalendarMeeting: CalendarMeetingScreen,
+  CalendarMeetingEnd: CalendarMeetingEndScreen,
+  LocationMeeting: LocationMeetingScreen,
 });
 
 LinksStack.navigationOptions = {
-  tabBarLabel: 'Task',
+  tabBarLabel: 'Meeting',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}

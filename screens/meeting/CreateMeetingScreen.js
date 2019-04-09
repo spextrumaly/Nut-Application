@@ -9,24 +9,25 @@ import {
   Alert,
   ImageBackground
 } from 'react-native';
+import { store } from '../../Store/Store';
 import { connect } from 'react-redux';
 
-class CreateProjectScreen extends Component {
+class CreateMeeting extends Component {
   static navigationOptions = {
     header: null,
   };
   constructor(props) {
     super(props);
     this.state = {
-      nameProject: '',
-      detailProject: '',
+      nameMeeting: '',
+      detailMeeting: '',
     }
   }
 
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
+      <ImageBackground source={require('../../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
         {/* <Text style={styles.textStep}>
           STEP 1/2
         </Text> */}
@@ -34,48 +35,57 @@ class CreateProjectScreen extends Component {
           {/* <Text style={styles.textHeader}>
             What is your project ?
           </Text> */}
-          <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../assets/images/topic.png')}/>
+          <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../../assets/images/topic.png')}/>
           <View style={styles.inputContainer}>
-            <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+            <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder='Project Name :'
-              onChangeText={(nameProject)=> this.setState({nameProject})}
-              value={this.state.nameProject}
+              placeholder='Meeting Name :'
+              onChangeText={(nameMeeting)=> this.setState({nameMeeting})}
+              value={this.state.nameMeeting}
               placeholderTextColor='black'
               underlineColorAndroid='transparent'/>
           </View>
           <View style={styles.inputContainer}>
-            <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+            <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder='Project Detail :'
-              onChangeText={(detailProject)=> this.setState({detailProject})}
-              value={this.state.detailProject}
+              placeholder='Meeting Detail :'
+              onChangeText={(detailMeeting)=> this.setState({detailMeeting})}
+              value={this.state.detailMeeting}
               placeholderTextColor='black'
               underlineColorAndroid='transparent'/>
           </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.props.Continue(this.state.nameProject, this.state.detailProject, navigate)}>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.props.Continue(this.state.nameMeeting, this.state.detailMeeting, navigate)}>
             <Text style={styles.signUpText}>Continue</Text>
           </TouchableHighlight>
         </View>
       </ImageBackground>
     );
   }
+
+  // continue(navigate){
+  //   if(this.state.nameMeeting){
+  //     store.meetingState.name = this.state.nameMeeting;
+  //     store.meetingState.details = this.state.detailMeeting;
+  //     navigate('CalendarMeeting')
+  //   }
+  // }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     Continue: (name, detail, navigate) => {
-      dispatch({ type: 'ADD_PROJECT_STATE',  
+      dispatch({ type: 'ADD_MEETING_STATE',
         name: name, detail : detail
       })
-      navigate('Calendar')
+      navigate('CalendarMeeting')
     }
   }
 }
 
-export default connect(null, mapDispatchToProps)(CreateProjectScreen)
+export default connect(null, mapDispatchToProps)(CreateMeeting)
+
 
 const styles = StyleSheet.create({
   container: {

@@ -8,23 +8,23 @@ import {
 } from 'react-native';
 import moment from "moment";
 
-export default class Project extends React.Component {
+export default class Meeting extends React.Component {
   render() {
     return (
-        <View key={this.props.keyval} style={styles.project}>
-          <TouchableOpacity onPress={this.props.detailMethod}>
-            <View style={styles.headCard}>
-              <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
-              <View>
-                <Text style={styles.projectNameText}>{this.props.val.ProjectName}</Text>
-                <Text style={styles.projectOwnerText}>Undefind User</Text>
-              </View>
-              <View style={styles.bodyDeadline}>
-                <Text style={styles.projectText}>Deadline : {this.countDown(this.props.val.deadlineDate,this.props.val.createDate)}</Text>
-              </View>
+      <View key={this.props.keyval} style={styles.project}>
+        <TouchableOpacity onPress={this.props.detailMethod}>
+          <View style={styles.headCard}>
+            <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+            <View>
+              <Text style={styles.projectNameText}>{this.props.val.meetingName}</Text>
+              <Text style={styles.projectOwnerText}>Undefind User</Text>
             </View>
-          </TouchableOpacity>
-        </View>
+            <View style={styles.bodyDeadline}>
+              <Text style={styles.projectText}>Deadline : {this.countDown(this.props.val.startDate,this.props.val.createDate)}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
     );
   }
 

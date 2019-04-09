@@ -1,8 +1,11 @@
 export const store = {
+  test: '',
   ProjectName: '',
   ProjectId: '',
   TaskName: '',
   TaskId: '',
+  MeetingName: '',
+  MeetingId: '',
   projectArray: [{
     'ProjectName': 'Default',
     'date':'-',
@@ -10,9 +13,21 @@ export const store = {
     'status': 'join',
   }],
   taskArray: [],
+  meetingArray: [],
   projectState: {
     name: '',
     details: '',
+  },
+  meetingState: {
+    name: '',
+    details: '',
+    startDate: '',
+    startHour: '',
+    startMinutes: '',
+    endHour: '',
+    endMinutes: '',
+    endDate: '',
+    location: '',
   },
   taskState: {
     name: '',

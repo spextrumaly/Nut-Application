@@ -9,8 +9,9 @@ import {
   ImageBackground
 } from 'react-native';
 import { store } from '../Store/Store';
+import { connect } from 'react-redux';
 
-export default class SignUpView extends Component {
+class CreateTaskScreen extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -47,52 +48,27 @@ export default class SignUpView extends Component {
               placeholderTextColor='black'
               underlineColorAndroid='transparent'/>
           </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.continue(navigate)}>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.props.Continue(this.state.taskName, this.state.taskDetails, navigate)}>
             <Text style={styles.signUpText}>Continue</Text>
           </TouchableHighlight>
         </View>
       </ImageBackground>
     );
   }
-    continue(navigate){
-      if(this.state.taskName){
-        store.taskState.name = this.state.taskName;
-        store.taskState.details = this.state.taskDetails;
-        navigate('CalendarTask')
-      }
-    }
-
-  // addTask(goBack){
-  //   var timestamp = moment().format();
-  //   var text = "";
-  //   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  //   for (var i = 0; i < 5; i++)
-  //     text += possible.charAt(Math.floor(Math.random() * possible.length));
-  //   if(this.state.taskName || this.setState.taskDetails){
-  //       var d = new Date();
-  //       store.taskArray.push({
-  //         'ProjectName': store.ProjectName,
-  //         'ProjectID': store.ProjectId,
-  //         'createDate': timestamp,
-  //         'task': this.state.taskName,
-  //         'id': text,
-  //         'owner': this.state.taskDetails,
-  //         'status': 'active',
-  //       });
-  //       store.newFeedArray.push({
-  //         'ProjectName': store.ProjectName,
-  //         'ProjectID': store.ProjectID,
-  //         'task': this.state.taskName,
-  //         'createDate': timestamp,
-  //         'id': text,
-  //         'status': 'createTask',
-  //       });
-  //       this.setState({taskName:''});
-  //       this.setState({taskDetails:''});
-  //       goBack();
-  //   }
-  // }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    Continue: (name, detail, navigate) => {
+      dispatch({ type: 'ADD_TASK_STATE',  
+        name: name, detail : detail
+      })
+      navigate('CalendarTask')
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(CreateTaskScreen)
 
 const styles = StyleSheet.create({
   container: {

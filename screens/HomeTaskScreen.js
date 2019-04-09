@@ -39,7 +39,7 @@ export default class HomeTaskScreen extends React.Component {
       const checklistSuccess = checklist.filter(val => val.checked).length
       this.setState(prevState => ({ ...prevState, checklistLength, checklistSuccess }), () => {
       })
-    }, 1000);
+    }, 3000);
   }
 
   render() {
