@@ -12,7 +12,6 @@ import {
 import Task from '../components/Task';
 import { store } from '../Store/Store';
 import moment from "moment";
-import { fetchProject } from './../src/codeNshit';
 import { connect } from 'react-redux'
 
 class ProjectScreen extends React.Component {

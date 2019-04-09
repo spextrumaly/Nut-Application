@@ -3,14 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableHighlight,
   Image,
-  Alert,
   ImageBackground
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-import { store } from '../Store/Store';
 import moment from "moment";
 import { connect } from 'react-redux'
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, Text, ImageBackground, StyleSheet, TouchableHighlight} from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { store } from '../../Store/Store';
 import moment from "moment";
 import { connect } from 'react-redux';
 
@@ -143,7 +142,6 @@ function mapDispatchToProps(dispatch) {
           'meetingLocation': location,
         }
       })
-      this.setState({location:{}});
       navigate('Links');
     },
     AddLocation: (location) => {

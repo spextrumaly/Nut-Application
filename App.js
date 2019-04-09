@@ -65,15 +65,21 @@ const reducer = (state = initialState, action) => {
         meetingStateLocation : action.location
       })
     case 'ADD_MEETING':
-      return { meetings: [...state.meetings, action.meeting]
+      return { 
+        ...state,
+        meetings: [state.meetings, action.meeting]
       }
     case 'ADD_PROJECT':
-      return { projects: [...state.projects, action.project],
-        newfeeds: [...state.newfeeds, action.newfeed]
+      return { 
+        ...state,
+        projects: [...state.projects, action.project],
+        newfeeds: [state.newfeeds, action.newfeed]
       }
     case 'ADD_TASK':
-      return { tasks: [...state.tasks, action.task],
-        newfeeds: [...state.newfeeds, action.newfeed]
+      return { 
+        ...state,
+        tasks: [state.tasks, action.task],
+        newfeeds: [state.newfeeds, action.newfeed]
       }
     case 'DETAIL_PROJECT':
       return Object.assign({}, state, {
