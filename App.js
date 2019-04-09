@@ -67,19 +67,19 @@ const reducer = (state = initialState, action) => {
     case 'ADD_MEETING':
       return { 
         ...state,
-        meetings: [state.meetings, action.meeting]
+        meetings: state.meetings.concat(action.meeting)
       }
     case 'ADD_PROJECT':
       return { 
         ...state,
-        projects: [...state.projects, action.project],
-        newfeeds: [state.newfeeds, action.newfeed]
+        projects: state.projects.concat(action.project),
+        newfeeds: state.newfeeds.concat(action.newfeed)
       }
     case 'ADD_TASK':
       return { 
         ...state,
-        tasks: [state.tasks, action.task],
-        newfeeds: [state.newfeeds, action.newfeed]
+        tasks: state.tasks.concat(action.task),
+        newfeeds: state.newfeeds.concat(action.newfeed)
       }
     case 'DETAIL_PROJECT':
       return Object.assign({}, state, {
