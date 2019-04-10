@@ -298,11 +298,4 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     color: '#4A3C39'
   },
-  box: {
-    width: 100,
-    height: 100,
-    backgroundColor: '#333',
-    alignItems: "center",
-    justifyContent: "center"
-  },
 });
