@@ -31,12 +31,19 @@ class HomeTaskScreen extends React.Component {
 
   render() {
       const {navigate} = this.props.navigation;
+      // let checklists = this.props.tasks.map((val)=>{
+      //   if(val.id == this.props.TaskId){
+      //     val.checklists.map((checklist, key) => {
+      //       console.log("---here--")
+      //       return <div>EIEI</div>
+      //     })
+      //   }
+      // });
       let checklists = this.props.tasks.map((val)=>{
         if(val.id == this.props.TaskId){
-          val.checklists.map((checklist, key) => {
-            console.log("---here--")
-            return <CheckBoxListTask key={key} keyval={key} val={checklist}
-            checkBoxMethod={() => this.checkBoxMethod(checklist)}/>
+          console.log('eiei : ', val.checklists)
+          return val.checklists.map((checklist, key) => {
+            return <CheckBoxListTask keyval={key} key={key} val={checklist}/>
           })
         }
       });
@@ -113,7 +120,7 @@ class HomeTaskScreen extends React.Component {
                         <Text style= { styles.headCard} >CHECKLIST</Text>
                       </View>
                       <View style = { styles.containerCheckList } >
-                        {checklists ? checklists : null}
+                        {console.log(checklists) || checklists ? checklists : null}
                         <View style={{flexDirection: 'row',}}>
                           <TextInput
                             style={{height: 30, borderColor: 'gray', borderWidth: 1, width: '40%', margin: 10, marginLeft: 15,}}

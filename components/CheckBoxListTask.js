@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {
-    StyleSheet,
+  StyleSheet,
 } from 'react-native';
 import { CheckBox } from 'react-native-elements'
 
 export default class Task extends Component {
     render() {
+      console.log("CheckBox")
       return (
           <CheckBox 
             key={this.props.keyval}
