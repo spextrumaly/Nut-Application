@@ -38,7 +38,7 @@ class HomeScreen extends React.Component {
             <View key={this.props.keyval} style={styles.task}>
               <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
               <View>
-                <Text style={styles.taskText}>New Feeds</Text>
+                <Text style={styles.taskText}>Nuts Feed</Text>
               </View>
             </View>
             {/* <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../assets/images/whatisnut.png')}/> */}

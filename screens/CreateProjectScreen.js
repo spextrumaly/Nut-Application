@@ -39,20 +39,20 @@ class CreateProjectScreen extends Component {
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder='Project Name :'
+              placeholder='Enter project name...'
               onChangeText={(nameProject)=> this.setState({nameProject})}
               value={this.state.nameProject}
-              placeholderTextColor='black'
+              placeholderTextColor='grey'
               underlineColorAndroid='transparent'/>
           </View>
           <View style={styles.inputContainer}>
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder='Project Detail :'
+              placeholder='Enter project description...'
               onChangeText={(detailProject)=> this.setState({detailProject})}
               value={this.state.detailProject}
-              placeholderTextColor='black'
+              placeholderTextColor='grey'
               underlineColorAndroid='transparent'/>
           </View>
           <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.props.Continue(this.state.nameProject, this.state.detailProject, navigate)}>
