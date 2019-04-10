@@ -29,8 +29,6 @@ class ProjectScreen extends React.Component {
 
   render() {
       const {navigate} = this.props.navigation;
-      console.log("Home Project : ", this.props.projects)
-      console.log("Task : ", this.props.tasks)
       let id = this.props.projects.map((val) => {
         if(val.id == this.props.ProjectId) {
           return val.id
@@ -66,7 +64,6 @@ class ProjectScreen extends React.Component {
         if( val.ProjectID == this.props.ProjectId){
           if(val.status == 'late') {
             return <Task key={key} keyval={key} val={val}
-            deleteMethod={()=>this.deleteTask(key)}
             detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
             />
           }
@@ -77,7 +74,6 @@ class ProjectScreen extends React.Component {
         if( val.ProjectID == this.props.ProjectId){
           if(val.status == 'done') {
             return <Task key={key} keyval={key} val={val}
-            deleteMethod={()=>this.deleteTask(key)}
             detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
             />
           }
@@ -93,7 +89,7 @@ class ProjectScreen extends React.Component {
                 <View>
                   <Text style={styles.taskText}>{name}</Text>
                   <Text style={styles.taskSubText}>id : {id}</Text>
-                  <TouchableOpacity onPress={() => this.deleteProject(navigate)} style={styles.projectDelete}>
+                  <TouchableOpacity onPress={() => this.props.deleteProject(this.props.projects, this.props.ProjectId, navigate)} style={styles.projectDelete}>
                     <Text style={styles.projectDeleteText}>Delete</Text>
                   </TouchableOpacity>
                 </View>
@@ -136,10 +132,7 @@ class ProjectScreen extends React.Component {
   addtask(navigate){
     navigate('CreateTask')
   }
-  deleteTask(key){
-    store.taskArray.splice(key, 1);
-    this.setState({taskText: this.state.taskText});
-  }
+
   deleteProject(navigate) {
     store.taskArray.map((val, key)=>{
       if( val.ProjectName == store.ProjectName)
@@ -165,7 +158,18 @@ function mapDispatchToProps(dispatch) {
         id: val.id
       })
       navigate('HomeTask')
-    }
+    },
+    deleteProject: (projects, projectId, navigate) => {
+      projects.map((val, index)=>{
+        if( val.id == projectId){
+          const i = index
+          dispatch({ type: 'DELETE_PROJECT',  
+          index: i
+        })
+        }
+      });
+      navigate('HomeProject');
+    },
   }
 }
 

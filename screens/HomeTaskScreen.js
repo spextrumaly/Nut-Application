@@ -160,19 +160,6 @@ class HomeTaskScreen extends React.Component {
     navigate('Project');
   }
 
-  addListTask() {
-    var id = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (var i = 0; i < 5; i++)
-      id += possible.charAt(Math.floor(Math.random() * possible.length));
-    store.checklistTaskArray.push({
-      'checkListName': this.state.text,
-      'taskId': store.TaskId,
-      'checked': false ,
-      'id': id,
-    });
-  }
-
   checkBoxMethod(value) {
     store.checklistTaskArray.map((val)=>{
       if( val.id == value.id){
@@ -180,15 +167,6 @@ class HomeTaskScreen extends React.Component {
       }
     });
   }
-
-  // deleteTask(navigate) {
-  //   const i = this.props.tasks.map((val, index)=>{
-  //     if( val.id == this.props.TaskId){
-  //       return index
-  //     }
-  //   });
-  //   navigate('Project');
-  // }
 }
 
 function mapDispatchToProps(dispatch) {
