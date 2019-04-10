@@ -4,7 +4,8 @@ import {
   Text,
   View,
   TextInput,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
+  Animated,
   Image,
   ImageBackground
 } from 'react-native';
@@ -17,14 +18,33 @@ class CreateTaskScreen extends Component {
   };
   constructor(props) {
     super(props);
+    this.handlePressInContinue = this.handlePressInContinue.bind(this);
+    this.handlePressOutContinue = this.handlePressOutContinue.bind(this);
     this.state = {
       taskName: '',
       taskDetails: '',
     };
   }
-
+  componentWillMount() {
+    this.animatedValueContinue = new Animated.Value(1);
+  }
+  handlePressInContinue() {
+    Animated.spring(this.animatedValueContinue, {
+      toValue: .75
+    }).start()
+  }
+  handlePressOutContinue(navigate) {
+    Animated.spring(this.animatedValueContinue, {
+      toValue: 1,
+    }).start(() => {
+      this.props.Continue(this.state.taskName, this.state.taskDetails, navigate)
+    })
+  }
   render() {
     const { navigate } = this.props.navigation;
+    const animatedStyleContinue = {
+      transform: [{ scale: this.animatedValueContinue}]
+    }
     return (
       <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
         <View style={styles.container}>
@@ -48,9 +68,14 @@ class CreateTaskScreen extends Component {
               placeholderTextColor='grey'
               underlineColorAndroid='transparent'/>
           </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.props.Continue(this.state.taskName, this.state.taskDetails, navigate)}>
-            <Text style={styles.signUpText}>Continue</Text>
-          </TouchableHighlight>
+          <TouchableWithoutFeedback
+            onPressIn={this.handlePressInContinue}
+            onPressOut={() => this.handlePressOutContinue(navigate)}
+          >
+            <Animated.View style={[styles.buttonContainer, styles.signupButton, animatedStyleContinue]}>
+              <Text style={styles.signUpText}>Continue</Text>
+            </Animated.View>
+          </TouchableWithoutFeedback>
         </View>
       </ImageBackground>
     );
