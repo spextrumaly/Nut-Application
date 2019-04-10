@@ -3,7 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
+  Animated,
   Image,
   ImageBackground
 } from 'react-native';
@@ -17,13 +18,32 @@ class CalendarScreenTask extends Component {
   };
   constructor(props) {
     super(props);
+    this.handlePressInContinue = this.handlePressInContinue.bind(this);
+    this.handlePressOutContinue = this.handlePressOutContinue.bind(this);
     this.state = {
       date: '',
     }
   }
-
+  componentWillMount() {
+    this.animatedValueContinue = new Animated.Value(1);
+  }
+  handlePressInContinue() {
+    Animated.spring(this.animatedValueContinue, {
+      toValue: .75
+    }).start()
+  }
+  handlePressOutContinue(navigate) {
+    Animated.spring(this.animatedValueContinue, {
+      toValue: 1,
+    }).start(() => {
+      this.props.addTask(this.state.date, this.props.taskStateName, this.props.taskStateDetail, this.props.ProjectId, navigate)
+    })
+  }
   render() {
     const {navigate} = this.props.navigation;
+    const animatedStyleContinue = {
+      transform: [{ scale: this.animatedValueContinue}]
+    }
     return (
       <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
         {/* <Text style={styles.textStep}>
@@ -53,9 +73,14 @@ class CalendarScreenTask extends Component {
             }}
             onDayPress={(day) => {this.setState({date:day})}}
           />
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.addTask(this.state.date, this.props.taskStateName, this.props.taskStateDetail, this.props.ProjectId, navigate)}>
-            <Text style={styles.signUpText}>Add Task</Text>
-          </TouchableHighlight>
+          <TouchableWithoutFeedback
+            onPressIn={this.handlePressInContinue}
+            onPressOut={() => this.handlePressOutContinue(navigate)}
+          >
+            <Animated.View style={[styles.buttonContainer, styles.signupButton, animatedStyleContinue]}>
+              <Text style={styles.signUpText}>Add Task</Text>
+            </Animated.View>
+          </TouchableWithoutFeedback>
         </View>
       </ImageBackground>
     );

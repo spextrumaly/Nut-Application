@@ -22,7 +22,7 @@ class LocationMeeting extends Component {
         <View style={styles.container}>
           <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../../assets/images/topic2.png')}/>
           <GooglePlacesAutocomplete
-              placeholder='Enter Location'
+              placeholder='Enter a location...'
               minLength={1}
               autoFocus={false}
               returnKeyType={'default'}

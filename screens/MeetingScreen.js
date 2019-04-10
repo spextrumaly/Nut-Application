@@ -1,9 +1,13 @@
 import React from 'react';
+import * as Animatable from 'react-native-animatable';
 import {
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  
+  TouchableWithoutFeedback,
+  Animated,
   View,
   Image,
   TouchableHighlight,
@@ -12,26 +16,84 @@ import Meeting from '../components/Meeting';
 import { store } from '../Store/Store';
 import { connect } from 'react-redux'
 
+const showAnimation = "slideInUp"
+const hideAnimation = "slideOutDown"
 class MeetingScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
   constructor(props){
     super(props);
+    this.handlePressInCreate = this.handlePressInCreate.bind(this);
+    this.handlePressOutCreate = this.handlePressOutCreate.bind(this);
+    this.handlePressInJoin = this.handlePressInJoin.bind(this);
+    this.handlePressOutJoin = this.handlePressOutJoin.bind(this);
     this.state = {
       showSelect: false,
       showCreate: false,
       showJoin: false,
+      anim: false
     };
   }
-    
+  componentWillMount() {
+    this.animatedValueCreate = new Animated.Value(1);
+    this.animatedValueJoin = new Animated.Value(1);
+    this.animatedValueAdd = new Animated.Value(0);
+  }
+  handlePressInCreate() {
+    Animated.spring(this.animatedValueCreate, {
+      toValue: .1
+    }).start()
+  }
+  handlePressOutCreate(navigate) {
+    Animated.spring(this.animatedValueCreate, {
+      toValue: 1,
+    }).start(() => {
+      Animated.timing(this.animatedValueAdd, {
+        toValue: 0,
+        duration: 200
+      }).start()
+      this.createMeeting(navigate)
+    })
+  }
+  handlePressInJoin() {
+    Animated.spring(this.animatedValueJoin, {
+      toValue: .1
+    }).start()
+  }
+  handlePressOutJoin(navigate) {
+    Animated.spring(this.animatedValueJoin, {
+      toValue: 1,
+    }).start(() => {
+      Animated.timing(this.animatedValueAdd, {
+        toValue: 0,
+        duration: 200
+      }).start()
+      this.joinMeeting(navigate)
+    })
+  }
   render() {
     console.log("MEETING :", this.props.meetings)
     const {navigate} = this.props.navigation;
+    const interpolateRotation = this.animatedValueAdd.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '135deg'],
+    })
+    const animatedStyleAdd = {
+      transform: [
+        { rotate: interpolateRotation }
+      ]
+    }
+    const animatedStyleCreate = {
+      transform: [{ scale: this.animatedValueCreate}]
+    }
+    const animatedStyleJoin = {
+      transform: [{ scale: this.animatedValueJoin}]
+    }
     let meetings = this.props.meetings.map((val, key)=>{
         return <Meeting key={key} keyval={key} val={val}
                 detailMethod={() => this.detailMethod(navigate, val)}
-               />
+              />
     });
     return (
       <View style={styles.container}>
@@ -49,22 +111,34 @@ class MeetingScreen extends React.Component {
           </ScrollView>
           {this.state.showSelect == true ? 
             <View style={styles.buttonAdd}>
-              <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
-                onPress={() => this.createMeeting(navigate)}
-              >
-              <Text style={styles.signUpText}>Create Meeting</Text>
-              </TouchableHighlight>
-              <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
-                onPress={() => this.joinMeeting(navigate)}
-              >
-              <Text style={styles.signUpText}>Join Meeting</Text>
-              </TouchableHighlight>
-            </View>
-          : null }
-          <View style={styles.footerFlex}>
-            <TouchableOpacity onPress={ this.addMeeting.bind(this) } style={styles.addButton}>
-                <Text style={styles.addButtonText}>+</Text>
-            </TouchableOpacity>
+                <TouchableWithoutFeedback
+                  onPressIn={this.handlePressInCreate}
+                  onPressOut={() => this.handlePressOutCreate(navigate)}
+                >
+                  <Animated.View style={[animatedStyleCreate]}>
+                    <Animatable.View animation={this.state.anim ? showAnimation : hideAnimation} style={[styles.createBtnAnimate]}>
+                      <Text style={styles.signUpText}>Create Meeting</Text>
+                    </Animatable.View>
+                  </Animated.View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback
+                  onPressIn={this.handlePressInJoin}
+                  onPressOut={() => this.handlePressOutJoin(navigate)}
+                >
+                  <Animated.View style={[animatedStyleJoin]}>
+                    <Animatable.View animation={this.state.anim ? showAnimation : hideAnimation} style={[styles.joinBtnAnimate]}>
+                      <Text style={styles.signUpText}>Join Meeting</Text>
+                    </Animatable.View>
+                  </Animated.View>
+                </TouchableWithoutFeedback>
+              </View>
+              : null }
+              <View style={styles.footerFlex}>
+                <TouchableOpacity onPress={ this.addMeeting.bind(this) } style={styles.addButton}>
+                  <Animated.View style={animatedStyleAdd}>
+                    <Text style={styles.addButtonText}>+</Text>
+                  </Animated.View>
+                </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -72,9 +146,23 @@ class MeetingScreen extends React.Component {
   }
   addMeeting(){
     if(this.state.showSelect == true) {
-      this.setState({showSelect: false});
+      Animated.timing(this.animatedValueAdd, {
+        toValue: 0,
+        duration: 200
+      }).start(() => {
+        this.setState({anim: false});
+        setTimeout(() => this.setState({
+          showSelect: false
+      }), 1000)
+      })
     } else {
-      this.setState({showSelect: true});
+      Animated.timing(this.animatedValueAdd, {
+        toValue: 1,
+        duration: 200
+      }).start(() => {
+        this.setState({showSelect: true});
+        this.setState({anim: true});
+      })
     }
   }
   createMeeting(navigate){
@@ -197,7 +285,7 @@ const styles = StyleSheet.create({
   buttonAdd: {
     position: 'absolute',
     zIndex: 11,
-    bottom: 120,
+    bottom: 60,
     width: 150,
     right: 17,
     height: 70,
@@ -244,5 +332,30 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     color: '#4A3C39'
+  },
+  createBtnAnimate: {
+    backgroundColor: "#4A3C39",
+    position: 'absolute',
+    zIndex: 11,
+    bottom: 100,
+    width: 150,
+    right: -60,
+    borderRadius:30,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  joinBtnAnimate: {
+    backgroundColor: "#4A3C39",
+    position: 'absolute',
+    zIndex: 11,
+    bottom: 25,
+    width: 150,
+    right: -60,
+    borderRadius:30,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+
   },
 });

@@ -4,7 +4,8 @@ import {
   Text,
   View,
   TextInput,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
+  Animated,
   Image,
   Alert,
   ImageBackground,
@@ -17,13 +18,32 @@ export default class JoinProjectScreen extends Component {
   };
   constructor(props) {
     super(props);
+    this.handlePressInContinue = this.handlePressInContinue.bind(this);
+    this.handlePressOutContinue = this.handlePressOutContinue.bind(this);
     this.state = {
       idProject: '',
     }
   }
-
+  componentWillMount() {
+    this.animatedValueContinue = new Animated.Value(1);
+  }
+  handlePressInContinue() {
+    Animated.spring(this.animatedValueContinue, {
+      toValue: .75
+    }).start()
+  }
+  handlePressOutContinue(navigate) {
+    Animated.spring(this.animatedValueContinue, {
+      toValue: 1,
+    }).start(() => {
+      this.addProject(navigate)
+    })
+  }
   render() {
     const {navigate} = this.props.navigation;
+    const animatedStyleContinue = {
+      transform: [{ scale: this.animatedValueContinue}]
+    }
     return (
       <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
         <View style={styles.container}>
@@ -31,15 +51,20 @@ export default class JoinProjectScreen extends Component {
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder='Project id :'
+              placeholder='Enter your Nut ID...'
               onChangeText={(idProject)=> this.setState({idProject})}
               value={this.state.idProject}
-              placeholderTextColor='black'
+              placeholderTextColor='grey'
               underlineColorAndroid='transparent'/>
           </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.addProject(navigate)}>
-            <Text style={styles.signUpText}>Join Project</Text>
-          </TouchableHighlight>
+          <TouchableWithoutFeedback
+            onPressIn={this.handlePressInContinue}
+            onPressOut={() => this.handlePressOutContinue(navigate)}
+          >
+            <Animated.View style={[styles.buttonContainer, styles.signupButton, animatedStyleContinue]}>
+              <Text style={styles.signUpText}>Join Project</Text>
+            </Animated.View>
+          </TouchableWithoutFeedback>
         </View>
       </ImageBackground>
     );

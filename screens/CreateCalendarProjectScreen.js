@@ -4,7 +4,8 @@ import {
   Text,
   View,
   TextInput,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
+  Animated,
   Image,
   Alert,
   ImageBackground
@@ -19,13 +20,33 @@ class CalendarScreen extends Component {
   };
   constructor(props) {
     super(props);
+    this.handlePressInContinue = this.handlePressInContinue.bind(this);
+    this.handlePressOutContinue = this.handlePressOutContinue.bind(this);
     this.state = {
       date: '',
+      markedDates: ''
     }
   }
-
+  componentWillMount() {
+    this.animatedValueContinue = new Animated.Value(1);
+  }
+  handlePressInContinue() {
+    Animated.spring(this.animatedValueContinue, {
+      toValue: .75
+    }).start()
+  }
+  handlePressOutContinue(navigate) {
+    Animated.spring(this.animatedValueContinue, {
+      toValue: 1,
+    }).start(() => {
+      this.props.AddProject(this.state.date, this.props.projectStateName, this.props.projectStateDetail, navigate)
+    })
+  }
   render() {
     const {navigate} = this.props.navigation;
+    const animatedStyleContinue = {
+      transform: [{ scale: this.animatedValueContinue}]
+    }
     return (
       <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
         {/* <Text style={styles.textStep}>
@@ -43,8 +64,8 @@ class CalendarScreen extends Component {
               backgroundColor: '#ffffff',
               calendarBackground: '#ffffff',
               textSectionTitleColor: '#b6c1cd',
-              selectedDayBackgroundColor: '#b6c1cd',
-              selectedDayTextColor: '#4A3C39',
+              selectedDayBackgroundColor: '#4A3C39',
+              selectedDayTextColor: '#ffffff',
               todayTextColor: '#f5f5dc',
               dayTextColor: '#2d4150',
               textDisabledColor: '#d9e1e8',
@@ -53,11 +74,17 @@ class CalendarScreen extends Component {
               arrowColor: '#4A3C39',
               monthTextColor: '#4A3C39',
             }}
-            onDayPress={(day) => {this.setState({date:day})}}
+            markedDates={{[this.state.markedDates]: { selected: true },}}
+            onDayPress={(day) => {this.setState({date:day, markedDates:day.dateString})}}
           />
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.AddProject(this.state.date, this.props.projectStateName, this.props.projectStateDetail, navigate)}>
-            <Text style={styles.signUpText}>Add Project</Text>
-          </TouchableHighlight>
+          <TouchableWithoutFeedback
+            onPressIn={this.handlePressInContinue}
+            onPressOut={() => this.handlePressOutContinue(navigate)}
+          >
+            <Animated.View style={[styles.buttonContainer, styles.signupButton, animatedStyleContinue]}>
+              <Text style={styles.signUpText}>Add Project</Text>
+            </Animated.View>
+          </TouchableWithoutFeedback>
         </View>
       </ImageBackground>
     );
