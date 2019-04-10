@@ -6,7 +6,6 @@ import {
   View,
   Image,
 } from 'react-native';
-import { store } from '../../Store/Store'
 import { connect } from 'react-redux';
 
 class MeetingScreen extends React.Component { 
@@ -22,9 +21,54 @@ class MeetingScreen extends React.Component {
 
   render() {
       const {navigate} = this.props.navigation;
-      const meeting = this.props.meetings.map((val)=>{
+      let meetingName = this.props.meetings.map((val)=>{
         if( val.id == this.props.MeetingId){
-          return val
+          return val.meetingName
+        }
+      });
+      let id = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.id
+        }
+      });
+      let meetingDetail = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.meetingDetail
+        }
+      });
+      let startDate = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.startDate
+        }
+      });
+      let startHour = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.startHour
+        }
+      });
+      let startMinutes = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.startMinutes
+        }
+      });
+      let endDate = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.endDate
+        }
+      });
+      let endHour = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.endHour
+        }
+      });
+      let endMinutes = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.endMinutes
+        }
+      });
+      let meetingLocation = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.meetingLocation
         }
       });
       return (
@@ -32,28 +76,21 @@ class MeetingScreen extends React.Component {
             <View style={styles.task}>
               <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
               <View>
-                <Text style={styles.taskText}>{meeting[0].meetingName}</Text>
-                <Text style={styles.taskSubText}>id : {meeting[0].id}</Text>
-                <TouchableOpacity onPress={() => this.deleteMeeting(navigate)} style={styles.projectDelete}>
+                <Text style={styles.taskText}>{meetingName}</Text>
+                <Text style={styles.taskSubText}>id : {id}</Text>
+                <TouchableOpacity onPress={() => this.props.deleteMeeting(this.props.meetings, this.props.MeetingId, navigate)} style={styles.projectDelete}>
                   <Text style={styles.projectDeleteText}>Delete</Text>
                 </TouchableOpacity>
               </View>
             </View>
             <Text>Detail</Text>
-            <Text>{meeting[0].meetingDetail}</Text>
+            <Text>{meetingDetail}</Text>
             <Text>Start Time- End Time</Text>
-            <Text>Date : {meeting[0].startDate} {meeting[0].startHour}:{meeting[0].startMinutes} - Date : {meeting[0].endDate} {meeting[0].endHour}:{meeting[0].endMinutes}</Text>
+            <Text>Date : {startDate} {startHour}:{startMinutes} - Date : {endDate} {endHour}:{endMinutes}</Text>
             <Text>Location</Text>
-            <Text>{meeting[0].meetingLocation}</Text>
+            <Text>{meetingLocation}</Text>
           </View>
       );
-  }
-  deleteMeeting(navigate) {
-    store.meetingArray.map((val, key)=>{
-      if( val.id == store.MeetingId)
-        store.meetingArray.splice(key, 1);
-    });
-    navigate('Links')
   }
 }
 
@@ -64,7 +101,23 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(MeetingScreen)
+function mapDispatchToProps(dispatch) {
+  return {
+    deleteMeeting: (meetings, MeetingId, navigate) => {
+      meetings.map((val, index)=>{
+        if( val.id == MeetingId){
+          const i = index
+          dispatch({ type: 'DELETE_MEETING',  
+          index: i
+        })
+        }
+      });
+      navigate('Meetings');
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MeetingScreen)
 
 
 const styles = StyleSheet.create({

@@ -4,7 +4,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/MeetingScreen';
+import MeetingsScreen from '../screens/MeetingScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ProjectScreen from '../screens/ProjectScreen';
 import CreateProjectScreen from '../screens/CreateProjectScreen';
@@ -69,8 +69,8 @@ ProjectStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const MeetingsStack = createStackNavigator({
+  Meetings: MeetingsScreen,
   Meeting: MeetingScreen,
   CreateMeeting: CreateMeetingScreen,
   CalendarMeeting: CalendarMeetingScreen,
@@ -78,7 +78,7 @@ const LinksStack = createStackNavigator({
   LocationMeeting: LocationMeetingScreen,
 });
 
-LinksStack.navigationOptions = {
+MeetingsStack.navigationOptions = {
   tabBarLabel: 'Meeting',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -105,6 +105,6 @@ SettingsStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   ProjectStack,
-  LinksStack,
+  MeetingsStack,
   SettingsStack,
 });

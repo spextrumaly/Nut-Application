@@ -36,11 +36,16 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'DELETE_PROJECT':
+    case 'DELETE_MEETING':
     return { 
       ...state,
-      projects: [...state.projects.slice(0, action.index),...state.projects.slice(action.index + 1)]      
+      meetings: [...state.meetings.slice(0, action.index),...state.meetings.slice(action.index + 1)]      
     }
+    case 'DELETE_PROJECT':
+      return { 
+        ...state,
+        projects: [...state.projects.slice(0, action.index),...state.projects.slice(action.index + 1)]      
+      }
     case 'DELETE_TASK':
       return { 
         ...state,

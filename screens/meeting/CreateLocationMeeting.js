@@ -99,7 +99,7 @@ class LocationMeeting extends Component {
   //     'meetingLocation': store.meetingState.location,
   //   });
   //   this.setState({location:{}});
-  //   navigate('Links');
+  //   navigate('Meetings');
   // }
 }
 
@@ -142,7 +142,7 @@ function mapDispatchToProps(dispatch) {
           'meetingLocation': location,
         }
       })
-      navigate('Links');
+      navigate('Meetings');
     },
     AddLocation: (location) => {
       dispatch({ type: 'ADD_MEETING_LOCATION_STATE',
