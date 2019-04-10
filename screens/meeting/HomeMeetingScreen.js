@@ -1,16 +1,15 @@
 import React from 'react';
 import {
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Image,
-  ImageBackground,
 } from 'react-native';
 import { store } from '../../Store/Store'
+import { connect } from 'react-redux';
 
-export default class MeetingScreen extends React.Component { 
+class MeetingScreen extends React.Component { 
   static navigationOptions = {
     header: null,
   };
@@ -23,22 +22,29 @@ export default class MeetingScreen extends React.Component {
 
   render() {
       const {navigate} = this.props.navigation;
-      store.meetingArray.map((val)=>{
-        if( val.id == store.MeetingId)
-          this.setState({meeting: val})
+      const meeting = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val
+        }
       });
       return (
           <View style={styles.container}>
             <View style={styles.task}>
               <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
               <View>
-                <Text style={styles.taskText}>{this.state.meeting.meetingName}</Text>
-                <Text style={styles.taskSubText}>id : { this.state.meeting.id }</Text>
+                <Text style={styles.taskText}>{meeting[0].meetingName}</Text>
+                <Text style={styles.taskSubText}>id : {meeting[0].id}</Text>
                 <TouchableOpacity onPress={() => this.deleteMeeting(navigate)} style={styles.projectDelete}>
                   <Text style={styles.projectDeleteText}>Delete</Text>
                 </TouchableOpacity>
               </View>
             </View>
+            <Text>Detail</Text>
+            <Text>{meeting[0].meetingDetail}</Text>
+            <Text>Start Time- End Time</Text>
+            <Text>Date : {meeting[0].startDate} {meeting[0].startHour}:{meeting[0].startMinutes} - Date : {meeting[0].endDate} {meeting[0].endHour}:{meeting[0].endMinutes}</Text>
+            <Text>Location</Text>
+            <Text>{meeting[0].meetingLocation}</Text>
           </View>
       );
   }
@@ -50,6 +56,16 @@ export default class MeetingScreen extends React.Component {
     navigate('Links')
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    meetings: state.meetings,
+    MeetingId: state.MeetingId
+  }
+}
+
+export default connect(mapStateToProps)(MeetingScreen)
+
 
 const styles = StyleSheet.create({
   container: {

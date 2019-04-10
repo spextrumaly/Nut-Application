@@ -108,6 +108,10 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         ProjectId: action.id
       })
+    case 'DETAIL_MEETING':
+      return Object.assign({}, state, {
+        MeetingId: action.id
+      })
     default:
       return state
   }

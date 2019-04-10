@@ -92,7 +92,7 @@ class MeetingScreen extends React.Component {
     }
     let meetings = this.props.meetings.map((val, key)=>{
         return <Meeting key={key} keyval={key} val={val}
-                detailMethod={() => this.detailMethod(navigate, val)}
+                detailMethod={() => this.props.detailMethod(val, navigate)}
               />
     });
     return (
@@ -174,7 +174,6 @@ class MeetingScreen extends React.Component {
     navigate('JoinProject')
   }
   detailMethod(navigate, val){
-    store.MeetingName = val.meetingName;
     store.MeetingId = val.id;
     navigate('Meeting')
   }
@@ -186,7 +185,18 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(MeetingScreen)
+function mapDispatchToProps(dispatch) {
+  return {
+    detailMethod: (val, navigate) => {
+      dispatch({ type: 'DETAIL_MEETING',
+        id: val.id
+    })
+      navigate('Meeting')
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MeetingScreen)
 
 const styles = StyleSheet.create({
   container: {
