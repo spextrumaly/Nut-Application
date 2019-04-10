@@ -36,6 +36,10 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'ADD_ID_TASK_STATE':
+    return Object.assign({}, state, {
+      TaskId : action.id
+    })
     case 'ADD_PROJECT_STATE':
       return Object.assign({}, state, {
         projectStateName : action.name, projectStateDetail : action.detail

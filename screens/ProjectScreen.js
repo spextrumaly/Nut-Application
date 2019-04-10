@@ -56,7 +56,7 @@ class ProjectScreen extends React.Component {
           if(val.status == 'active') {
             return <Task key={key} keyval={key} val={val}
             deleteMethod={()=>this.deleteTask(key)}
-            detailTaskMethod={() => this.detailTaskMethod(navigate, val)}
+            detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
             />
           }
         }
@@ -67,7 +67,7 @@ class ProjectScreen extends React.Component {
           if(val.status == 'late') {
             return <Task key={key} keyval={key} val={val}
             deleteMethod={()=>this.deleteTask(key)}
-            detailTaskMethod={() => this.detailTaskMethod(navigate, val)}
+            detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
             />
           }
         }
@@ -78,7 +78,7 @@ class ProjectScreen extends React.Component {
           if(val.status == 'done') {
             return <Task key={key} keyval={key} val={val}
             deleteMethod={()=>this.deleteTask(key)}
-            detailTaskMethod={() => this.detailTaskMethod(navigate, val)}
+            detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
             />
           }
         }
@@ -151,10 +151,21 @@ class ProjectScreen extends React.Component {
     });
     navigate('HomeProject')
   }
-  detailTaskMethod(navigate, val){
-    store.TaskName = val.task;
-    store.TaskId = val.id;
-    navigate('HomeTask')
+  // detailTaskMethod(navigate, val){
+  //   store.TaskName = val.task;
+  //   store.TaskId = val.id;
+  //   navigate('HomeTask')
+  // }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    detailTaskMethod: (navigate, val) => {
+      dispatch({ type: 'ADD_ID_TASK_STATE',  
+        id: val.id
+      })
+      navigate('HomeTask')
+    }
   }
 }
 
@@ -166,7 +177,7 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(ProjectScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectScreen)
 
 const styles = StyleSheet.create({
   container: {

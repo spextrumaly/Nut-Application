@@ -12,9 +12,11 @@ import {
 import * as Progress from 'react-native-progress';
 
 import { store } from '../Store/Store';
+import { connect } from 'react-redux'
+
 import CheckBoxListTask from '../components/CheckBoxListTask';
 
-export default class HomeTaskScreen extends React.Component {
+class HomeTaskScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -23,49 +25,49 @@ export default class HomeTaskScreen extends React.Component {
     super(props);
     this.state = {
       checklist: [],
-      checklistLength: 0,
-      checklistSuccess: 0,
+      // checklistLength: 0,
+      // checklistSuccess: 0,
       text: 'Add item',
     };
   }
 
-  componentDidMount() {
-    setInterval(() => {
-      this.setState(() => {
-          return { unseen: "does not display" }
-      });
-      const checklist = store.checklistTaskArray.filter(val => val.taskId === store.TaskId)
-      const checklistLength = checklist.length
-      const checklistSuccess = checklist.filter(val => val.checked).length
-      this.setState(prevState => ({ ...prevState, checklistLength, checklistSuccess }), () => {
-      })
-    }, 3000);
-  }
+  // componentDidMount() {
+  //   setInterval(() => {
+  //     this.setState(() => {
+  //         return { unseen: "does not display" }
+  //     });
+  //     const checklist = store.checklistTaskArray.filter(val => val.taskId === store.TaskId)
+  //     const checklistLength = checklist.length
+  //     const checklistSuccess = checklist.filter(val => val.checked).length
+  //     this.setState(prevState => ({ ...prevState, checklistLength, checklistSuccess }), () => {
+  //     })
+  //   }, 3000);
+  // }
 
   render() {
       const {navigate} = this.props.navigation;
-      let checklists = store.checklistTaskArray.map((val, key)=>{
-        if(val.taskId == store.TaskId)
-          return <CheckBoxListTask key={key} keyval={key} val={val}
-          checkBoxMethod={() => this.checkBoxMethod(val)}/>
-      });
-      let taskName = store.taskArray.map((val)=>{
-        if( val.id == store.TaskId){
+      // let checklists = store.checklistTaskArray.map((val, key)=>{
+      //   if(val.taskId == store.TaskId)
+      //     return <CheckBoxListTask key={key} keyval={key} val={val}
+      //     checkBoxMethod={() => this.checkBoxMethod(val)}/>
+      // });
+      let taskName = this.props.tasks.map((val)=>{
+        if( val.id == this.props.TaskId){
           return val.task
         }
       });
-      let taskStatus = store.taskArray.map((val)=>{
-        if( val.id == store.TaskId){
+      let taskStatus = this.props.tasks.map((val)=>{
+        if( val.id == this.props.TaskId){
           return val.status
         }
       });
-      let taskDes = store.taskArray.map((val)=>{
-        if( val.id == store.TaskId){
+      let taskDes = this.props.tasks.map((val)=>{
+        if( val.id == this.props.TaskId){
           return val.description
         }
       });
-      let taskDeadline = store.taskArray.map((val)=>{
-        if( val.id == store.TaskId){
+      let taskDeadline = this.props.tasks.map((val)=>{
+        if( val.id == this.props.TaskId){
           return val.deadlineDate
         }
       });
@@ -122,11 +124,7 @@ export default class HomeTaskScreen extends React.Component {
                         <Text style= { styles.headCard} >CHECKLIST</Text>
                       </View>
                       <View style = { styles.containerCheckList } >
-                        {checklists ? checklists : null}
-                        {/* <CheckBox
-                          title='Click Here'
-                          checked={this.state.checked}
-                        /> */}
+                        {/* {checklists ? checklists : null} */}
                         <View style={{flexDirection: 'row',}}>
                           <TextInput
                             style={{height: 30, borderColor: 'gray', borderWidth: 1, width: '40%', margin: 10, marginLeft: 15,}}
@@ -186,14 +184,6 @@ export default class HomeTaskScreen extends React.Component {
         val.checked = !val.checked
       }
     });
-    // const checklist = store.checklistTaskArray.filter(val => val.taskId === store.TaskId)
-    // console.log(checklist)
-    // const checklistLength = checklist.length
-    // console.log(checklistLength)
-    // const checklistSuccess = checklist.filter(val => val.checked).length
-    // this.setState(prevState => ({ ...prevState, checklistLength, checklistSuccess }), () => {
-    //   console.log(this.state.checklistSuccess/this.state.checklistLength)
-    // })
   }
 
   deleteTask(navigate) {
@@ -204,21 +194,27 @@ export default class HomeTaskScreen extends React.Component {
     });
     navigate('Project');
   }
+}
 
-  progressBarPercent() {
-    // console.log('-===here===')
-    // store.checklistTaskArray.map((val)=>{
-    //   if(val.taskId == store.TaskId){
-    //     this.setState({checklistLength: this.state.checklistLength +1 })
-    //     if(val.checked){
-    //       this.setState({checklistSuccess: this.state.checklistSuccess +1 })
-    //     }
-    //   }
-    // });
-    console.log(this.state.checklistSuccess/this.state.checklistLength)
-    return this.state.checklistSuccess/this.state.checklistLength
+function mapDispatchToProps(dispatch) {
+  return {
+    Continue: (name, detail, navigate) => {
+      dispatch({ type: 'ADD_TASK_STATE',  
+        name: name, detail : detail
+      })
+      navigate('CalendarTask')
+    }
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    tasks: state.tasks,
+    TaskId: state.TaskId
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeTaskScreen)
 
 const styles = StyleSheet.create({
   container: {
