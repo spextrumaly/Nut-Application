@@ -25,32 +25,21 @@ class HomeTaskScreen extends React.Component {
     super(props);
     this.state = {
       checklist: [],
-      // checklistLength: 0,
-      // checklistSuccess: 0,
       text: 'Add item',
     };
   }
 
-  // componentDidMount() {
-  //   setInterval(() => {
-  //     this.setState(() => {
-  //         return { unseen: "does not display" }
-  //     });
-  //     const checklist = store.checklistTaskArray.filter(val => val.taskId === store.TaskId)
-  //     const checklistLength = checklist.length
-  //     const checklistSuccess = checklist.filter(val => val.checked).length
-  //     this.setState(prevState => ({ ...prevState, checklistLength, checklistSuccess }), () => {
-  //     })
-  //   }, 3000);
-  // }
-
   render() {
       const {navigate} = this.props.navigation;
-      // let checklists = store.checklistTaskArray.map((val, key)=>{
-      //   if(val.taskId == store.TaskId)
-      //     return <CheckBoxListTask key={key} keyval={key} val={val}
-      //     checkBoxMethod={() => this.checkBoxMethod(val)}/>
-      // });
+      let checklists = this.props.tasks.map((val)=>{
+        if(val.id == this.props.TaskId){
+          val.checklists.map((checklist, key) => {
+            console.log("---here--")
+            return <CheckBoxListTask key={key} keyval={key} val={checklist}
+            checkBoxMethod={() => this.checkBoxMethod(checklist)}/>
+          })
+        }
+      });
       let taskName = this.props.tasks.map((val)=>{
         if( val.id == this.props.TaskId){
           return val.task
@@ -124,14 +113,14 @@ class HomeTaskScreen extends React.Component {
                         <Text style= { styles.headCard} >CHECKLIST</Text>
                       </View>
                       <View style = { styles.containerCheckList } >
-                        {/* {checklists ? checklists : null} */}
+                        {checklists ? checklists : null}
                         <View style={{flexDirection: 'row',}}>
                           <TextInput
                             style={{height: 30, borderColor: 'gray', borderWidth: 1, width: '40%', margin: 10, marginLeft: 15,}}
                             onChangeText={(text) => this.setState({text})}
                             value={this.state.text}
                           />
-                          <TouchableHighlight style={[styles.buttonContainerAddList, styles.addTaskButton]} onPress={() => this.addListTask()}>
+                          <TouchableHighlight style={[styles.buttonContainerAddList, styles.addTaskButton]} onPress={() => this.props.addListTask(this.state.text, this.props.TaskId)}>
                             <Text style={styles.signUpText}>Add CheckList</Text>
                           </TouchableHighlight>
                         </View>
@@ -198,11 +187,14 @@ class HomeTaskScreen extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    Continue: (name, detail, navigate) => {
-      dispatch({ type: 'ADD_TASK_STATE',  
-        name: name, detail : detail
+    addListTask: (name, taskId) => {
+      var id = "";
+      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      for (var i = 0; i < 5; i++)
+        id += possible.charAt(Math.floor(Math.random() * possible.length));
+      dispatch({ type: 'ADD_CHECKLIST_STATE',  
+        name: name, id : id, taskId: taskId, checked: false
       })
-      navigate('CalendarTask')
     }
   }
 }

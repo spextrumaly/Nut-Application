@@ -90,6 +90,7 @@ function mapDispatchToProps(dispatch) {
           'description': detail,
           'status': 'active',
           'deadlineDate': date.dateString,
+          'checklists': []
         }, newfeed : {
           'ProjectID': projectId,
           'task': name,

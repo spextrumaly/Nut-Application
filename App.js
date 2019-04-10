@@ -36,10 +36,19 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'ADD_CHECKLIST_STATE':
+      const tasks = state.tasks.map(task => {
+        if (task.id === action.taskId) {
+          let checklist = {name: action.name, id: action.id, checked: action.checked}
+          task.checklists = [...task.checklists, checklist]
+        };
+        return task;
+      });
+      return ({ ...state, tasks });
     case 'ADD_ID_TASK_STATE':
-    return Object.assign({}, state, {
-      TaskId : action.id
-    })
+      return Object.assign({}, state, {
+        TaskId : action.id
+      })
     case 'ADD_PROJECT_STATE':
       return Object.assign({}, state, {
         projectStateName : action.name, projectStateDetail : action.detail

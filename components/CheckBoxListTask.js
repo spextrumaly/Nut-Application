@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View,
-    Text,
     StyleSheet,
-    TouchableOpacity,
-    Image
 } from 'react-native';
 import { CheckBox } from 'react-native-elements'
 
@@ -14,7 +10,7 @@ export default class Task extends Component {
           <CheckBox 
             key={this.props.keyval}
             checkedColor= 'green'
-            title= {this.props.val.checkListName}
+            title= {this.props.val.name}
             checked={this.props.val.checked}
             onPress={this.props.checkBoxMethod}
           />
