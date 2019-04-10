@@ -32,20 +32,20 @@ class CreateTaskScreen extends Component {
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder='Task Name :'
+              placeholder='Enter task name...'
               onChangeText={(taskName)=> this.setState({taskName})}
               value={this.state.taskName}
-              placeholderTextColor='black'
+              placeholderTextColor='grey'
               underlineColorAndroid='transparent'/>
           </View>
           <View style={styles.inputContainer}>
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder='Task description :'
+              placeholder='Enter task description...'
               onChangeText={(taskDetails)=> this.setState({taskDetails})}
               value={this.state.taskDetails}
-              placeholderTextColor='black'
+              placeholderTextColor='grey'
               underlineColorAndroid='transparent'/>
           </View>
           <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.props.Continue(this.state.taskName, this.state.taskDetails, navigate)}>

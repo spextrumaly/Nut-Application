@@ -5,8 +5,8 @@ import {
   Text,
   TouchableOpacity,
   View,
-  TextInput,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
+  Animated,
   Button,
   Image
 } from 'react-native';
@@ -20,15 +20,73 @@ class HomeProjectScreen extends React.Component {
 
   constructor(props){
     super(props);
+    this.handlePressInCreate = this.handlePressInCreate.bind(this);
+    this.handlePressOutCreate = this.handlePressOutCreate.bind(this);
+    this.handlePressInJoin = this.handlePressInJoin.bind(this);
+    this.handlePressOutJoin = this.handlePressOutJoin.bind(this);
     this.state = {
         showSelect: false,
         showCreate: false,
         showJoin: false,
     };
   }
+  componentWillMount() {
+    this.animatedValueCreate = new Animated.Value(1);
+    this.animatedValueJoin = new Animated.Value(1);
+    this.animatedValueAdd = new Animated.Value(0);
+  }
+  handlePressInCreate() {
+    Animated.spring(this.animatedValueCreate, {
+      toValue: .75
+    }).start()
+  }
+  handlePressOutCreate(navigate) {
+    Animated.spring(this.animatedValueCreate, {
+      toValue: 1,
+    }).start(() => {
+      Animated.timing(this.animatedValueAdd, {
+        toValue: 0,
+        duration: 200
+      }).start()
+      this.setState({showSelect: false});
+      navigate('CreateProject')
+    })
+  }
+  handlePressInJoin() {
+    Animated.spring(this.animatedValueJoin, {
+      toValue: .75
+    }).start()
+  }
+  handlePressOutJoin(navigate) {
+    Animated.spring(this.animatedValueJoin, {
+      toValue: 1,
+    }).start(() => {
+      Animated.timing(this.animatedValueAdd, {
+        toValue: 0,
+        duration: 200
+      }).start()
+      this.setState({showSelect: false});
+      navigate('JoinProject')
+    })
 
+  }
   render() {
       const {navigate} = this.props.navigation;
+      const interpolateRotation = this.animatedValueAdd.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '90deg'],
+      })
+      const animatedStyleAdd = {
+        transform: [
+          { rotate: interpolateRotation }
+        ]
+      }
+      const animatedStyleCreate = {
+        transform: [{ scale: this.animatedValueCreate}]
+      }
+      const animatedStyleJoin = {
+        transform: [{ scale: this.animatedValueJoin}]
+      }
       let projects = this.props.projects.map((val, key)=>{
         if(val.status == 'join')
           return <Project key={key} keyval={key} val={val}
@@ -51,23 +109,30 @@ class HomeProjectScreen extends React.Component {
               </View>
               </ScrollView>
               {this.state.showSelect == true ? 
-                <View style={styles.buttonAdd}>
-                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
-                    onPress={() => this.createproject(navigate)}
-                  >
-                  <Text style={styles.signUpText}>Create Project</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}
-                    onPress={() => this.joinproject(navigate)}
-                    // onPress={() => fetchProject(firebase.auth().currentUser.uid)}
-                  >
-                  <Text style={styles.signUpText}>Join Project</Text>
-                  </TouchableHighlight>
-                </View>
+              <View style={styles.buttonAdd}>
+                <TouchableWithoutFeedback
+                  onPressIn={this.handlePressInCreate}
+                  onPressOut={() => this.handlePressOutCreate(navigate)}
+                >
+                  <Animated.View style={[styles.createBtnAnimate, animatedStyleCreate]}>
+                    <Text style={styles.signUpText}>Create Project</Text>
+                  </Animated.View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback
+                  onPressIn={this.handlePressInJoin}
+                  onPressOut={() => this.handlePressOutJoin(navigate)}
+                >
+                  <Animated.View style={[styles.joinBtnAnimate, animatedStyleJoin]}>
+                    <Text style={styles.signUpText}>Join Project</Text>
+                  </Animated.View>
+                </TouchableWithoutFeedback>
+              </View>
               : null }
               <View style={styles.footerFlex}>
                 <TouchableOpacity onPress={ this.addproject.bind(this) } style={styles.addButton}>
+                  <Animated.View style={animatedStyleAdd}>
                     <Text style={styles.addButtonText}>+</Text>
+                  </Animated.View>
                 </TouchableOpacity>
               </View>
             </View>
@@ -77,20 +142,20 @@ class HomeProjectScreen extends React.Component {
 
   addproject(){
     if(this.state.showSelect == true) {
-      this.setState({showSelect: false});
+      Animated.timing(this.animatedValueAdd, {
+        toValue: 0,
+        duration: 200
+      }).start(() => {
+        this.setState({showSelect: false});
+      })
     } else {
-      this.setState({showSelect: true});
+      Animated.timing(this.animatedValueAdd, {
+        toValue: 1,
+        duration: 200
+      }).start(() => {
+        this.setState({showSelect: true});
+      })
     }
-  }
-
-  createproject(navigate){
-    this.setState({showSelect: false});
-    navigate('CreateProject')
-  }
-
-  joinproject(navigate){
-    this.setState({showSelect: false});
-    navigate('JoinProject')
   }
 }
 
@@ -160,12 +225,37 @@ const styles = StyleSheet.create({
   buttonAdd: {
     position: 'absolute',
     zIndex: 11,
-    bottom: 120,
+    bottom: 60,
     width: 150,
     right: 17,
     height: 70,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  createBtnAnimate: {
+    backgroundColor: "#4A3C39",
+    position: 'absolute',
+    zIndex: 11,
+    bottom: 120,
+    width: 150,
+    right: 17,
+    borderRadius:30,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  joinBtnAnimate: {
+    backgroundColor: "#4A3C39",
+    position: 'absolute',
+    zIndex: 11,
+    bottom: 50,
+    width: 150,
+    right: 17,
+    borderRadius:30,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+
   },
   buttonAddStyle: {
     marginBottom: 10,
@@ -207,5 +297,12 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     color: '#4A3C39'
+  },
+  box: {
+    width: 100,
+    height: 100,
+    backgroundColor: '#333',
+    alignItems: "center",
+    justifyContent: "center"
   },
 });

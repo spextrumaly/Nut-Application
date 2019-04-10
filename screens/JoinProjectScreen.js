@@ -31,10 +31,10 @@ export default class JoinProjectScreen extends Component {
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder='Project id :'
+              placeholder='Enter your Nut ID...'
               onChangeText={(idProject)=> this.setState({idProject})}
               value={this.state.idProject}
-              placeholderTextColor='black'
+              placeholderTextColor='grey'
               underlineColorAndroid='transparent'/>
           </View>
           <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]}  onPress={ () => this.addProject(navigate)}>
