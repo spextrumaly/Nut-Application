@@ -36,6 +36,11 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'DELETE_TASK':
+      return { 
+        ...state,
+        tasks: [...state.tasks.slice(0, action.index),...state.tasks.slice(action.index + 1)]      
+      }
     case 'ADD_CHECKLIST_STATE':
       const tasks = state.tasks.map(task => {
         if (task.id === action.taskId) {

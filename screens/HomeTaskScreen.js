@@ -41,7 +41,6 @@ class HomeTaskScreen extends React.Component {
       // });
       let checklists = this.props.tasks.map((val)=>{
         if(val.id == this.props.TaskId){
-          console.log('eiei : ', val.checklists)
           return val.checklists.map((checklist, key) => {
             return <CheckBoxListTask keyval={key} key={key} val={checklist}/>
           })
@@ -141,7 +140,7 @@ class HomeTaskScreen extends React.Component {
                   <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.doneTask(navigate)}>
                     <Text style={styles.signUpText}>Done Task</Text>
                   </TouchableHighlight>
-                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.deleteTask(navigate)}>
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.deleteTask(this.props.tasks, this.props.TaskId, navigate)}>
                     <Text style={styles.signUpText}>Delete Task</Text>
                   </TouchableHighlight>
                 </View>
@@ -182,14 +181,14 @@ class HomeTaskScreen extends React.Component {
     });
   }
 
-  deleteTask(navigate) {
-    store.taskArray.map((val, key)=>{
-      if( val.id == store.TaskId){
-        store.taskArray.splice(key, 1);
-      }
-    });
-    navigate('Project');
-  }
+  // deleteTask(navigate) {
+  //   const i = this.props.tasks.map((val, index)=>{
+  //     if( val.id == this.props.TaskId){
+  //       return index
+  //     }
+  //   });
+  //   navigate('Project');
+  // }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -202,6 +201,17 @@ function mapDispatchToProps(dispatch) {
       dispatch({ type: 'ADD_CHECKLIST_STATE',  
         name: name, id : id, taskId: taskId, checked: false
       })
+    },
+    deleteTask(tasks, taskId, navigate) {
+      tasks.map((val, index)=>{
+        if( val.id == taskId){
+          const i = index
+          dispatch({ type: 'DELETE_TASK',  
+          index: i
+        })
+        }
+      });
+      navigate('Project');
     }
   }
 }
