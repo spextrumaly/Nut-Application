@@ -1,4 +1,5 @@
 import React from 'react';
+import * as Animatable from 'react-native-animatable';
 import {
   ScrollView,
   StyleSheet,
@@ -13,11 +14,12 @@ import {
 import Project from '../components/Project';
 import { connect } from 'react-redux'
 
+const showAnimation = "slideInUp"
+const hideAnimation = "slideOutDown"
 class HomeProjectScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
-
   constructor(props){
     super(props);
     this.handlePressInCreate = this.handlePressInCreate.bind(this);
@@ -28,6 +30,7 @@ class HomeProjectScreen extends React.Component {
         showSelect: false,
         showCreate: false,
         showJoin: false,
+        anim: false
     };
   }
   componentWillMount() {
@@ -37,7 +40,7 @@ class HomeProjectScreen extends React.Component {
   }
   handlePressInCreate() {
     Animated.spring(this.animatedValueCreate, {
-      toValue: .75
+      toValue: .1
     }).start()
   }
   handlePressOutCreate(navigate) {
@@ -54,7 +57,7 @@ class HomeProjectScreen extends React.Component {
   }
   handlePressInJoin() {
     Animated.spring(this.animatedValueJoin, {
-      toValue: .75
+      toValue: .1
     }).start()
   }
   handlePressOutJoin(navigate) {
@@ -74,7 +77,7 @@ class HomeProjectScreen extends React.Component {
       const {navigate} = this.props.navigation;
       const interpolateRotation = this.animatedValueAdd.interpolate({
         inputRange: [0, 1],
-        outputRange: ['0deg', '90deg'],
+        outputRange: ['0deg', '135deg'],
       })
       const animatedStyleAdd = {
         transform: [
@@ -114,16 +117,20 @@ class HomeProjectScreen extends React.Component {
                   onPressIn={this.handlePressInCreate}
                   onPressOut={() => this.handlePressOutCreate(navigate)}
                 >
-                  <Animated.View style={[styles.createBtnAnimate, animatedStyleCreate]}>
-                    <Text style={styles.signUpText}>Create Project</Text>
+                  <Animated.View style={[animatedStyleCreate]}>
+                    <Animatable.View animation={this.state.anim ? showAnimation : hideAnimation} style={styles.createBtnAnimate}>
+                      <Text style={styles.signUpText}>Create Project</Text>
+                    </Animatable.View>
                   </Animated.View>
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback
                   onPressIn={this.handlePressInJoin}
                   onPressOut={() => this.handlePressOutJoin(navigate)}
                 >
-                  <Animated.View style={[styles.joinBtnAnimate, animatedStyleJoin]}>
-                    <Text style={styles.signUpText}>Join Project</Text>
+                  <Animated.View style={[animatedStyleJoin]}>
+                    <Animatable.View animation={this.state.anim ? showAnimation : hideAnimation} style={styles.joinBtnAnimate}>
+                      <Text style={styles.signUpText}>Join Project</Text>
+                    </Animatable.View>
                   </Animated.View>
                 </TouchableWithoutFeedback>
               </View>
@@ -146,7 +153,10 @@ class HomeProjectScreen extends React.Component {
         toValue: 0,
         duration: 200
       }).start(() => {
-        this.setState({showSelect: false});
+        this.setState({anim: false});
+        setTimeout(() => this.setState({
+          showSelect: false
+      }), 1000)
       })
     } else {
       Animated.timing(this.animatedValueAdd, {
@@ -154,6 +164,7 @@ class HomeProjectScreen extends React.Component {
         duration: 200
       }).start(() => {
         this.setState({showSelect: true});
+        this.setState({anim: true});
       })
     }
   }
@@ -236,9 +247,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#4A3C39",
     position: 'absolute',
     zIndex: 11,
-    bottom: 120,
+    bottom: 100,
     width: 150,
-    right: 17,
+    right: -60,
     borderRadius:30,
     height: 50,
     alignItems: 'center',
@@ -248,9 +259,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#4A3C39",
     position: 'absolute',
     zIndex: 11,
-    bottom: 50,
+    bottom: 25,
     width: 150,
-    right: 17,
+    right: -60,
     borderRadius:30,
     height: 50,
     alignItems: 'center',
