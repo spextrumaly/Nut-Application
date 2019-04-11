@@ -31,14 +31,6 @@ class HomeTaskScreen extends React.Component {
 
   render() {
       const {navigate} = this.props.navigation;
-      // let checklists = this.props.tasks.map((val)=>{
-      //   if(val.id == this.props.TaskId){
-      //     val.checklists.map((checklist, key) => {
-      //       console.log("---here--")
-      //       return <div>EIEI</div>
-      //     })
-      //   }
-      // });
       let checklists = this.props.tasks.map((val)=>{
         if(val.id == this.props.TaskId){
           return val.checklists.map((checklist, key) => {

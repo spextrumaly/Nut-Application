@@ -43,9 +43,7 @@ class ProjectScreen extends React.Component {
 
       this.props.tasks.map((val, key)=>{
         if( moment().isAfter(val.deadlineDate)){
-          if(val.status == 'active') {
-            val.status = 'late'
-          }
+          this.props.lateTask(this.props.tasks, this.props.TaskId, navigate)
         }
       });
 
@@ -159,6 +157,12 @@ function mapDispatchToProps(dispatch) {
       })
       navigate('HomeTask')
     },
+    lateTask(tasks, taskId, navigate) {
+      dispatch({ type: 'LATE_TASK',  
+        tasks: tasks, taskId : taskId
+      })
+      navigate('Project');
+    },
     deleteProject: (projects, projectId, navigate) => {
       projects.map((val, index)=>{
         if( val.id == projectId){
@@ -176,6 +180,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     tasks: state.tasks,
+    TaskId: state.TaskId,
     projects: state.projects,
     ProjectId: state.ProjectId,
   }

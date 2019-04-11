@@ -60,6 +60,15 @@ const reducer = (state = initialState, action) => {
         return task;
       });
       return ({ ...state, allTasks });
+    case 'LATE_TASK':
+      const allTasks3 = state.tasks.map(task => {
+        if (task.id === action.taskId) {
+          let status = 'late'
+          task.status = status
+        };
+        return task;
+      });
+      return ({ ...state, allTasks3 });
     case 'DONE_CHECKLIST':
       const allTasks2 = state.tasks.map(task => {
         if (task.id === action.taskId) {
