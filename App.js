@@ -232,6 +232,9 @@ export default class App extends React.Component {
         'Roboto': require('native-base/Fonts/Roboto.ttf'),
         'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
         'Ionicons': require('@expo/vector-icons/fonts/Ionicons.ttf'),
+        'Kanit-Regular': require('./assets/fonts/Kanit/Kanit-Regular.ttf'),
+        'Kanit-Bold': require('./assets/fonts/Kanit/Kanit-Bold.ttf'),
+        'Kanit-Light': require('./assets/fonts/Kanit/Kanit-Light.ttf')
       }),
     ]);
   };
