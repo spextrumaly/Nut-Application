@@ -171,7 +171,7 @@ class MeetingScreen extends React.Component {
   }
   joinMeeting(navigate){
     this.setState({showSelect: false});
-    navigate('JoinProject')
+    navigate('JoinMeeting')
   }
   detailMethod(navigate, val){
     store.MeetingId = val.id;

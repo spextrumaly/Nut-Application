@@ -7,13 +7,11 @@ import {
   TouchableWithoutFeedback,
   Animated,
   Image,
-  Alert,
   ImageBackground,
 } from 'react-native';
-import { store } from '../Store/Store';
 import { connect } from 'react-redux'
 
-class JoinProjectScreen extends Component {
+class JoinMeetingScreen extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -22,7 +20,7 @@ class JoinProjectScreen extends Component {
     this.handlePressInContinue = this.handlePressInContinue.bind(this);
     this.handlePressOutContinue = this.handlePressOutContinue.bind(this);
     this.state = {
-      idProject: '',
+      idMeeting: '',
     }
   }
   componentWillMount() {
@@ -37,7 +35,7 @@ class JoinProjectScreen extends Component {
     Animated.spring(this.animatedValueContinue, {
       toValue: 1,
     }).start(() => {
-      this.props.addProject(this.props.allProjects, this.state.idProject, navigate)
+      this.props.addProject(this.props.allMeetings, this.state.idMeeting, navigate)
     })
   }
   render() {
@@ -46,15 +44,15 @@ class JoinProjectScreen extends Component {
       transform: [{ scale: this.animatedValueContinue}]
     }
     return (
-      <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
+      <ImageBackground source={require('../../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
         <View style={styles.container}>
           <View style={styles.inputContainer}>
-            <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+            <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
               placeholder='Enter your Nut ID...'
-              onChangeText={(idProject)=> this.setState({idProject})}
-              value={this.state.idProject}
+              onChangeText={(idMeeting)=> this.setState({idMeeting})}
+              value={this.state.idMeeting}
               placeholderTextColor='grey'
               underlineColorAndroid='transparent'/>
           </View>
@@ -63,7 +61,7 @@ class JoinProjectScreen extends Component {
             onPressOut={() => this.handlePressOutContinue(navigate)}
           >
             <Animated.View style={[styles.buttonContainer, styles.signupButton, animatedStyleContinue]}>
-              <Text style={styles.signUpText}>Join Project</Text>
+              <Text style={styles.signUpText}>Join Meeting</Text>
             </Animated.View>
           </TouchableWithoutFeedback>
         </View>
@@ -74,7 +72,7 @@ class JoinProjectScreen extends Component {
 
 function mapStateToProps(state) {
   return {
-      allProjects: state.allProjects,
+      allMeetings: state.allMeetings,
   }
 }
 
@@ -83,16 +81,16 @@ function mapDispatchToProps(dispatch) {
     addProject: (values, id, navigate) => {
       values.map((val) => {
         if(val.id === id)
-        dispatch({ type: 'JOIN_PROJECT',  
-          project: val
+        dispatch({ type: 'MEETING_PROJECT',  
+          meeting: val
         })
       })
-      navigate('HomeProject');
+      navigate('Meetings');
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(JoinProjectScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(JoinMeetingScreen)
 
 const styles = StyleSheet.create({
   container: {
