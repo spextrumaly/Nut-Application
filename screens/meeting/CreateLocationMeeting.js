@@ -18,7 +18,7 @@ class LocationMeeting extends Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <ImageBackground source={require('../../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
+      <ImageBackground source={require('../../assets/images/bg.png')}style={{width: '100%', height: '100%'}}>
         <View style={styles.container}>
           <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../../assets/images/topic2.png')}/>
           <GooglePlacesAutocomplete
@@ -44,6 +44,7 @@ class LocationMeeting extends Component {
                 },
                 textInput: {
                   marginLeft: 0,
+                  fontFamily: 'Kanit-Regular',
                   marginRight: 0,
                   height: 38,
                   color: '#5d5d5d',

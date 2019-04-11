@@ -12,6 +12,7 @@ import {
   Dimensions,
 } from 'react-native';
 import NewFeed from '../components/NewFeed';
+import { NavigationActions } from 'react-navigation';
 import { store } from '../Store/Store';
 import { connect } from 'react-redux';
 
@@ -99,6 +100,7 @@ const styles = StyleSheet.create({
       alignSelf: 'stretch',
       color: '#fff',
       padding: 10,
+      fontFamily: 'Kanit-Regular',
       backgroundColor: '#252525',
       borderTopColor: '#ededed'
   },

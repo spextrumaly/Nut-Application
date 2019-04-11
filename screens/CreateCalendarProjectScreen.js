@@ -48,7 +48,7 @@ class CalendarScreen extends Component {
       transform: [{ scale: this.animatedValueContinue}]
     }
     return (
-      <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
+      <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%', height: '100%'}}>
         {/* <Text style={styles.textStep}>
           STEP 2/2
         </Text> */}

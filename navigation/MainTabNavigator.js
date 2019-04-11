@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { fromLeft } from 'react-navigation-transitions';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import MeetingsScreen from '../screens/MeetingScreen';
@@ -28,7 +29,8 @@ const HomeStack = createStackNavigator({
   CreateTask: CreateTaskScreen,
   JoinProject: JoinProjectScreen,
   Calendar: CalendarScreen,
-});
+  }
+);
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',

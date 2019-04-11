@@ -28,6 +28,7 @@
     "react-native-progress": "^3.5.0",
     "react-native-really-awesome-button": "^1.4.2",
     "react-navigation": "^3.0.9",
+    "react-navigation-transitions": "^1.0.10",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1"
   },

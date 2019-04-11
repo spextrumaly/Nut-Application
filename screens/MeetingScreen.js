@@ -215,6 +215,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
       alignSelf: 'stretch',
+      fontFamily: 'Kanit-Regular',
       color: '#fff',
       padding: 10,
       backgroundColor: '#252525',
@@ -259,13 +260,6 @@ const styles = StyleSheet.create({
       left: 0,
       right: 0,
       zIndex: 10
-  },
-  textInput: {
-      alignSelf: 'stretch',
-      color: '#fff',
-      padding: 10,
-      backgroundColor: '#252525',
-      borderTopColor: '#ededed'
   },
   addButton: {
       position: 'absolute',
