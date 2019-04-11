@@ -1,10 +1,10 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
+import { Platform, StatusBar, Text, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-
 const initialState = {
   user: {},
   ProjectId: '',
@@ -179,11 +179,20 @@ const reducer = (state = initialState, action) => {
 const store = createStore(reducer)
 
 export default class App extends React.Component {
+  async componentDidMount() {
+    await Font.loadAsync({
+      'Kanit-Regular': require('./assets/fonts/Kanit/Kanit-Regular.ttf'),
+      'Kanit-Bold': require('./assets/fonts/Kanit/Kanit-Bold.ttf'),
+      'Kanit-Light': require('./assets/fonts/Kanit/Kanit-Light.ttf')
+    });
+    this.setState({ fontLoaded: true });
+  }
   state = {
     isLoadingComplete: false,
+    fontLoaded: false,
   };
-
   render() {
+    SafeAreaView.setStatusBarHeight(-45);
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading
@@ -195,14 +204,19 @@ export default class App extends React.Component {
     } else {
       return (
         <Provider store={store}>
-          <View style={styles.container}>
-            <AppNavigator />
-          </View>
+          {
+            this.state.fontLoaded ? (
+              <View style={[{fontFamily: 'Kanit-Regular'}, styles.container]}>
+                  <SafeAreaView style={styles.containerSAV}/>
+                    {Platform.OS === 'ios' && <StatusBar barStyle="light-content" /> }
+                  <AppNavigator />
+              </View>
+            ) : null
+          }
         </Provider>
       );
-    }
+    } 
   }
-
   _loadResourcesAsync = async () => {
     return Promise.all([
       Asset.loadAsync([
@@ -238,4 +252,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  containerSAV: {
+    backgroundColor: '#4A3C39',
+  }
 });

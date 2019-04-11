@@ -220,12 +220,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  task: {
-    position: 'relative',
-    padding: 15,
-    flexDirection: 'row',
-    backgroundColor: "#f5f5dc",
-  },
   containerTopic: {
     marginBottom: 20,
   },
@@ -234,12 +228,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     marginTop: 3,
-  },
-  taskIcon:{
-    width:50,
-    height:50,
-    margin:5,
-    justifyContent: 'center'
   },
   containerMember: {
     flexDirection: 'row',
@@ -263,15 +251,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: 20,
   },
+  task: {
+    position: 'relative',
+    padding: 15,
+    paddingTop: 40,    
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: "#4A3C39",
+  },
+  inputIcon:{
+    width:30,
+    height:30,
+    margin:5,
+    justifyContent: 'center'
+  },
   taskText: {
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: 30,
+    fontSize: 25,
     paddingLeft: 10,
-    paddingTop: 15,
+    fontFamily: 'Kanit-Bold',
+    paddingTop: 10,
     paddingBottom: 10,
-    color: 'black',
-    maxWidth: '80%',
+    color: '#f5f5dc'
   },
   inListText: {
     paddingLeft: 10,
@@ -295,8 +297,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#D3D3D3',
   },
-  item:
-  {
+  item: {
     flexDirection: 'column',
     flex: 1,
     padding: 10,

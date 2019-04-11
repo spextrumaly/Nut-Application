@@ -60,20 +60,20 @@ class CreateMeeting extends Component {
             <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder='Meeting Name :'
+              placeholder='Enter a meeting name...'
               onChangeText={(nameMeeting)=> this.setState({nameMeeting})}
               value={this.state.nameMeeting}
-              placeholderTextColor='black'
+              placeholderTextColor='grey'
               underlineColorAndroid='transparent'/>
           </View>
           <View style={styles.inputContainer}>
             <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder='Meeting Detail :'
+              placeholder='Enter a description...'
               onChangeText={(detailMeeting)=> this.setState({detailMeeting})}
               value={this.state.detailMeeting}
-              placeholderTextColor='black'
+              placeholderTextColor='grey'
               underlineColorAndroid='transparent'/>
           </View>
           <TouchableWithoutFeedback

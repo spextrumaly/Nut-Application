@@ -33,6 +33,7 @@ const HomeStack = createStackNavigator({
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
+  header: null,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -58,6 +59,7 @@ const ProjectStack = createStackNavigator({
 
 ProjectStack.navigationOptions = {
   tabBarLabel: 'Project',
+  header: null,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -82,6 +84,7 @@ const MeetingsStack = createStackNavigator({
 
 MeetingsStack.navigationOptions = {
   tabBarLabel: 'Meeting',
+  header: null,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -96,6 +99,7 @@ const SettingsStack = createStackNavigator({
 
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Settings',
+  header: null,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}

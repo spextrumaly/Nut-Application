@@ -289,22 +289,25 @@ const styles = StyleSheet.create({
   task: {
     position: 'relative',
     padding: 15,
+    paddingTop: 40,    
     flexDirection: 'row',
-    backgroundColor: "#f5f5dc",
+    alignItems: 'center',
+    backgroundColor: "#4A3C39",
   },
   inputIcon:{
-    width:50,
-    height:50,
+    width:30,
+    height:30,
     margin:5,
     justifyContent: 'center'
   },
   taskText: {
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: 30,
+    fontFamily: 'Kanit-Bold',
+    fontSize: 25,
     paddingLeft: 10,
     paddingTop: 10,
     paddingBottom: 10,
-    color: '#4A3C39'
+    color: '#f5f5dc'
   },
 });
