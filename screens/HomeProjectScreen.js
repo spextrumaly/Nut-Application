@@ -93,7 +93,6 @@ class HomeProjectScreen extends React.Component {
       let projects = this.props.projects.map((val, key)=>{
         if(val.status == 'join')
           return <Project key={key} keyval={key} val={val}
-          deleteMethod={()=>this.deleteProject(key, val)}
           detailMethod={() => this.props.detailMethod(navigate, val)}
           />
       });

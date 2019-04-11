@@ -1,16 +1,15 @@
 import React from 'react';
 import {
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Image,
-  ImageBackground,
 } from 'react-native';
-import { store } from '../../Store/Store'
+import { connect } from 'react-redux';
+import moment from "moment";
 
-export default class MeetingScreen extends React.Component { 
+class MeetingScreen extends React.Component { 
   static navigationOptions = {
     header: null,
   };
@@ -23,33 +22,110 @@ export default class MeetingScreen extends React.Component {
 
   render() {
       const {navigate} = this.props.navigation;
-      store.meetingArray.map((val)=>{
-        if( val.id == store.MeetingId)
-          this.setState({meeting: val})
+      let meetingName = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.meetingName
+        }
+      });
+      let id = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.id
+        }
+      });
+      let meetingDetail = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.meetingDetail
+        }
+      });
+      let startDate = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.startDate
+        }
+      });
+      let startHour = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.startHour
+        }
+      });
+      let startMinutes = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.startMinutes
+        }
+      });
+      let endDate = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.endDate
+        }
+      });
+      let endHour = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.endHour
+        }
+      });
+      let endMinutes = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.endMinutes
+        }
+      });
+      let meetingLocation = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.meetingLocation
+        }
       });
       return (
           <View style={styles.container}>
             <View style={styles.task}>
               <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
               <View>
-                <Text style={styles.taskText}>{this.state.meeting.meetingName}</Text>
-                <Text style={styles.taskSubText}>id : { this.state.meeting.id }</Text>
-                <TouchableOpacity onPress={() => this.deleteMeeting(navigate)} style={styles.projectDelete}>
+                <Text style={styles.taskText}>{meetingName}</Text>
+                <Text style={styles.taskSubText}>id : {id}</Text>
+                <TouchableOpacity onPress={() => this.props.deleteMeeting(this.props.meetings, this.props.MeetingId, navigate)} style={styles.projectDelete}>
                   <Text style={styles.projectDeleteText}>Delete</Text>
                 </TouchableOpacity>
               </View>
             </View>
+            <Text>Detail</Text>
+            <Text>{meetingDetail}</Text>
+            <Text>Start Time- End Time</Text>
+            <Text>Date : {startDate} {startHour}:{startMinutes} - Date : {endDate} {endHour}:{endMinutes}</Text>
+            <Text>Location</Text>
+            <Text>{meetingLocation}</Text>
           </View>
       );
   }
-  deleteMeeting(navigate) {
-    store.meetingArray.map((val, key)=>{
-      if( val.id == store.MeetingId)
-        store.meetingArray.splice(key, 1);
-    });
-    navigate('Links')
+}
+
+function mapStateToProps(state) {
+  return {
+    meetings: state.meetings,
+    MeetingId: state.MeetingId
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  var timestamp = moment().format();
+  return {
+    deleteMeeting: (meetings, MeetingId, navigate) => {
+      meetings.map((val, index)=>{
+        if( val.id == MeetingId){
+          const i = index
+          dispatch({ type: 'DELETE_MEETING',  
+          index: i,
+          newfeed : {
+            'MeetingName': val.meetingName,
+            'createDate': timestamp,
+            'status': 'deleteMeeting',
+          }
+        })
+        }
+      });
+      navigate('Meetings');
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MeetingScreen)
+
 
 const styles = StyleSheet.create({
   container: {

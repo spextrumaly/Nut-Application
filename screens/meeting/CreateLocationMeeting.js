@@ -99,7 +99,7 @@ class LocationMeeting extends Component {
   //     'meetingLocation': store.meetingState.location,
   //   });
   //   this.setState({location:{}});
-  //   navigate('Links');
+  //   navigate('Meetings');
   // }
 }
 
@@ -140,9 +140,14 @@ function mapDispatchToProps(dispatch) {
           'endMinutes': endMinutes,
           'status': 'join',
           'meetingLocation': location,
+        }, newfeed : {
+          'meetingName': name,
+          'createDate': timestamp,
+          'id': text,
+          'status': 'createMeeting',
         }
       })
-      navigate('Links');
+      navigate('Meetings');
     },
     AddLocation: (location) => {
       dispatch({ type: 'ADD_MEETING_LOCATION_STATE',
