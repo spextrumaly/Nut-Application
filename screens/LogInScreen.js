@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, AsyncStorage, Image } from 'react-native';
 import * as firebase from 'firebase';
+import AwesomeButton from "react-native-really-awesome-button";
 import { firebaseConfig } from './../src/firebaseConfig';
 
 // Initialize Firebase
@@ -114,22 +115,26 @@ export default class App extends React.Component {
   render() {
     return (
         <Container style={styles.container}>
-        <Image source={require('../assets/images/text-nut.png')} style={styles.backgroundImage}></Image>
-            <Button style={{ marginTop: 10 }}
-              full
-              rounded
-              primary
-              onPress={this._loginWithFacebook}
-            >
-              <Text style={{ color: 'white' }}> Login With Facebook</Text>
-            </Button>
-            <Button style={{ marginTop: 10, backgroundColor: 'white' }}
-              full
-              rounded
-              onPress={this._loginWithGoogle}
-            >
-              <Text style={{ color: 'black' }}> Login With Google</Text>
-            </Button>
+        <Image source={require('../assets/images/bg.png')} style={styles.backgroundImage}></Image>
+        <View style={styles.loginForm}>
+          <Image source={require('../assets/images/text-nut.png')} style={styles.nutImg}></Image>
+          <AwesomeButton
+            backgroundDarker='#29487d'
+            backgroundColor='#3b5998'
+            stretch={true}
+            onPress={this._loginWithFacebook}
+          >
+            <Text style={{ color: 'white', fontFamily: 'Kanit-Regular' }}> Login With Facebook</Text>
+          </AwesomeButton>
+          <AwesomeButton style={{ marginTop: 10}}
+            stretch={true}
+            backgroundDarker='#900c3f'
+            backgroundColor='#c70039'
+            onPress={this._loginWithGoogle}
+          >
+            <Text style={{ color: 'white', fontFamily: 'Kanit-Regular' }}> Login With Google</Text>
+          </AwesomeButton>
+        </View>
         </Container>
       
     );
@@ -144,8 +149,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10
   },
+  nutImg: {
+    marginLeft: 'auto',
+    marginTop: -300,
+    width: '80%',
+    marginBottom: -250,
+    marginRight: 'auto',
+    resizeMode: 'contain'
+  },
   backgroundImage: {
-    resizeMode: 'cover',
-    marginBottom: 200
-  }
+    flex: 1,
+    resizeMode: 'contain' // or 'stretch'
+  },
+  loginForm: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 20
+  },
 });
