@@ -10,7 +10,7 @@ import {
   TextInput,
 } from 'react-native';
 import * as Progress from 'react-native-progress';
-
+import moment from "moment";
 import { store } from '../Store/Store';
 import { connect } from 'react-redux'
 
@@ -147,6 +147,7 @@ class HomeTaskScreen extends React.Component {
 }
 
 function mapDispatchToProps(dispatch) {
+  var timestamp = moment().format();
   return {
     addListTask: (name, taskId) => {
       var id = "";
@@ -162,7 +163,13 @@ function mapDispatchToProps(dispatch) {
         if( val.id == taskId){
           const i = index
           dispatch({ type: 'DELETE_TASK',  
-          index: i
+          index: i,
+          newfeed : {
+            'TaskName': val.task,
+            'ProjectName': val.ProjectName,
+            'createDate': timestamp,
+            'status': 'deleteTask',
+          }
         })
         }
       });

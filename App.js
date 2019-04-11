@@ -39,17 +39,20 @@ const reducer = (state = initialState, action) => {
     case 'DELETE_MEETING':
     return { 
       ...state,
-      meetings: [...state.meetings.slice(0, action.index),...state.meetings.slice(action.index + 1)]      
+      meetings: [...state.meetings.slice(0, action.index),...state.meetings.slice(action.index + 1)],
+      newfeeds: state.newfeeds.concat(action.newfeed)      
     }
     case 'DELETE_PROJECT':
       return { 
         ...state,
-        projects: [...state.projects.slice(0, action.index),...state.projects.slice(action.index + 1)]      
+        projects: [...state.projects.slice(0, action.index),...state.projects.slice(action.index + 1)],
+        newfeeds: state.newfeeds.concat(action.newfeed)      
       }
     case 'DELETE_TASK':
       return { 
         ...state,
-        tasks: [...state.tasks.slice(0, action.index),...state.tasks.slice(action.index + 1)]      
+        tasks: [...state.tasks.slice(0, action.index),...state.tasks.slice(action.index + 1)],
+        newfeeds: state.newfeeds.concat(action.newfeed)   
       }
     case 'DONE_TASK':
       const allTasks = state.tasks.map(task => {
@@ -127,7 +130,8 @@ const reducer = (state = initialState, action) => {
     case 'ADD_MEETING':
       return { 
         ...state,
-        meetings: state.meetings.concat(action.meeting)
+        meetings: state.meetings.concat(action.meeting),
+        newfeeds: state.newfeeds.concat(action.newfeed)
       }
     case 'ADD_PROJECT':
       return { 

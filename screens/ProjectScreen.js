@@ -130,23 +130,6 @@ class ProjectScreen extends React.Component {
   addtask(navigate){
     navigate('CreateTask')
   }
-
-  deleteProject(navigate) {
-    store.taskArray.map((val, key)=>{
-      if( val.ProjectName == store.ProjectName)
-        store.taskArray.splice(key, 1);
-    });
-    store.projectArray.map((val, key)=>{
-      if( val.ProjectName == store.ProjectName)
-        store.projectArray.splice(key, 1);
-    });
-    navigate('HomeProject')
-  }
-  // detailTaskMethod(navigate, val){
-  //   store.TaskName = val.task;
-  //   store.TaskId = val.id;
-  //   navigate('HomeTask')
-  // }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -164,11 +147,17 @@ function mapDispatchToProps(dispatch) {
       navigate('Project');
     },
     deleteProject: (projects, projectId, navigate) => {
+      var timestamp = moment().format();
       projects.map((val, index)=>{
         if( val.id == projectId){
           const i = index
           dispatch({ type: 'DELETE_PROJECT',  
-          index: i
+          index: i,
+          newfeed : {
+            'ProjectName': val.ProjectName,
+            'createDate': timestamp,
+            'status': 'deleteProject',
+          }
         })
         }
       });

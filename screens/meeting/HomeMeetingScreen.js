@@ -7,6 +7,7 @@ import {
   Image,
 } from 'react-native';
 import { connect } from 'react-redux';
+import moment from "moment";
 
 class MeetingScreen extends React.Component { 
   static navigationOptions = {
@@ -102,13 +103,19 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
+  var timestamp = moment().format();
   return {
     deleteMeeting: (meetings, MeetingId, navigate) => {
       meetings.map((val, index)=>{
         if( val.id == MeetingId){
           const i = index
           dispatch({ type: 'DELETE_MEETING',  
-          index: i
+          index: i,
+          newfeed : {
+            'MeetingName': val.meetingName,
+            'createDate': timestamp,
+            'status': 'deleteMeeting',
+          }
         })
         }
       });

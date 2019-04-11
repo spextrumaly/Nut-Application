@@ -140,6 +140,11 @@ function mapDispatchToProps(dispatch) {
           'endMinutes': endMinutes,
           'status': 'join',
           'meetingLocation': location,
+        }, newfeed : {
+          'meetingName': name,
+          'createDate': timestamp,
+          'id': text,
+          'status': 'createMeeting',
         }
       })
       navigate('Meetings');
