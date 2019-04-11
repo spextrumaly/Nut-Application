@@ -38,7 +38,7 @@ class HomeScreen extends React.Component {
             <View key={this.props.keyval} style={styles.task}>
               <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
               <View>
-                <Text style={styles.taskText}>Nuts Feed</Text>
+                <Text style={styles.taskText}>Feed</Text>
               </View>
             </View>
             {/* <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../assets/images/whatisnut.png')}/> */}
@@ -152,12 +152,14 @@ const styles = StyleSheet.create({
   task: {
     position: 'relative',
     padding: 15,
+    paddingTop: 40,    
     flexDirection: 'row',
-    backgroundColor: "#f5f5dc",
+    alignItems: 'center',
+    backgroundColor: "#4A3C39",
   },
   inputIcon:{
-    width:50,
-    height:50,
+    width:30,
+    height:30,
     margin:5,
     justifyContent: 'center'
   },
@@ -170,10 +172,11 @@ const styles = StyleSheet.create({
   taskText: {
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: 30,
+    fontSize: 25,
+    fontFamily: 'Kanit-Bold',
     paddingLeft: 10,
     paddingTop: 10,
     paddingBottom: 10,
-    color: '#4A3C39'
+    color: '#f5f5dc'
   },
 });

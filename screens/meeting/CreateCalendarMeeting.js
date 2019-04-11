@@ -22,6 +22,7 @@ class CreateMeetingCalendar extends Component {
     super(props);
     this.state = {
       date: '',
+      markedDates: '',
       hour: '00',
       minutes: '00',
       isDateTimePickerVisible: false,
@@ -47,8 +48,8 @@ class CreateMeetingCalendar extends Component {
               backgroundColor: '#ffffff',
               calendarBackground: '#ffffff',
               textSectionTitleColor: '#b6c1cd',
-              selectedDayBackgroundColor: '#b6c1cd',
-              selectedDayTextColor: '#4A3C39',
+              selectedDayBackgroundColor: '#4A3C39',
+              selectedDayTextColor: '#ffffff',
               todayTextColor: '#f5f5dc',
               dayTextColor: '#2d4150',
               textDisabledColor: '#d9e1e8',
@@ -57,7 +58,8 @@ class CreateMeetingCalendar extends Component {
               arrowColor: '#4A3C39',
               monthTextColor: '#4A3C39',
             }}
-            onDayPress={(day) => {this.setState({date:day})}}
+            markedDates={{[this.state.markedDates]: { selected: true },}}
+            onDayPress={(day) => {this.setState({date:day, markedDates:day.dateString})}}
           />
           <DateTimePicker
             mode='time'

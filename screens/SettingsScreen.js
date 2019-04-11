@@ -14,6 +14,7 @@ export default class SettingScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
     
   render() {
     return (
@@ -120,14 +121,26 @@ const styles = StyleSheet.create({
   task: {
     position: 'relative',
     padding: 15,
+    paddingTop: 40,    
     flexDirection: 'row',
-    backgroundColor: "#f5f5dc",
+    alignItems: 'center',
+    backgroundColor: "#4A3C39",
   },
   inputIcon:{
-    width:50,
-    height:50,
+    width:30,
+    height:30,
     margin:5,
     justifyContent: 'center'
+  },
+  taskText: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 25,
+    paddingLeft: 10,
+    paddingTop: 10,
+    fontFamily: 'Kanit-Bold',
+    paddingBottom: 10,
+    color: '#f5f5dc'
   },
   settingIcon:{
     width:40,
@@ -135,14 +148,6 @@ const styles = StyleSheet.create({
     margin:15,
     marginLeft: 30,
     justifyContent: 'center'
-  },
-  taskText: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontSize: 30,
-    paddingLeft: 10,
-    paddingTop: 10,
-    color: '#4A3C39'
   },
   textSetting: {
     fontSize: 20,

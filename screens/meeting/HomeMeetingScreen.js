@@ -210,7 +210,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     paddingLeft: 10,
     paddingTop: 5,
-    color: '#4A3C39'
+    color: '#4A3C39',
+    fontFamily: 'Kanit-Bold',
   },
   taskSubText: {
     justifyContent: 'center',
