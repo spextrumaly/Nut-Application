@@ -69,7 +69,7 @@ class HomeTaskScreen extends React.Component {
               <Text style={styles.inListText}>in list : {taskStatus}</Text>
             </View>
             <View style={styles.containerProgress}>
-              <Progress.Circle size={50} progress={(this.state.checklistSuccess/this.state.checklistLength) || 0} color={'green'} showsText={true}/>
+              <Progress.Circle size={50} progress={this.statusbar() || 0} color={'green'} showsText={true}/>
             </View>
           </View>
           <View style = { styles.containerScrollViewHolder }>
@@ -143,6 +143,22 @@ class HomeTaskScreen extends React.Component {
           </View>
         </View>
       );
+  }
+
+  statusbar() {
+    let i = 0
+    let len = 0
+    this.props.tasks.map((val)=>{
+      if(val.id == this.props.TaskId){
+        len = val.checklists.length
+        val.checklists.map((checklist) => {
+          if(checklist.checked){
+            i = i + 1
+          }
+        })
+      }
+    });
+    return i/len
   }
 }
 
