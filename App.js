@@ -51,6 +51,29 @@ const reducer = (state = initialState, action) => {
         ...state,
         tasks: [...state.tasks.slice(0, action.index),...state.tasks.slice(action.index + 1)]      
       }
+    case 'DONE_TASK':
+      const allTasks = state.tasks.map(task => {
+        if (task.id === action.taskId) {
+          let status = 'done'
+          task.status = status
+        };
+        return task;
+      });
+      return ({ ...state, allTasks });
+    case 'DONE_CHECKLIST':
+      const allTasks2 = state.tasks.map(task => {
+        if (task.id === action.taskId) {
+          task.checklists.map( checklist => {
+            if(checklist.id === action.value.id){
+              let checked = !checklist.checked
+              checklist.checked = checked
+            }
+            return checklist
+          })
+        };
+        return task;
+      });
+      return ({ ...state, allTasks2 });
     case 'ADD_CHECKLIST_STATE':
       const tasks = state.tasks.map(task => {
         if (task.id === action.taskId) {

@@ -42,7 +42,9 @@ class HomeTaskScreen extends React.Component {
       let checklists = this.props.tasks.map((val)=>{
         if(val.id == this.props.TaskId){
           return val.checklists.map((checklist, key) => {
-            return <CheckBoxListTask keyval={key} key={key} val={checklist}/>
+            return <CheckBoxListTask keyval={key} key={key} val={checklist}
+            checkBoxMethod = {() => this.props.checkBoxMethod(this.props.tasks, this.props.TaskId, checklist)}
+            />
           })
         }
       });
@@ -137,7 +139,7 @@ class HomeTaskScreen extends React.Component {
               </View>
               <View style={styles.containerFooter}>
                 <View style={styles.footer}>
-                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.doneTask(navigate)}>
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.doneTask(this.props.tasks, this.props.TaskId, navigate)}>
                     <Text style={styles.signUpText}>Done Task</Text>
                   </TouchableHighlight>
                   <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.deleteTask(this.props.tasks, this.props.TaskId, navigate)}>
@@ -149,23 +151,6 @@ class HomeTaskScreen extends React.Component {
           </View>
         </View>
       );
-  }
-
-  doneTask(navigate) {
-    store.taskArray.map((val)=>{
-      if( val.id == store.TaskId){
-        val.status = 'done';
-      }
-    });
-    navigate('Project');
-  }
-
-  checkBoxMethod(value) {
-    store.checklistTaskArray.map((val)=>{
-      if( val.id == value.id){
-        val.checked = !val.checked
-      }
-    });
   }
 }
 
@@ -190,6 +175,17 @@ function mapDispatchToProps(dispatch) {
         }
       });
       navigate('Project');
+    },
+    doneTask(tasks, taskId, navigate) {
+      dispatch({ type: 'DONE_TASK',  
+        tasks: tasks, taskId : taskId
+      })
+      navigate('Project');
+    },
+    checkBoxMethod(tasks, taskId, value) {
+      dispatch({ type: 'DONE_CHECKLIST',  
+        tasks: tasks, taskId : taskId, value: value
+      })
     }
   }
 }
