@@ -1,7 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import MeetingsScreen from '../screens/MeetingScreen';
@@ -33,6 +32,10 @@ const HomeStack = createStackNavigator({
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
+  tabBarOptions: { 
+    activeTintColor: '#4A3C39',
+    inactiveTintColor: '#ccc',
+  },
   header: null,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -59,6 +62,10 @@ const ProjectStack = createStackNavigator({
 
 ProjectStack.navigationOptions = {
   tabBarLabel: 'Project',
+  tabBarOptions: { 
+    activeTintColor: '#4A3C39',
+    inactiveTintColor: '#ccc',
+  },
   header: null,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -84,6 +91,10 @@ const MeetingsStack = createStackNavigator({
 
 MeetingsStack.navigationOptions = {
   tabBarLabel: 'Meeting',
+  tabBarOptions: { 
+    activeTintColor: '#4A3C39',
+    inactiveTintColor: '#ccc',
+  },
   header: null,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -99,6 +110,10 @@ const SettingsStack = createStackNavigator({
 
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Settings',
+  tabBarOptions: { 
+    activeTintColor: '#4A3C39',
+    inactiveTintColor: '#ccc',
+  },
   header: null,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
