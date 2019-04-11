@@ -69,7 +69,7 @@ class HomeTaskScreen extends React.Component {
               <Text style={styles.inListText}>in list : {taskStatus}</Text>
             </View>
             <View style={styles.containerProgress}>
-              <Progress.Circle size={50} progress={(this.state.checklistSuccess/this.state.checklistLength) || 0} color={'green'} showsText={true}/>
+              <Progress.Circle size={50} progress={this.statusbar() || 0} color={'green'} showsText={true}/>
             </View>
           </View>
           <View style = { styles.containerScrollViewHolder }>
@@ -144,6 +144,22 @@ class HomeTaskScreen extends React.Component {
         </View>
       );
   }
+
+  statusbar() {
+    let i = 0
+    let len = 0
+    this.props.tasks.map((val)=>{
+      if(val.id == this.props.TaskId){
+        len = val.checklists.length
+        val.checklists.map((checklist) => {
+          if(checklist.checked){
+            i = i + 1
+          }
+        })
+      }
+    });
+    return i/len
+  }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -185,6 +201,8 @@ function mapDispatchToProps(dispatch) {
       dispatch({ type: 'DONE_CHECKLIST',  
         tasks: tasks, taskId : taskId, value: value
       })
+      console.log("Check : ", value)
+
     }
   }
 }
@@ -266,7 +284,7 @@ const styles = StyleSheet.create({
   },
   scrollViewHolder:
   { 
-    maxHeight: '65%',
+    maxHeight: '60%',
     margin: 10,
     marginTop: 20,
     backgroundColor: '#D3D3D3',

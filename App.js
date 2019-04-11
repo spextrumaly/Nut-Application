@@ -6,15 +6,22 @@ import AppNavigator from './navigation/AppNavigator';
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 const initialState = {
+  user: {},
   ProjectId: '',
   TaskId: '',
   MeetingId: '',
-  projects: [{
+  allProjects: [{
     'ProjectName': 'Default',
     'date':'-',
     'id': 'aaaaa',
-    'status': 'join',
-  }],
+  },{'ProjectName': 'Default',
+    'date':'-',
+    'id': 'bbbbb',
+    },],
+  allMeetings: [{'meetingName': 'test',
+    'meetingDetail': 'test',
+    'id': 'aaaaa'}],
+  projects: [],
   tasks: [],
   meetings: [],
   projectStateName: '',
@@ -31,7 +38,6 @@ const initialState = {
   taskStateName: '',
   taskStateDetail: '',
   newfeeds: [],
-  checklistTaskArray: [],
 }
 
 const reducer = (state = initialState, action) => {
@@ -62,7 +68,7 @@ const reducer = (state = initialState, action) => {
         };
         return task;
       });
-      return ({ ...state, allTasks });
+      return ({ ...state, tasks: allTasks });
     case 'LATE_TASK':
       const allTasks3 = state.tasks.map(task => {
         if (task.id === action.taskId) {
@@ -71,7 +77,7 @@ const reducer = (state = initialState, action) => {
         };
         return task;
       });
-      return ({ ...state, allTasks3 });
+      return ({ ...state, tasks: allTasks3 });
     case 'DONE_CHECKLIST':
       const allTasks2 = state.tasks.map(task => {
         if (task.id === action.taskId) {
@@ -85,7 +91,7 @@ const reducer = (state = initialState, action) => {
         };
         return task;
       });
-      return ({ ...state, allTasks2 });
+      return ({ ...state, tasks: allTasks2 });
     case 'ADD_CHECKLIST_STATE':
       const tasks = state.tasks.map(task => {
         if (task.id === action.taskId) {
@@ -131,13 +137,25 @@ const reducer = (state = initialState, action) => {
       return { 
         ...state,
         meetings: state.meetings.concat(action.meeting),
+        allMeetings: state.allMeetings.concat(action.meeting),
         newfeeds: state.newfeeds.concat(action.newfeed)
       }
     case 'ADD_PROJECT':
       return { 
         ...state,
         projects: state.projects.concat(action.project),
+        allProjects: state.allProjects.concat(action.project),
         newfeeds: state.newfeeds.concat(action.newfeed)
+      }
+    case 'JOIN_PROJECT':
+      return { 
+        ...state,
+        projects: state.projects.concat(action.project),
+      }
+    case 'MEETING_PROJECT':
+      return { 
+        ...state,
+        meetings: state.meetings.concat(action.meeting),
       }
     case 'ADD_TASK':
       return { 

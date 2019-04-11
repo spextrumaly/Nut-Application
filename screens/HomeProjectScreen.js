@@ -91,7 +91,6 @@ class HomeProjectScreen extends React.Component {
         transform: [{ scale: this.animatedValueJoin}]
       }
       let projects = this.props.projects.map((val, key)=>{
-        if(val.status == 'join')
           return <Project key={key} keyval={key} val={val}
           detailMethod={() => this.props.detailMethod(navigate, val)}
           />
