@@ -6,15 +6,22 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
 const initialState = {
+  user: {},
   ProjectId: '',
   TaskId: '',
   MeetingId: '',
-  projects: [{
+  allProjects: [{
     'ProjectName': 'Default',
     'date':'-',
     'id': 'aaaaa',
-    'status': 'join',
-  }],
+  },{'ProjectName': 'Default',
+    'date':'-',
+    'id': 'bbbbb',
+    },],
+  allMeetings: [{'meetingName': 'test',
+    'meetingDetail': 'test',
+    'id': 'aaaaa'}],
+  projects: [],
   tasks: [],
   meetings: [],
   projectStateName: '',
@@ -31,7 +38,6 @@ const initialState = {
   taskStateName: '',
   taskStateDetail: '',
   newfeeds: [],
-  checklistTaskArray: [],
 }
 
 const reducer = (state = initialState, action) => {
@@ -138,6 +144,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         projects: state.projects.concat(action.project),
         newfeeds: state.newfeeds.concat(action.newfeed)
+      }
+    case 'JOIN_PROJECT':
+      return { 
+        ...state,
+        projects: state.projects.concat(action.project),
+      }
+    case 'MEETING_PROJECT':
+      return { 
+        ...state,
+        meetings: state.meetings.concat(action.meeting),
       }
     case 'ADD_TASK':
       return { 
