@@ -137,12 +137,14 @@ const reducer = (state = initialState, action) => {
       return { 
         ...state,
         meetings: state.meetings.concat(action.meeting),
+        allMeetings: state.allMeetings.concat(action.meeting),
         newfeeds: state.newfeeds.concat(action.newfeed)
       }
     case 'ADD_PROJECT':
       return { 
         ...state,
         projects: state.projects.concat(action.project),
+        allProjects: state.allProjects.concat(action.project),
         newfeeds: state.newfeeds.concat(action.newfeed)
       }
     case 'JOIN_PROJECT':
