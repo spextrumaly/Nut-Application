@@ -68,7 +68,7 @@ const reducer = (state = initialState, action) => {
         };
         return task;
       });
-      return ({ ...state, allTasks });
+      return ({ ...state, tasks: allTasks });
     case 'LATE_TASK':
       const allTasks3 = state.tasks.map(task => {
         if (task.id === action.taskId) {
@@ -77,7 +77,7 @@ const reducer = (state = initialState, action) => {
         };
         return task;
       });
-      return ({ ...state, allTasks3 });
+      return ({ ...state, tasks: allTasks3 });
     case 'DONE_CHECKLIST':
       const allTasks2 = state.tasks.map(task => {
         if (task.id === action.taskId) {
@@ -91,7 +91,7 @@ const reducer = (state = initialState, action) => {
         };
         return task;
       });
-      return ({ ...state, allTasks2 });
+      return ({ ...state, tasks: allTasks2 });
     case 'ADD_CHECKLIST_STATE':
       const tasks = state.tasks.map(task => {
         if (task.id === action.taskId) {
@@ -194,7 +194,6 @@ export default class App extends React.Component {
       return (
         <Provider store={store}>
           <View style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
             <AppNavigator />
           </View>
         </Provider>

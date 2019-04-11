@@ -185,6 +185,8 @@ function mapDispatchToProps(dispatch) {
       dispatch({ type: 'DONE_CHECKLIST',  
         tasks: tasks, taskId : taskId, value: value
       })
+      console.log("Check : ", value)
+
     }
   }
 }
@@ -264,7 +266,7 @@ const styles = StyleSheet.create({
   },
   scrollViewHolder:
   { 
-    maxHeight: '65%',
+    maxHeight: '60%',
     margin: 10,
     marginTop: 20,
     backgroundColor: '#D3D3D3',
