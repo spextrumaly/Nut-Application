@@ -42,16 +42,6 @@ export default class SettingScreen extends React.Component {
               </View>
             </View>
           </TouchableHighlight>
-          <TouchableHighlight onPress={this._signOutAsync}>
-            <View style={styles.containerSetting}>
-              <View style={styles.containerIconTopicSetting}>
-                <Image style={styles.settingIcon} source={require('../assets/images/logout.png')}/>
-              </View>
-              <View style={styles.containerTopicSetting}>
-                <Text style={styles.textSetting}>Logout</Text>
-              </View>
-            </View>
-          </TouchableHighlight>
           <TouchableHighlight>
             <View style={styles.containerSetting}>
               <Image style={styles.settingIcon} source={require('../assets/images/aboutUs.png')}/>
@@ -70,14 +60,22 @@ export default class SettingScreen extends React.Component {
           </TouchableHighlight>
           <TouchableHighlight>
             <View style={styles.containerSetting}>
-              <View style={styles.containerIconTopicSetting}>
-                <Image style={styles.settingIcon} source={require('../assets/images/donate.png')}/>
-              </View>
+              <Image style={styles.settingIcon} source={require('../assets/images/donate.png')}/>
               <View style={styles.containerTopicSetting}>
                 <Text style={styles.textSetting}>Donate & Support</Text>
               </View>
             </View>
           </TouchableHighlight>
+          <TouchableHighlight onPress={this._signOutAsync}>
+            <View style={styles.containerSetting}>
+              <View style={styles.containerIconTopicSetting}>
+                <Image style={styles.settingIcon} source={require('../assets/images/logout.png')}/>
+              </View>
+              <View style={styles.containerTopicSetting}>
+                <Text style={styles.textSetting}>Logout</Text>
+              </View>
+            </View>
+          </TouchableHighlight>          
         </ScrollView>
       </View>
     );
@@ -150,17 +148,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   textSetting: {
-    fontSize: 20,
+    fontSize: 18,
     padding: 15,
+    color: '#4A3C39',
     paddingTop: 20,
+    fontFamily: 'Kanit-Regular'
   },
   containerTopicSetting: {
     width: '100%',
     borderBottomWidth:1,
-    borderBottomColor: '#696969',
+    borderBottomColor: '#4A3C39',
   },
   containerIconTopicSetting: {
     borderBottomWidth:1,
-    borderBottomColor: '#696969',
+    borderBottomColor: '#4A3C39',
   }
 });
