@@ -46,7 +46,7 @@ class CreateTaskScreen extends Component {
       transform: [{ scale: this.animatedValueContinue}]
     }
     return (
-      <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
+      <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%', height: '100%'}}>
         <View style={styles.container}>
           <View style={styles.inputContainer}>
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
@@ -139,8 +139,10 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     color: '#4A3C39',
+    fontFamily: 'Kanit-Regular'
   },
   textInput: {
     marginLeft:10,
+    fontFamily: 'Kanit-Regular'
   }
 });

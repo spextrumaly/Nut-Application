@@ -73,7 +73,7 @@ class HomeTaskScreen extends React.Component {
             </View>
           </View>
           <View style = { styles.containerScrollViewHolder }>
-            <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
+            <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%', height: '100%'}}>
               <View style = { styles.scrollViewHolder }>
                 <ScrollView>
                   <View style = { [styles.item, {width: '100%'} ]}>
@@ -343,5 +343,6 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     color: '#4A3C39',
+    fontFamily: 'Kanit-Regular'
   },
 });

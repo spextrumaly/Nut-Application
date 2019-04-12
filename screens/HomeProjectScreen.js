@@ -1,5 +1,6 @@
 import React from 'react';
 import * as Animatable from 'react-native-animatable';
+import AwesomeButton from "react-native-really-awesome-button";
 import {
   ScrollView,
   StyleSheet,
@@ -22,10 +23,6 @@ class HomeProjectScreen extends React.Component {
   };
   constructor(props){
     super(props);
-    this.handlePressInCreate = this.handlePressInCreate.bind(this);
-    this.handlePressOutCreate = this.handlePressOutCreate.bind(this);
-    this.handlePressInJoin = this.handlePressInJoin.bind(this);
-    this.handlePressOutJoin = this.handlePressOutJoin.bind(this);
     this.state = {
         showSelect: false,
         showCreate: false,
@@ -34,62 +31,10 @@ class HomeProjectScreen extends React.Component {
     };
   }
   componentWillMount() {
-    this.animatedValueCreate = new Animated.Value(1);
-    this.animatedValueJoin = new Animated.Value(1);
     this.animatedValueAdd = new Animated.Value(0);
-  }
-  handlePressInCreate() {
-    Animated.spring(this.animatedValueCreate, {
-      toValue: .1
-    }).start()
-  }
-  handlePressOutCreate(navigate) {
-    Animated.spring(this.animatedValueCreate, {
-      toValue: 1,
-    }).start(() => {
-      Animated.timing(this.animatedValueAdd, {
-        toValue: 0,
-        duration: 200
-      }).start()
-      this.setState({showSelect: false});
-      navigate('CreateProject')
-    })
-  }
-  handlePressInJoin() {
-    Animated.spring(this.animatedValueJoin, {
-      toValue: .1
-    }).start()
-  }
-  handlePressOutJoin(navigate) {
-    Animated.spring(this.animatedValueJoin, {
-      toValue: 1,
-    }).start(() => {
-      Animated.timing(this.animatedValueAdd, {
-        toValue: 0,
-        duration: 200
-      }).start()
-      this.setState({showSelect: false});
-      navigate('JoinProject')
-    })
-
   }
   render() {
       const {navigate} = this.props.navigation;
-      const interpolateRotation = this.animatedValueAdd.interpolate({
-        inputRange: [0, 1],
-        outputRange: ['0deg', '135deg'],
-      })
-      const animatedStyleAdd = {
-        transform: [
-          { rotate: interpolateRotation }
-        ]
-      }
-      const animatedStyleCreate = {
-        transform: [{ scale: this.animatedValueCreate}]
-      }
-      const animatedStyleJoin = {
-        transform: [{ scale: this.animatedValueJoin}]
-      }
       let projects = this.props.projects.map((val, key)=>{
           return <Project key={key} keyval={key} val={val}
           detailMethod={() => this.props.detailMethod(navigate, val)}
@@ -111,34 +56,51 @@ class HomeProjectScreen extends React.Component {
               </ScrollView>
               {this.state.showSelect == true ? 
               <View style={styles.buttonAdd}>
-                <TouchableWithoutFeedback
-                  onPressIn={this.handlePressInCreate}
-                  onPressOut={() => this.handlePressOutCreate(navigate)}
-                >
-                  <Animated.View style={[animatedStyleCreate]}>
-                    <Animatable.View animation={this.state.anim ? showAnimation : hideAnimation} style={styles.createBtnAnimate}>
-                      <Text style={styles.signUpText}>Create Project</Text>
-                    </Animatable.View>
-                  </Animated.View>
-                </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback
-                  onPressIn={this.handlePressInJoin}
-                  onPressOut={() => this.handlePressOutJoin(navigate)}
-                >
-                  <Animated.View style={[animatedStyleJoin]}>
-                    <Animatable.View animation={this.state.anim ? showAnimation : hideAnimation} style={styles.joinBtnAnimate}>
-                      <Text style={styles.signUpText}>Join Project</Text>
-                    </Animatable.View>
-                  </Animated.View>
-                </TouchableWithoutFeedback>
+              <Animatable.View animation='pulse' easing="ease-out" iterationCount="infinite">
+                <Animatable.View animation={this.state.anim ? showAnimation : hideAnimation} >
+                  <AwesomeButton 
+                    style={styles.createBtnAnimate}
+                    backgroundDarker='#372c2a'
+                    backgroundColor='#4A3C39'
+                    width={170}
+                    borderRadius={30}
+                    onPress= {() => {this.props.navigation.navigate('CreateProject'); this.setState({showSelect: false}); this.setState({anim: false});}}
+                    >
+                    <Text style={styles.signUpText}>Create Project</Text>
+                  </AwesomeButton>
+                </Animatable.View>
+              </Animatable.View>
+              <Animatable.View animation='pulse' easing="ease-out" iterationCount="infinite">
+                <Animatable.View animation={this.state.anim ? showAnimation : hideAnimation} >
+                  <AwesomeButton 
+                    style={styles.joinBtnAnimate}
+                    backgroundDarker='#372c2a'
+                    backgroundColor='#4A3C39'
+                    width={170}
+                    borderRadius={30}
+                    onPress= {() => {this.props.navigation.navigate('JoinProject'); this.setState({showSelect: false}); this.setState({anim: false});}}
+                    >
+                    <Text style={styles.signUpText}>Join Project</Text>
+                  </AwesomeButton>
+                </Animatable.View>
+              </Animatable.View>
               </View>
               : null }
               <View style={styles.footerFlex}>
-                <TouchableOpacity onPress={ this.addproject.bind(this) } style={styles.addButton}>
-                  <Animated.View style={animatedStyleAdd}>
-                    <Text style={styles.addButtonText}>+</Text>
-                  </Animated.View>
-                </TouchableOpacity>
+                <Animatable.View animation='pulse' easing="ease-out" iterationCount="infinite">
+                  <AwesomeButton 
+                    backgroundDarker='#372c2a'
+                    backgroundColor='#4A3C39'
+                    borderRadius={100}
+                    paddingTop={10}
+                    paddingBottom={10}
+                    paddingHorizontal={10}
+                    width={80}
+                    onPress={ this.addproject.bind(this)} 
+                    style={styles.addButton}>
+                    <Text style={styles.addButtonText}>{!this.state.anim ? '+' : 'x'}</Text>
+                  </AwesomeButton>
+                </Animatable.View>
               </View>
             </View>
           </View>
@@ -154,7 +116,7 @@ class HomeProjectScreen extends React.Component {
         this.setState({anim: false});
         setTimeout(() => this.setState({
           showSelect: false
-      }), 1000)
+      }), 500)
       })
     } else {
       Animated.timing(this.animatedValueAdd, {
@@ -212,24 +174,20 @@ const styles = StyleSheet.create({
       color: '#fff',
       padding: 10,
       backgroundColor: '#252525',
-      borderTopColor: '#ededed'
+      borderTopColor: '#ededed',
+      fontFamily: 'Kanit-Regular'
   },
   addButton: {
       position: 'absolute',
       zIndex: 11,
       right: 20,
       bottom: 20,
-      backgroundColor: '#4A3C39',
-      width: 70,
-      height: 70,
-      borderRadius: 35,
-      alignItems: 'center',
-      justifyContent: 'center',
       elevation: 8
   },
   addButtonText: {
       color: '#fff',
-      fontSize: 24
+      fontSize: 40,
+      fontFamily: 'Kanit-Regular'
   },
   buttonAdd: {
     position: 'absolute',
@@ -242,28 +200,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   createBtnAnimate: {
-    backgroundColor: "#4A3C39",
     position: 'absolute',
     zIndex: 11,
     bottom: 100,
-    width: 150,
     right: -60,
-    borderRadius:30,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   joinBtnAnimate: {
-    backgroundColor: "#4A3C39",
     position: 'absolute',
     zIndex: 11,
     bottom: 25,
-    width: 150,
     right: -60,
-    borderRadius:30,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
 
   },
   buttonAddStyle: {
@@ -285,6 +231,7 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     color: 'white',
+    fontFamily: 'Kanit-Regular'
   },
   task: {
     position: 'relative',

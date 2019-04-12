@@ -1,4 +1,6 @@
 import React from 'react';
+import * as Animatable from 'react-native-animatable';
+import AwesomeButton from "react-native-really-awesome-button";
 import {
   ScrollView,
   StyleSheet,
@@ -93,7 +95,7 @@ class ProjectScreen extends React.Component {
                 </View>
               </View>
               <View style = { styles.containerScrollViewHolder }>
-                <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
+                <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%', height: '100%'}}>
                   <View style = { styles.scrollViewHolder }>
                     <ScrollView horizontal = { true } showsHorizontalScrollIndicator = { false }>
                       <View style = { [styles.item, {width: screenWidth/1.5} ]}>
@@ -121,14 +123,22 @@ class ProjectScreen extends React.Component {
               {/* <ScrollView style={styles.scrollContainer}>
                   {tasks}
               </ScrollView> */}
-              <TouchableOpacity onPress={ () => this.addtask(navigate) } style={styles.addButton}>
-                  <Text style={styles.addButtonText}>+</Text>
-              </TouchableOpacity>
+              <Animatable.View animation='pulse' easing="ease-out" iterationCount="infinite">
+                <AwesomeButton 
+                  backgroundDarker='#372c2a'
+                  backgroundColor='#4A3C39'
+                  borderRadius={100}
+                  paddingTop={10}
+                  paddingBottom={10}
+                  paddingHorizontal={10}
+                  width={80}
+                  onPress= {() => this.props.navigation.navigate('CreateTask')}
+                  style={styles.addButton}>
+                  <Text style={styles.addButtonText}>{!this.state.anim ? '+' : 'x'}</Text>
+                </AwesomeButton>
+              </Animatable.View>
           </View>
       );
-  }
-  addtask(navigate){
-    navigate('CreateTask')
   }
 }
 
@@ -184,15 +194,13 @@ const styles = StyleSheet.create({
   containerScrollViewHolder: {
     flex: 1,
   },
-  scrollViewHolder:
-  { 
+  scrollViewHolder: { 
     margin: 10,
     flex: 1,
     marginTop: 20,
     marginBottom: 20,
   },
-  item:
-  {
+  item: {
     backgroundColor: '#D3D3D3',
     flex: 1,
     padding: 10,
@@ -229,18 +237,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 11,
     right: 20,
-    bottom: 40,
-    backgroundColor: '#4A3C39',
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    alignItems: 'center',
-    justifyContent: 'center',
+    bottom: 20,
     elevation: 8
   },
   addButtonText: {
     color: '#fff',
-    fontSize: 24
+    fontSize: 40,
+    fontFamily: 'Kanit-Regular'
   },
   task: {
     position: 'relative',

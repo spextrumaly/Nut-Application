@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     color: 'white',
+    fontFamily: 'Kanit-Regular'
   },
   task: {
     position: 'relative',

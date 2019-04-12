@@ -48,7 +48,7 @@ class CalendarScreen extends Component {
       transform: [{ scale: this.animatedValueContinue}]
     }
     return (
-      <ImageBackground source={require('../assets/images/bg.jpg')}style={{width: '100%', height: '100%'}}>
+      <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%', height: '100%'}}>
         {/* <Text style={styles.textStep}>
           STEP 2/2
         </Text> */}
@@ -56,23 +56,28 @@ class CalendarScreen extends Component {
           <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../assets/images/topic2.png')}/>
           <Calendar
             style={{
-              borderWidth: 1,
-              borderColor: 'gray',
+              borderRadius: 30,
               width: '90%',
+              paddingBottom: 15,
+              paddingTop: 10,
             }}
             theme={{
-              backgroundColor: '#ffffff',
-              calendarBackground: '#ffffff',
-              textSectionTitleColor: '#b6c1cd',
+              backgroundColor: '#f5f5dc',
+              textDayFontFamily: 'Kanit-Regular',
+              textMonthFontFamily: 'Kanit-Bold',
+              textDayHeaderFontFamily: 'Kanit-Bold',
+              textTodayFontFamily: 'Kanit-Regular',
+              calendarBackground: '#f5f5dc',
+              textSectionTitleColor: '#372c2a',
               selectedDayBackgroundColor: '#4A3C39',
-              selectedDayTextColor: '#ffffff',
-              todayTextColor: '#f5f5dc',
-              dayTextColor: '#2d4150',
-              textDisabledColor: '#d9e1e8',
+              selectedDayTextColor: '#f5f5dc',
+              todayTextColor: '#d0d7dd',
+              dayTextColor: '#4A3C39',
+              textDisabledColor: '#d0d7dd',
               dotColor: '#4A3C39',
               selectedDotColor: '#ffffff',
               arrowColor: '#4A3C39',
-              monthTextColor: '#4A3C39',
+              monthTextColor: '#372c2a',
             }}
             markedDates={{[this.state.markedDates]: { selected: true },}}
             onDayPress={(day) => {this.setState({date:day, markedDates:day.dateString})}}
@@ -171,5 +176,6 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     color: '#4A3C39',
+    fontFamily: 'Kanit-Regular'
   },
 });
