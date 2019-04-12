@@ -41,23 +41,28 @@ class CreateMeetingEndCalendar extends Component {
           <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../../assets/images/topic2.png')}/>
           <Calendar
             style={{
-              borderWidth: 1,
-              borderColor: 'gray',
+              borderRadius: 30,
               width: '90%',
+              paddingBottom: 15,
+              paddingTop: 10
             }}
             theme={{
-              backgroundColor: '#ffffff',
-              calendarBackground: '#ffffff',
-              textSectionTitleColor: '#b6c1cd',
-              selectedDayBackgroundColor: '#b6c1cd',
-              selectedDayTextColor: '#4A3C39',
-              todayTextColor: '#f5f5dc',
-              dayTextColor: '#2d4150',
-              textDisabledColor: '#d9e1e8',
+              backgroundColor: '#f5f5dc',
+              textDayFontFamily: 'Kanit-Regular',
+              textMonthFontFamily: 'Kanit-Bold',
+              textDayHeaderFontFamily: 'Kanit-Bold',
+              textTodayFontFamily: 'Kanit-Regular',
+              calendarBackground: '#f5f5dc',
+              textSectionTitleColor: '#372c2a',
+              selectedDayBackgroundColor: '#4A3C39',
+              selectedDayTextColor: '#f5f5dc',
+              todayTextColor: '#d0d7dd',
+              dayTextColor: '#4A3C39',
+              textDisabledColor: '#d0d7dd',
               dotColor: '#4A3C39',
               selectedDotColor: '#ffffff',
               arrowColor: '#4A3C39',
-              monthTextColor: '#4A3C39',
+              monthTextColor: '#372c2a',
             }}
             onDayPress={(day) => {this.setState({date:day})}}
           />

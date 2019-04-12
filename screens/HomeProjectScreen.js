@@ -31,18 +31,10 @@ class HomeProjectScreen extends React.Component {
     };
   }
   componentWillMount() {
-    this.animatedValueCreate = new Animated.Value(1);
-    this.animatedValueJoin = new Animated.Value(1);
     this.animatedValueAdd = new Animated.Value(0);
   }
   render() {
       const {navigate} = this.props.navigation;
-      const animatedStyleCreate = {
-        transform: [{ scale: this.animatedValueCreate}]
-      }
-      const animatedStyleJoin = {
-        transform: [{ scale: this.animatedValueJoin}]
-      }
       let projects = this.props.projects.map((val, key)=>{
           return <Project key={key} keyval={key} val={val}
           detailMethod={() => this.props.detailMethod(navigate, val)}
@@ -64,6 +56,7 @@ class HomeProjectScreen extends React.Component {
               </ScrollView>
               {this.state.showSelect == true ? 
               <View style={styles.buttonAdd}>
+              <Animatable.View animation='pulse' easing="ease-out" iterationCount="infinite">
                 <Animatable.View animation={this.state.anim ? showAnimation : hideAnimation} >
                   <AwesomeButton 
                     style={styles.createBtnAnimate}
@@ -76,6 +69,8 @@ class HomeProjectScreen extends React.Component {
                     <Text style={styles.signUpText}>Create Project</Text>
                   </AwesomeButton>
                 </Animatable.View>
+              </Animatable.View>
+              <Animatable.View animation='pulse' easing="ease-out" iterationCount="infinite">
                 <Animatable.View animation={this.state.anim ? showAnimation : hideAnimation} >
                   <AwesomeButton 
                     style={styles.joinBtnAnimate}
@@ -88,6 +83,7 @@ class HomeProjectScreen extends React.Component {
                     <Text style={styles.signUpText}>Join Project</Text>
                   </AwesomeButton>
                 </Animatable.View>
+              </Animatable.View>
               </View>
               : null }
               <View style={styles.footerFlex}>

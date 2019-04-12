@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     color: '#4A3C39',
+    fontFamily: 'Kanit-Regular'
   },
   textInput: {
     marginLeft:10,
