@@ -9,6 +9,8 @@ import {
 import { connect } from 'react-redux';
 import moment from "moment";
 
+import VoteTime from '../../components/VoteTimeMeeting'
+
 class MeetingScreen extends React.Component { 
   static navigationOptions = {
     header: null,
@@ -52,11 +54,6 @@ class MeetingScreen extends React.Component {
           return val.startMinutes
         }
       });
-      let endDate = this.props.meetings.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return val.endDate
-        }
-      });
       let endHour = this.props.meetings.map((val)=>{
         if( val.id == this.props.MeetingId){
           return val.endHour
@@ -86,12 +83,22 @@ class MeetingScreen extends React.Component {
             </View>
             <Text>Detail</Text>
             <Text>{meetingDetail}</Text>
-            <Text>Start Time- End Time</Text>
-            <Text>Date : {startDate} {startHour}:{startMinutes} - Date : {endDate} {endHour}:{endMinutes}</Text>
+            <Text>Date : {startDate}</Text>
+            <Text>Vote Time To Meeting</Text>
+            {this.renderTime(startHour, startMinutes, endHour, endMinutes)}
             <Text>Location</Text>
             <Text>{meetingLocation}</Text>
           </View>
       );
+  }
+
+  renderTime(startHour, startMinutes, endHour, endMinutes) {
+    let i = -1
+    let time =  startHour[0].map((key)=>{
+      i++
+      return <VoteTime key= {i + key} keyVal={key} startHour={startHour} startMinutes={startMinutes} endHour={endHour} endMinutes={endMinutes} i={i} checked={false}/>
+    })
+    return time
   }
 }
 

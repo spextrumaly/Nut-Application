@@ -29,11 +29,10 @@ const initialState = {
   meetingStateName: '',
   meetingStateDetail: '',
   meetingStateStartDate: '',
-  meetingStateStartHour: '',
-  meetingStateStartMinutes: '',
-  meetingStateEndDate: '',
-  meetingStateEndHour: '',
-  meetingStateEndMinutes: '',
+  meetingStateStartHour: [],
+  meetingStateStartMinutes: [],
+  meetingStateEndHour: [],
+  meetingStateEndMinutes: [],
   meetingStateLocation: '',
   taskStateName: '',
   taskStateDetail: '',
@@ -120,15 +119,14 @@ const reducer = (state = initialState, action) => {
     case 'ADD_MEETING_START_STATE':
       return Object.assign({}, state, {
         meetingStateStartDate : action.date,
-        meetingStateStartHour : action.hour,
-        meetingStateStartMinutes : action.minutes
       })
     case 'ADD_MEETING_END_STATE':
-      return Object.assign({}, state, {
-        meetingStateEndDate : action.date,
-        meetingStateEndHour : action.hour,
-        meetingStateEndMinutes : action.minutes
-      })
+      return {...state,
+        meetingStateEndHour : state.meetingStateEndHour.concat(action.hourEnd),
+        meetingStateEndMinutes : state.meetingStateEndMinutes.concat(action.minutesEnd),
+        meetingStateStartHour : state.meetingStateStartHour.concat(action.hourStart),
+        meetingStateStartMinutes : state.meetingStateStartMinutes.concat(action.minutesStart)
+      }
     case 'ADD_MEETING_LOCATION_STATE':
       return Object.assign({}, state, {
         meetingStateLocation : action.location

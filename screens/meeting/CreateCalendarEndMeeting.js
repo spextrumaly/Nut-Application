@@ -23,10 +23,12 @@ class CreateMeetingEndCalendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: '',
-      hour: '00',
-      minutes: '00',
+      hourStart: '00',
+      minutesStart: '00',
+      hourEnd: '00',
+      minutesEnd: '00',
       isDateTimePickerVisible: false,
+      isDateTimePickerVisibleEnd: false,
     }
   }
 
@@ -39,48 +41,38 @@ class CreateMeetingEndCalendar extends Component {
         </Text> */}
         <View style={styles.container}>
           <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../../assets/images/topic2.png')}/>
-          <Calendar
-            style={{
-              borderRadius: 30,
-              width: '90%',
-              paddingBottom: 15,
-              paddingTop: 10
-            }}
-            theme={{
-              backgroundColor: '#f5f5dc',
-              textDayFontFamily: 'Kanit-Regular',
-              textMonthFontFamily: 'Kanit-Bold',
-              textDayHeaderFontFamily: 'Kanit-Bold',
-              textTodayFontFamily: 'Kanit-Regular',
-              calendarBackground: '#f5f5dc',
-              textSectionTitleColor: '#372c2a',
-              selectedDayBackgroundColor: '#4A3C39',
-              selectedDayTextColor: '#f5f5dc',
-              todayTextColor: '#d0d7dd',
-              dayTextColor: '#4A3C39',
-              textDisabledColor: '#d0d7dd',
-              dotColor: '#4A3C39',
-              selectedDotColor: '#ffffff',
-              arrowColor: '#4A3C39',
-              monthTextColor: '#372c2a',
-            }}
-            onDayPress={(day) => {this.setState({date:day})}}
-          />
           <DateTimePicker
             mode='time'
             isVisible={this.state.isDateTimePickerVisible}
             onConfirm={this._handleDatePicked}
             onCancel={this._hideDateTimePicker}
           />
+          <DateTimePicker
+            mode='time'
+            isVisible={this.state.isDateTimePickerVisibleEnd}
+            onConfirm={this._handleDatePickedEnd}
+            onCancel={this._hideDateTimePickerEnd}
+          />
           <View style={styles.containerPickTime}>
             <TouchableHighlight style={[styles.textPickContainer, styles.bg]}>
-              <Text style={styles.signUpText}>End time {this.state.hour} : {this.state.minutes}</Text>
+              <Text style={styles.signUpText}>End time {this.state.hourStart} : {this.state.minutesStart}</Text>
             </TouchableHighlight>
             <TouchableHighlight style={[styles.buttonPickContainer, styles.signupButton]} onPress={this._showDateTimePicker}>
               <Text style={styles.signUpText}>Pick End time</Text>
             </TouchableHighlight>
           </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.Continue(this.state.date, this.state.hour, this.state.minutes, navigate)}>
+          <View style={styles.containerPickTime}>
+            <TouchableHighlight style={[styles.textPickContainer, styles.bg]}>
+              <Text style={styles.signUpText}>End time {this.state.hourEnd} : {this.state.minutesEnd}</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={[styles.buttonPickContainer, styles.signupButton]} onPress={this._showDateTimePickerEnd}>
+              <Text style={styles.signUpText}>Pick End time</Text>
+            </TouchableHighlight>
+          </View>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.addMoreTime(this.state.hourStart, this.state.minutesStart, this.state.hourEnd, this.state.minutesEnd)}>
+            <Text style={styles.signUpText}>Add More Time</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.Continue(this.state.hourStart, this.state.minutesStart, this.state.hourEnd, this.state.minutesEnd, navigate)}>
             <Text style={styles.signUpText}>Continue</Text>
           </TouchableHighlight>
         </View>
@@ -88,14 +80,12 @@ class CreateMeetingEndCalendar extends Component {
     );
   }
 
-  // continue(date, hour, minutes, navigate){
-  //   if(date){
-  //     store.meetingState.endDate = date;
-  //     store.meetingState.endHour = hour;
-  //     store.meetingState.endMinutes = minutes;
-  //     navigate('LocationMeeting')
-  //   }
-  // }
+  addMoreTime = () => {
+    this.props.addMoreTime(this.state.hourStart, this.state.minutesStart, this.state.hourEnd, this.state.minutesEnd)
+    this.setState({ hourStart: "00",minutesStart: "00"})
+    this.setState({ hourEnd: "00",minutesEnd: "00"})
+  }
+
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
@@ -103,18 +93,36 @@ class CreateMeetingEndCalendar extends Component {
   _handleDatePicked = (date) => {
     console.log('A date has been picked: ', date.getHours());
     console.log('A date has been picked: ', date.getMinutes());
-    this.setState({ hour: date.getHours(),minutes: date.getMinutes()})
+    this.setState({ hourStart: date.getHours(),minutesStart: date.getMinutes()})
     this._hideDateTimePicker();
+  };
+
+  _showDateTimePickerEnd = () => this.setState({ isDateTimePickerVisibleEnd: true });
+
+  _hideDateTimePickerEnd = () => this.setState({ isDateTimePickerVisibleEnd: false });
+
+  _handleDatePickedEnd = (date) => {
+    console.log('A date has been picked: ', date.getHours());
+    console.log('A date has been picked: ', date.getMinutes());
+    this.setState({ hourEnd: date.getHours(),minutesEnd: date.getMinutes()})
+    this._hideDateTimePickerEnd();
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    Continue: (date, hour, minutes, navigate) => {
+    Continue: (hourStart, minutesStart, hourEnd, minutesEnd, navigate) => {
       dispatch({ type: 'ADD_MEETING_END_STATE',
-        date: date, hour : hour, minutes: minutes
+        hourStart : hourStart, minutesStart: minutesStart,
+        hourEnd : hourEnd, minutesEnd: minutesEnd
       })
       navigate('LocationMeeting')
+    },
+    addMoreTime: (hourStart, minutesStart, hourEnd, minutesEnd) => {
+      dispatch({ type: 'ADD_MEETING_END_STATE',
+        hourStart : hourStart, minutesStart: minutesStart,
+        hourEnd : hourEnd, minutesEnd: minutesEnd
+      })
     }
   }
 }
