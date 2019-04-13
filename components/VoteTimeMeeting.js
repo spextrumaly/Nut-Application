@@ -13,7 +13,7 @@ export default class VoteTimeMeeting extends Component {
             checkedColor= 'green'
             title= {"Start : "+this.props.startHour[0][this.props.i]+":"+this.props.startMinutes[0][this.props.i]+"    End : "+this.props.endHour[0][this.props.i]+":"+this.props.endMinutes[0][this.props.i]}
             checked={this.props.checked}
-            onPress={()=>{console.log("test")}}
+            onPress={this.props.selectedTime}
           />
       );
     }

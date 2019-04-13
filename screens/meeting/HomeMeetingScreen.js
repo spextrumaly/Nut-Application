@@ -18,7 +18,9 @@ class MeetingScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-        meeting: {},
+      meeting: {},
+      selectedTime: false,
+      selectedIndex: 0,
     };
   }
 
@@ -93,12 +95,19 @@ class MeetingScreen extends React.Component {
   }
 
   renderTime(startHour, startMinutes, endHour, endMinutes) {
-    let i = -1
-    let time =  startHour[0].map((key)=>{
-      i++
-      return <VoteTime key= {i + key} keyVal={key} startHour={startHour} startMinutes={startMinutes} endHour={endHour} endMinutes={endMinutes} i={i} checked={false}/>
+    let checked = false
+    let time =  startHour[0].map((key, index)=>{
+      checked = false
+      if(this.state.selectedTime && this.state.selectedIndex == index){
+        checked = true
+      }
+      return <VoteTime key= {index + key} keyVal={key} startHour={startHour} startMinutes={startMinutes} endHour={endHour} endMinutes={endMinutes} i={index} checked={checked} selectedTime={() => this.selectedTime(index)}/>
     })
     return time
+  }
+
+  selectedTime(index) {
+    this.setState({ selectedTime: true, selectedIndex: index, });
   }
 }
 
