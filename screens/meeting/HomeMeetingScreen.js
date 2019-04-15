@@ -96,13 +96,16 @@ class MeetingScreen extends React.Component {
 
   renderTime(startHour, startMinutes, endHour, endMinutes) {
     let checked = false
-    let time =  startHour[0].map((key, index)=>{
-      checked = false
-      if(this.state.selectedTime && this.state.selectedIndex == index){
-        checked = true
-      }
-      return <VoteTime key= {index + key} keyVal={key} startHour={startHour} startMinutes={startMinutes} endHour={endHour} endMinutes={endMinutes} i={index} checked={checked} selectedTime={() => this.selectedTime(index)}/>
-    })
+    let time
+    if(startHour[0]) {
+      time =  startHour[0].map((key, index)=>{
+        checked = false
+        if(this.state.selectedTime && this.state.selectedIndex == index){
+          checked = true
+        }
+        return <VoteTime key= {index + key} keyVal={key} startHour={startHour} startMinutes={startMinutes} endHour={endHour} endMinutes={endMinutes} i={index} checked={checked} selectedTime={() => this.selectedTime(index)}/>
+      })
+    }
     return time
   }
 
