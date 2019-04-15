@@ -9,6 +9,8 @@ import {
 import { connect } from 'react-redux';
 import moment from "moment";
 
+import VoteTime from '../../components/VoteTimeMeeting'
+
 class MeetingScreen extends React.Component { 
   static navigationOptions = {
     header: null,
@@ -16,7 +18,9 @@ class MeetingScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-        meeting: {},
+      meeting: {},
+      selectedTime: false,
+      selectedIndex: 0,
     };
   }
 
@@ -52,11 +56,6 @@ class MeetingScreen extends React.Component {
           return val.startMinutes
         }
       });
-      let endDate = this.props.meetings.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return val.endDate
-        }
-      });
       let endHour = this.props.meetings.map((val)=>{
         if( val.id == this.props.MeetingId){
           return val.endHour
@@ -86,12 +85,29 @@ class MeetingScreen extends React.Component {
             </View>
             <Text>Detail</Text>
             <Text>{meetingDetail}</Text>
-            <Text>Start Time- End Time</Text>
-            <Text>Date : {startDate} {startHour}:{startMinutes} - Date : {endDate} {endHour}:{endMinutes}</Text>
+            <Text>Date : {startDate}</Text>
+            <Text>Vote Time To Meeting</Text>
+            {this.renderTime(startHour, startMinutes, endHour, endMinutes)}
             <Text>Location</Text>
             <Text>{meetingLocation}</Text>
           </View>
       );
+  }
+
+  renderTime(startHour, startMinutes, endHour, endMinutes) {
+    let checked = false
+    let time =  startHour[0].map((key, index)=>{
+      checked = false
+      if(this.state.selectedTime && this.state.selectedIndex == index){
+        checked = true
+      }
+      return <VoteTime key= {index + key} keyVal={key} startHour={startHour} startMinutes={startMinutes} endHour={endHour} endMinutes={endMinutes} i={index} checked={checked} selectedTime={() => this.selectedTime(index)}/>
+    })
+    return time
+  }
+
+  selectedTime(index) {
+    this.setState({ selectedTime: true, selectedIndex: index, });
   }
 }
 

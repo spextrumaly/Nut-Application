@@ -20,7 +20,7 @@ export default class Meeting extends React.Component {
               <Text style={styles.projectOwnerText}>Undefind User</Text>
             </View>
             <View style={styles.bodyDeadline}>
-              <Text style={styles.projectText}>Deadline : {this.countDown(this.props.val.startDate,this.props.val.createDate)}</Text>
+              <Text style={styles.projectText}>Due : {this.countDown(this.props.val.startDate,this.props.val.createDate)}</Text>
             </View>
           </View>
         </TouchableOpacity>

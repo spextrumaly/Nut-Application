@@ -20,6 +20,7 @@ import CalendarMeetingEndScreen from '../screens/meeting/CreateCalendarEndMeetin
 import LocationMeetingScreen from '../screens/meeting/CreateLocationMeeting'
 import MeetingScreen from '../screens/meeting/HomeMeetingScreen';
 import JoinMeetingScreen from '../screens/meeting/JoinMeetingScreen'
+import SelectProjectCreate from '../screens/SelectProjectCreate'
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -55,11 +56,18 @@ const ProjectStack = createStackNavigator({
   HomeProject: HomeProjectScreen,
   Project: ProjectScreen,
   CreateProject: CreateProjectScreen,
+  SelectProjectCreate: SelectProjectCreate,
   CreateTask: CreateTaskScreen,
   JoinProject: JoinProjectScreen,
   Calendar: CalendarScreen,
   CalendarTask: CalendarTaskScreen,
   HomeTask: HomeTaskScreen,
+  CreateMeeting: CreateMeetingScreen,
+  CalendarMeeting: CalendarMeetingScreen,
+  CalendarMeetingEnd: CalendarMeetingEndScreen,
+  LocationMeeting: LocationMeetingScreen,
+  Meetings: MeetingsScreen,
+  Meeting: MeetingScreen,
 });
 
 ProjectStack.navigationOptions = {

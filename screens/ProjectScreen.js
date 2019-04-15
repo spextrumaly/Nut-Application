@@ -12,6 +12,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import Task from '../components/Task';
+import MeetingOnProject from '../components/MeetingOnProject';
 import { store } from '../Store/Store';
 import moment from "moment";
 import { connect } from 'react-redux'
@@ -60,6 +61,15 @@ class ProjectScreen extends React.Component {
         }
       });
 
+      let activeMeetings = this.props.meetings.map((val, key)=>{
+        if( val.meetingOnProjectId == this.props.ProjectId){
+          return <MeetingOnProject key={key} keyval={key} val={val}
+          deleteMethod={()=>this.deleteTask(key)}
+          detailMethod={() => this.props.detailMethod(val, navigate)}
+          />
+        }
+      });
+
       let lateTasks = this.props.tasks.map((val, key)=>{
         if( val.ProjectID == this.props.ProjectId){
           if(val.status == 'late') {
@@ -101,6 +111,7 @@ class ProjectScreen extends React.Component {
                       <View style = { [styles.item, {width: screenWidth/1.5} ]}>
                         <Text style= { styles.headCard} >Active</Text>
                         <ScrollView>
+                          {activeMeetings}
                           {activeTasks}
                         </ScrollView>                      
                       </View>
@@ -132,7 +143,7 @@ class ProjectScreen extends React.Component {
                   paddingBottom={10}
                   paddingHorizontal={10}
                   width={80}
-                  onPress= {() => this.props.navigation.navigate('CreateTask')}
+                  onPress= {() => this.props.navigation.navigate('SelectProjectCreate')}
                   style={styles.addButton}>
                   <Text style={styles.addButtonText}>{!this.state.anim ? '+' : 'x'}</Text>
                 </AwesomeButton>
@@ -144,6 +155,12 @@ class ProjectScreen extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
+    detailMethod: (val, navigate) => {
+      dispatch({ type: 'DETAIL_MEETING',
+        id: val.id
+    })
+      navigate('Meeting')
+    },
     detailTaskMethod: (navigate, val) => {
       dispatch({ type: 'ADD_ID_TASK_STATE',  
         id: val.id
@@ -182,6 +199,7 @@ function mapStateToProps(state) {
     TaskId: state.TaskId,
     projects: state.projects,
     ProjectId: state.ProjectId,
+    meetings: state.meetings
   }
 }
 

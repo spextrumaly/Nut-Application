@@ -66,21 +66,7 @@ class CreateMeetingCalendar extends Component {
             markedDates={{[this.state.markedDates]: { selected: true },}}
             onDayPress={(day) => {this.setState({date:day, markedDates:day.dateString})}}
           />
-          <DateTimePicker
-            mode='time'
-            isVisible={this.state.isDateTimePickerVisible}
-            onConfirm={this._handleDatePicked}
-            onCancel={this._hideDateTimePicker}
-          />
-          <View style={styles.containerPickTime}>
-            <TouchableHighlight style={[styles.textPickContainer, styles.bg]}>
-              <Text style={styles.signUpText}>Start time {this.state.hour} : {this.state.minutes}</Text>
-            </TouchableHighlight>
-            <TouchableHighlight style={[styles.buttonPickContainer, styles.signupButton]} onPress={this._showDateTimePicker}>
-              <Text style={styles.signUpText}>Pick Start time</Text>
-            </TouchableHighlight>
-          </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.Continue(this.state.date, this.state.hour, this.state.minutes, navigate)}>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.Continue(this.state.date, navigate)}>
             <Text style={styles.signUpText}>Continue</Text>
           </TouchableHighlight>
         </View>
@@ -88,14 +74,6 @@ class CreateMeetingCalendar extends Component {
     );
   }
 
-  // continue(date, hour, minutes, navigate){
-  //   if(date){
-  //     store.meetingState.startDate = date;
-  //     store.meetingState.startHour = hour;
-  //     store.meetingState.startMinutes = minutes;
-  //     navigate('CalendarMeetingEnd')
-  //   }
-  // }
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
@@ -110,9 +88,9 @@ class CreateMeetingCalendar extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    Continue: (date, hour, minutes, navigate) => {
+    Continue: (date, navigate) => {
       dispatch({ type: 'ADD_MEETING_START_STATE',
-        date: date, hour : hour, minutes: minutes
+        date: date
       })
       navigate('CalendarMeetingEnd')
     }
