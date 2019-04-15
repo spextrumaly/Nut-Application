@@ -132,7 +132,7 @@ class ProjectScreen extends React.Component {
                   paddingBottom={10}
                   paddingHorizontal={10}
                   width={80}
-                  onPress= {() => this.props.navigation.navigate('CreateTask')}
+                  onPress= {() => this.props.navigation.navigate('SelectProjectCreate')}
                   style={styles.addButton}>
                   <Text style={styles.addButtonText}>{!this.state.anim ? '+' : 'x'}</Text>
                 </AwesomeButton>
