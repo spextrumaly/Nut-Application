@@ -37,6 +37,7 @@ const initialState = {
   taskStateName: '',
   taskStateDetail: '',
   newfeeds: [],
+  meetingOnProjectId: ''
 }
 
 const reducer = (state = initialState, action) => {
@@ -130,6 +131,10 @@ const reducer = (state = initialState, action) => {
     case 'ADD_MEETING_LOCATION_STATE':
       return Object.assign({}, state, {
         meetingStateLocation : action.location
+      })
+    case 'CREATE_MEETING_ON_PROJECT':
+      return Object.assign({}, state, {
+        meetingOnProjectId : action.id
       })
     case 'ADD_MEETING':
       return { 

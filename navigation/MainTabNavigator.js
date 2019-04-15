@@ -62,6 +62,12 @@ const ProjectStack = createStackNavigator({
   Calendar: CalendarScreen,
   CalendarTask: CalendarTaskScreen,
   HomeTask: HomeTaskScreen,
+  CreateMeeting: CreateMeetingScreen,
+  CalendarMeeting: CalendarMeetingScreen,
+  CalendarMeetingEnd: CalendarMeetingEndScreen,
+  LocationMeeting: LocationMeetingScreen,
+  Meetings: MeetingsScreen,
+  Meeting: MeetingScreen,
 });
 
 ProjectStack.navigationOptions = {

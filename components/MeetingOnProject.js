@@ -6,15 +6,15 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
-export default class Task extends Component {
+export default class MeetingOnProject extends Component {
     render() {
         return (
             <View key={this.props.keyval} style={styles.task}>
-              <TouchableOpacity onPress={this.props.detailTaskMethod}>
+              <TouchableOpacity onPress={this.props.detailMethod}>
                 <View style={styles.taskText}>
                   {/* <Text style={styles.taskText}>Create Date : {this.props.val.date}</Text> */}
                   {/* <Text style={styles.taskText}>Project : {this.props.val.ProjectName}</Text> */}
-                  <Text>Task : {this.props.val.task}</Text>
+                  <Text>Meeting : {this.props.val.meetingName}</Text>
                   {/* <Text style={styles.taskText}>OWNER : {this.props.val.owner}</Text> */}
                 </View>
                 <View style={styles.containerPeople}>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     margin: 5,
     marginLeft: 0,
     marginRight: 0,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#f5f5dc',
   },
   peopleIcon:{
     width:20,

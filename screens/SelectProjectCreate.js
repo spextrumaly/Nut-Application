@@ -38,7 +38,7 @@ class SelectProjectCreate extends Component {
     Animated.spring(this.animatedValueContinue, {
       toValue: 1,
     }).start(() => {
-      this.props.ContinueMeeting(navigate)
+      this.props.ContinueMeeting(this.props.meetingOnProjectId, this.props.ProjectId, navigate)
     })
   }
   handlePressInCreateTask() {
@@ -85,15 +85,28 @@ class SelectProjectCreate extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    meetingOnProjectId: state.meetingOnProjectId,
+    ProjectId: state.ProjectId
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     ContinueTask: (navigate) => {
       navigate('CreateTask')
+    },
+    ContinueMeeting: (meetingOnProjectId, ProjectId, navigate) => {
+      dispatch({ type: 'CREATE_MEETING_ON_PROJECT',  
+        id: ProjectId
+      })
+      navigate('CreateMeeting')
     }
   }
 }
 
-export default connect(null, mapDispatchToProps)(SelectProjectCreate)
+export default connect(mapStateToProps, mapDispatchToProps)(SelectProjectCreate)
 
 const styles = StyleSheet.create({
   container: {
