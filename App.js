@@ -69,6 +69,35 @@ const reducer = (state = initialState, action) => {
         return task;
       });
       return ({ ...state, tasks: allTasks });
+    case 'ADD_VOTE_TIME_MEETING':
+      const voteMeetings = state.meetings.map(meeting => {
+        if (meeting.id === action.meetingId) {
+          meeting.vote.push(action.index)
+        };
+        return meeting;
+      });
+      return ({ ...state, meetings: voteMeetings });
+    case 'CLOSE_VOTE_TIME_MEETING':
+      const closeVoteMeetings = state.meetings.map(meeting => {
+        if (meeting.id === action.meetingId) {
+
+          let finalStartHour = action.finalStartHour
+          meeting.finalStartHour = finalStartHour
+
+          let finalStartMinutes = action.finalStartMinutes
+          meeting.finalStartMinutes = finalStartMinutes
+
+          let finalEndHour = action.finalEndHour
+          meeting.finalEndHour = finalEndHour
+
+          let finalEndMinutes = action.finalEndMinutes
+          meeting.finalEndMinutes = finalEndMinutes
+
+          meeting.onVote = false
+        };
+        return meeting;
+      });
+      return ({ ...state, meetings: closeVoteMeetings });
     case 'LATE_TASK':
       const allTasks3 = state.tasks.map(task => {
         if (task.id === action.taskId) {
@@ -137,12 +166,15 @@ const reducer = (state = initialState, action) => {
         meetingOnProjectId : action.id
       })
     case 'ADD_MEETING':
-      return { 
-        ...state,
+      return Object.assign({}, state, {
         meetings: state.meetings.concat(action.meeting),
         allMeetings: state.allMeetings.concat(action.meeting),
-        newfeeds: state.newfeeds.concat(action.newfeed)
-      }
+        newfeeds: state.newfeeds.concat(action.newfeed),
+        meetingStateEndHour : [],
+        meetingStateEndMinutes : [],
+        meetingStateStartHour : [],
+        meetingStateStartMinutes : []
+      })
     case 'ADD_PROJECT':
       return { 
         ...state,

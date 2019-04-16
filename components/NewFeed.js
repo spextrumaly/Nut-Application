@@ -51,7 +51,7 @@ export default class NewFeed extends React.Component {
       </TouchableOpacity>
     }
     if(this.props.val.status == 'createTask'){
-      return <TouchableOpacity onPress={this.props.detailTaskMethod}>
+      return <TouchableOpacity>
         <View style={styles.headCard}>
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
@@ -68,7 +68,7 @@ export default class NewFeed extends React.Component {
       </TouchableOpacity>
     }
     if(this.props.val.status == 'deleteTask'){
-      return <TouchableOpacity onPress={this.props.detailTaskMethod}>
+      return <TouchableOpacity>
         <View style={styles.headCard}>
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>

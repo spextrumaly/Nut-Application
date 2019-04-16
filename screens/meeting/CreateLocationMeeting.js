@@ -138,9 +138,15 @@ function mapDispatchToProps(dispatch) {
           'startMinutes': startMinutes,
           'endHour': endHour,
           'endMinutes': endMinutes,
+          'finalStartHour': '',
+          'finalStartMinutes': '',
+          'finalEndHour': '',
+          'finalEndMinutes': '',
           'status': 'join',
           'meetingLocation': location,
-          'meetingOnProjectId': meetingOnProjectId
+          'meetingOnProjectId': meetingOnProjectId,
+          'onVote': true,
+          'vote': [],
         }, newfeed : {
           'meetingName': name,
           'createDate': timestamp,
