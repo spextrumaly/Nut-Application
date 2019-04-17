@@ -55,10 +55,10 @@ class CreateMeetingEndCalendar extends Component {
           />
           <View style={styles.containerPickTime}>
             <TouchableHighlight style={[styles.textPickContainer, styles.bg]}>
-              <Text style={styles.signUpText}>End time {this.state.hourStart} : {this.state.minutesStart}</Text>
+              <Text style={styles.signUpText}>Start time {this.state.hourStart} : {this.state.minutesStart}</Text>
             </TouchableHighlight>
             <TouchableHighlight style={[styles.buttonPickContainer, styles.signupButton]} onPress={this._showDateTimePicker}>
-              <Text style={styles.signUpText}>Pick End time</Text>
+              <Text style={styles.signUpText}>Pick Start time</Text>
             </TouchableHighlight>
           </View>
           <View style={styles.containerPickTime}>

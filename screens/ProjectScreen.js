@@ -110,20 +110,20 @@ class ProjectScreen extends React.Component {
                     <ScrollView horizontal = { true } showsHorizontalScrollIndicator = { false }>
                       <View style = { [styles.item, {width: screenWidth/1.5} ]}>
                         <Text style= { styles.headCard} >Active</Text>
-                        <ScrollView>
+                        <ScrollView style = { styles.containerCard}>
                           {activeMeetings}
                           {activeTasks}
                         </ScrollView>                      
                       </View>
                       <View style = { [styles.item, {width: screenWidth/1.5} ]}>
                         <Text style= { styles.headCard} >Late</Text>
-                        <ScrollView>
+                        <ScrollView style = { styles.containerCard}>
                           {lateTasks}
                         </ScrollView>                      
                       </View>                 
                       <View style = { [styles.item, {width: screenWidth/1.5} ]}>
                         <Text style= { styles.headCard} >Done</Text>
-                        <ScrollView>
+                        <ScrollView style = { styles.containerCard}>
                           {doneTasks}
                         </ScrollView>                      
                       </View>                             
@@ -212,6 +212,9 @@ const styles = StyleSheet.create({
   containerScrollViewHolder: {
     flex: 1,
   },
+  containerCard: {
+    borderRadius: 10,
+  },
   scrollViewHolder: { 
     margin: 10,
     flex: 1,
@@ -272,8 +275,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#4A3C39",
   },
   inputIcon:{
-    width:30,
-    height:30,
+    width:70,
+    height:70,
     margin:5,
     justifyContent: 'center'
   },
@@ -283,8 +286,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: 'Kanit-Bold',
     paddingLeft: 10,
-    paddingTop: 10,
-    paddingBottom: 10,
     color: '#f5f5dc'
   },
   taskSubText: {

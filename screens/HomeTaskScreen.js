@@ -25,7 +25,7 @@ class HomeTaskScreen extends React.Component {
     super(props);
     this.state = {
       checklist: [],
-      text: 'Add item',
+      text: 'Write list...',
     };
   }
 
@@ -69,11 +69,12 @@ class HomeTaskScreen extends React.Component {
               <Text style={styles.inListText}>in list : {taskStatus}</Text>
             </View>
             <View style={styles.containerProgress}>
-              <Progress.Circle size={50} progress={this.statusbar() || 0} color={'green'} showsText={true}/>
+              <Progress.Circle size={50} progress={this.statusbar() || 100} color={'green'} showsText={true}/>
             </View>
           </View>
           <View style = { styles.containerScrollViewHolder }>
             <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%', height: '100%'}}>
+            <ScrollView>
               <View style = { styles.scrollViewHolder }>
                 <ScrollView>
                   <View style = { [styles.item, {width: '100%'} ]}>
@@ -116,7 +117,7 @@ class HomeTaskScreen extends React.Component {
                         {console.log(checklists) || checklists ? checklists : null}
                         <View style={{flexDirection: 'row',}}>
                           <TextInput
-                            style={{height: 30, borderColor: 'gray', borderWidth: 1, width: '40%', margin: 10, marginLeft: 15,}}
+                            style={{height: 30, borderColor: 'gray', borderWidth: 1, width: '40%', margin: 10, marginLeft: 15, color: 'gray', backgroundColor: 'white'}}
                             onChangeText={(text) => this.setState({text})}
                             value={this.state.text}
                           />
@@ -139,6 +140,7 @@ class HomeTaskScreen extends React.Component {
                   </TouchableHighlight>
                 </View>
               </View>
+            </ScrollView>
             </ImageBackground>
           </View>
         </View>
@@ -220,6 +222,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  taskIcon: {
+    maxWidth: 50,
+    maxHeight: 50
+  },
   containerTopic: {
     marginBottom: 20,
   },
@@ -271,12 +277,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
     paddingLeft: 10,
     fontFamily: 'Kanit-Bold',
-    paddingTop: 10,
-    paddingBottom: 10,
     color: '#f5f5dc'
   },
   inListText: {
     paddingLeft: 10,
+    color: '#f5f5dc'
   },
   containerScrollViewHolder: {
     justifyContent: 'center',
@@ -284,10 +289,11 @@ const styles = StyleSheet.create({
   },
   scrollViewHolder:
   { 
-    maxHeight: '60%',
+    maxHeight: '75%',
     margin: 10,
     marginTop: 20,
-    backgroundColor: '#D3D3D3',
+    backgroundColor: '#f5f5dc',
+    borderRadius: 10,
   },
   containerFooter: {
     margin: 10,
@@ -295,7 +301,7 @@ const styles = StyleSheet.create({
   footer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#D3D3D3',
+    backgroundColor: '#4A3C39',
   },
   item: {
     flexDirection: 'column',
@@ -306,6 +312,7 @@ const styles = StyleSheet.create({
   headCard: {
     fontSize: 18,
     padding: 5,
+    color: '#4A3C39',
   },
   memberText: {
     fontSize: 15,
@@ -315,6 +322,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     padding: 5,
     marginLeft: 15,
+    color: '#4A3C39',
   },
   buttonContainer: {
     height: 45,

@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     marginRight: 0,
     backgroundColor: '#f5f5dc',
+    borderRadius: 10
   },
   peopleIcon:{
     width:20,

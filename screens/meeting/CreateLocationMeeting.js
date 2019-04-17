@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width:250,
     borderRadius:30,
-    top: '52%',
+    top: '60%',
     marginLeft: '20%',
     marginRight: '20%',
   },
