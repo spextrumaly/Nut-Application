@@ -41,7 +41,7 @@ class CalendarScreen extends Component {
     Animated.spring(this.animatedValueContinue, {
       toValue: 1,
     }).start(() => {
-      this.props.AddProject(this.state.date, this.props.projectStateName, this.props.projectStateDetail, navigate)
+      this.props.AddProject(this.state.date, this.props.projectStateName, this.props.projectStateDetail, this.props.userDetail.name, navigate)
     })
   }
   render() {
@@ -100,9 +100,10 @@ class CalendarScreen extends Component {
 
 function mapStateToProps(state) {
   return {
-      projects: state.projects,
-      projectStateName: state.projectStateName,
-      projectStateDetail: state.projectStateDetail,
+    projects: state.projects,
+    projectStateName: state.projectStateName,
+    projectStateDetail: state.projectStateDetail,
+    userDetail: state.userDetail
   }
 }
 
@@ -114,7 +115,7 @@ function mapDispatchToProps(dispatch) {
   for (var i = 0; i < 5; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return {
-    AddProject: (date, name, detail, navigate) => {
+    AddProject: (date, name, detail, ownerName, navigate) => {
       let uID = firebase.auth().currentUser.uid;
       console.log(uID)
       projectRef = firebase.database().ref('project/')
@@ -127,13 +128,13 @@ function mapDispatchToProps(dispatch) {
         'createDate': timestamp,
         //'id': text,
         'deadlineDate': date.dateString,
-        
-      member : {
-        [uID] : {
-          timestamp : Date.now(),
-          status : 'master'
+        'ownerName': ownerName,     
+        member : {
+          [uID] : {
+            timestamp : Date.now(),
+            status : 'master'
+            }
           }
-        }
       }).then((snap) =>{
         newKey = snap.key
         projectRef.child(newKey).update({

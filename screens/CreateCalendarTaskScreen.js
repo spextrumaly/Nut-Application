@@ -39,7 +39,7 @@ class CalendarScreenTask extends Component {
     Animated.spring(this.animatedValueContinue, {
       toValue: 1,
     }).start(() => {
-      this.props.addTask(this.state.date, this.props.taskStateName, this.props.taskStateDetail, this.props.ProjectId, navigate)
+      this.props.addTask(this.state.date, this.props.taskStateName, this.props.taskStateDetail, this.props.ProjectId, this.props.userDetail.name, navigate)
     })
   }
   render() {
@@ -101,7 +101,8 @@ function mapStateToProps(state) {
     tasks: state.tasks,
     taskStateName: state.taskStateName,
     taskStateDetail: state.taskStateDetail,
-    ProjectId: state.ProjectId
+    ProjectId: state.ProjectId,
+    userDetail: state.userDetail
   }
 }
 
@@ -113,7 +114,7 @@ function mapDispatchToProps(dispatch) {
   for (var i = 0; i < 5; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return {
-    addTask: (date, name, detail, projectId, navigate) => {
+    addTask: (date, name, detail, projectId, ownerName, navigate) => {
       let projectRef = firebase.database().ref('project/'+projectId+'/task')
       let taskRef = firebase.database().ref('task/')
       taskRef.push({
@@ -124,7 +125,8 @@ function mapDispatchToProps(dispatch) {
           'description': detail,
           'status': 'active',
           'deadlineDate': date.dateString,
-          'checklists': false
+          'checklists': false,
+          'ownerName': ownerName
         })
         .then((snap) => {
           const key = snap.key;

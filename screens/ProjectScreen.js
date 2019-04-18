@@ -197,6 +197,7 @@ function mapDispatchToProps(dispatch) {
       navigate('HomeProject');
     },
     fetchDispatchAllTask : (projectId) => {
+      dispatch({ type: 'FETCH_CLEAR_ALL_TASK' })
       fetchAllTask((tasks) => {
         dispatch({ type: 'FETCH_ALL_TASK', payload: tasks })
       }, projectId)

@@ -72,7 +72,7 @@ class LocationMeeting extends Component {
               types: 'food'
             }}
           />      
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.AddMeeting(this.props.meetingStateName, this.props.meetingStateDetail, this.props.meetingStateStartDate, this.props.meetingStateStartHour, this.props.meetingStateStartMinutes, this.props.meetingStateEndHour, this.props.meetingStateEndMinutes, this.props.meetingStateLocation, this.props.meetingOnProjectId, navigate)}>
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.AddMeeting(this.props.meetingStateName, this.props.meetingStateDetail, this.props.meetingStateStartDate, this.props.meetingStateStartHour, this.props.meetingStateStartMinutes, this.props.meetingStateEndHour, this.props.meetingStateEndMinutes, this.props.meetingStateLocation, this.props.meetingOnProjectId, this.props.userDetail.name, navigate)}>
             <Text style={styles.signUpText}>Add Meeting</Text>
           </TouchableHighlight>
         </View>
@@ -92,6 +92,7 @@ function mapStateToProps(state) {
     meetingStateEndMinutes: state.meetingStateEndMinutes,
     meetingStateLocation: state.meetingStateLocation,
     meetingOnProjectId: state.meetingOnProjectId,
+    userDetail: state.userDetail
   }
 }
 
@@ -103,7 +104,7 @@ function mapDispatchToProps(dispatch) {
   for (var i = 0; i < 5; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return {
-    AddMeeting: (name, detail, startDate, startHour, startMinutes, endHour, endMinutes, location, meetingOnProjectId, navigate) => {
+    AddMeeting: (name, detail, startDate, startHour, startMinutes, endHour, endMinutes, location, meetingOnProjectId, ownerName, navigate) => {
       // dispatch({ type: 'ADD_MEETING',
       //   meeting: {
       //     'meetingName': name,
@@ -154,6 +155,7 @@ function mapDispatchToProps(dispatch) {
         'meetingOnProjectId': meetingOnProjectId,
         'onVote': true,
         'vote': false,
+        'ownerName': ownerName,
         
       member : {
         [uID] : {

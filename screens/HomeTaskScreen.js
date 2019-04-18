@@ -47,6 +47,11 @@ class HomeTaskScreen extends React.Component {
           return val.task
         }
       });
+      let ownerName = this.props.tasks.map((val)=>{
+        if( val.id == this.props.TaskId){
+          return val.ownerName
+        }
+      });
       let taskStatus = this.props.tasks.map((val)=>{
         if( val.id == this.props.TaskId){
           return val.status
@@ -83,12 +88,12 @@ class HomeTaskScreen extends React.Component {
                     <View style = { styles.containerTopic }>
                       <View style = { styles.containerMember } >
                         <Image style={styles.memberIcon} source={require('../assets/images/people.png')}/>
-                        <Text style= { styles.headCard} >MEMBERS</Text>
+                        <Text style= { styles.headCard} >OWNER MEMBERS</Text>
                       </View>
                       <View style = { styles.containerMembers }>
                         <View style = { styles.containerMember }>
                           <Image style={styles.avatarIcon} source={require('../assets/images/avatar.png')}/>
-                          <Text style= { styles.memberText} >Undefinded User</Text>
+                          <Text style= { styles.memberText} >{ownerName}</Text>
                         </View>
                       </View>
                     </View>

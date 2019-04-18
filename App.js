@@ -51,7 +51,7 @@ const reducer = (state = initialState, action) => {
     })
     case 'FETCH_USER_DATA':
       return Object.assign({}, state, {
-        userDetail: fetchAllData()
+        userDetail: action.payload
       })
     case 'FETCH_ALL_PROJECT':
       return Object.assign({}, state, {

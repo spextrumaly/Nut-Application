@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 firebase.initializeApp(firebaseConfig);
 
 import { Container, Content, Header, Form, Input, Item, Button, Label } from 'native-base'
-import { fetchAllProject, fetchAllMeeting } from '../src/fetchData';
+import { fetchAllProject, fetchAllMeeting, fetchAllData } from '../src/fetchData';
 
 
 class App extends React.Component {
@@ -21,7 +21,7 @@ class App extends React.Component {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
         console.log(user.displayName + ' login Screen');
-        this.props.fetchAllData()
+        this.props.fetchDispatchAllData()
         this.props.fetchDispatchAllProject()
         this.props.fetchDispatchAllMeeting()
         this.props.navigation.navigate('App');
@@ -71,7 +71,6 @@ class App extends React.Component {
         console.log("firebase cred err:", error);
        })
        console.log("LOGIN")
-       this.props.fetchAllData()
       } else {
         return { cancelled: true };
       }
@@ -117,7 +116,6 @@ class App extends React.Component {
         console.log("firebase cred err:", error);
        })
       console.log("LOGIN")
-      this.props.fetchAllData()
     }
   };
 
@@ -152,9 +150,11 @@ class App extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchAllData: () => {
-      dispatch({ type: 'FETCH_USER_DATA',  
+    fetchDispatchAllData: () => {
+      fetchAllData((user) => {
+        dispatch({ type: 'FETCH_USER_DATA', payload: user
       })
+    })
     },
     fetchDispatchAllProject: () => {
         fetchAllProject((projects) => {

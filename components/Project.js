@@ -17,7 +17,7 @@ export default class Project extends React.Component {
               <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
               <View>
                 <Text style={styles.nameText}>{this.props.val.name}</Text>
-                <Text style={styles.projectOwnerText}>Undefind User</Text>
+                <Text style={styles.projectOwnerText}>{this.props.val.ownerName}</Text>
               </View>
               <View style={styles.bodyDeadline}>
                 <Text style={styles.projectText}>Deadline : {this.countDown(this.props.val.deadlineDate,this.props.val.createDate)}</Text>

@@ -34,6 +34,7 @@ class HomeProjectScreen extends React.Component {
     this.animatedValueAdd = new Animated.Value(0);
   }
   render() {
+      console.log(this.props.projects)
       const {navigate} = this.props.navigation;
       let projects = this.props.projects.map((val, key)=>{
           return <Project key={key} keyval={key} val={val}
@@ -132,7 +133,7 @@ class HomeProjectScreen extends React.Component {
 
 function mapStateToProps(state) {
   return {
-      projects: state.projects
+      projects: state.projects,
   }
 }
 

@@ -1,12 +1,11 @@
 import * as firebase from 'firebase';
 import { AsyncStorage } from 'react-native';
 
-export function fetchAllData() {
+export function fetchAllData(callback) {
   let uID =  firebase.auth().currentUser.uid;
   firebase.database().ref('user/' + uID)
   .once('value', function(snapshot){
-    console.log(snapshot);
-    return snapshot
+    callback(snapshot.val())
   })
 }
 
