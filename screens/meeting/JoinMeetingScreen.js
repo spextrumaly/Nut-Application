@@ -10,6 +10,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import { connect } from 'react-redux'
+import { fetchAllMeeting, joinMeeting } from '../../src/fetchData';
 
 class JoinMeetingScreen extends Component {
   static navigationOptions = {
@@ -35,7 +36,7 @@ class JoinMeetingScreen extends Component {
     Animated.spring(this.animatedValueContinue, {
       toValue: 1,
     }).start(() => {
-      this.props.addProject(this.props.allMeetings, this.state.idMeeting, navigate)
+      this.props.addProject(this.state.idMeeting, navigate)
     })
   }
   render() {
@@ -78,11 +79,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addProject: (values, id, navigate) => {
-      values.map((val) => {
-        if(val.id === id)
-        dispatch({ type: 'MEETING_PROJECT',  
-          meeting: val
+    addProject: (id, navigate) => {
+      joinMeeting(id)
+      dispatch({ type: 'FETCH_CLEAR_ALL_MEETING' })
+      fetchAllMeeting((meetings) => {
+        dispatch({ type: 'FETCH_ALL_MEETING', payload: meetings
         })
       })
       navigate('Meetings');

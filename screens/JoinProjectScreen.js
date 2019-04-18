@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { store } from '../Store/Store';
 import { connect } from 'react-redux'
+import { fetchAllProject, joinProject } from '../src/fetchData';
 
 class JoinProjectScreen extends Component {
   static navigationOptions = {
@@ -37,7 +38,7 @@ class JoinProjectScreen extends Component {
     Animated.spring(this.animatedValueContinue, {
       toValue: 1,
     }).start(() => {
-      this.props.addProject(this.props.allProjects, this.state.idProject, navigate)
+      this.props.addProject(this.state.idProject, navigate)
     })
   }
   render() {
@@ -80,11 +81,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addProject: (values, id, navigate) => {
-      values.map((val) => {
-        if(val.id === id)
-        dispatch({ type: 'JOIN_PROJECT',  
-          project: val
+    addProject: (id, navigate) => {
+      joinProject(id)
+      dispatch({ type: 'FETCH_CLEAR_ALL_PROJECT' })
+      fetchAllProject((projects) => {
+        dispatch({ type: 'FETCH_ALL_PROJECT', payload: projects
         })
       })
       navigate('HomeProject');

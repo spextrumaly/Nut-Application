@@ -5,7 +5,7 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { fetchAllData, fetchAllProject } from './src/fetchData';
+import { joinProject } from './src/fetchData';
 
 const initialState = {
   userDetail: {},
@@ -49,6 +49,9 @@ const reducer = (state = initialState, action) => {
     return Object.assign({}, state, {
       statusLogin: true
     })
+    // case 'FETCH_JOIN_PROJECT' :
+    //   joinProject(action.id)
+    //   return state
     case 'FETCH_USER_DATA':
       return Object.assign({}, state, {
         userDetail: action.payload

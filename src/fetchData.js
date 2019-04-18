@@ -5,6 +5,7 @@ export function fetchAllData(callback) {
   let uID =  firebase.auth().currentUser.uid;
   firebase.database().ref('user/' + uID)
   .once('value', function(snapshot){
+    console.log(snapshot.val())
     callback(snapshot.val())
   })
 }
@@ -49,3 +50,34 @@ export function fetchAllTask(callback, projectID) {
     })
   })
 }
+
+export function joinProject(projectCode){
+  // rom ku
+  let uID =  firebase.auth().currentUser.uid;
+  projectRef = firebase.database().ref('project/' + projectCode+'/member/')
+  userRef = firebase.database().ref('user/' + uID +'/project/')
+  // add uid to member of the project
+  projectRef.child(uID).update({
+    status : 'member',
+    timestamp : Date.now()
+  })
+  userRef.update({
+    [projectCode] : true
+  })
+}
+
+export function joinMeeting(meetingCode){
+  // rom ku
+  let uID =  firebase.auth().currentUser.uid;
+  meetingRef = firebase.database().ref('meeting/' + meetingCode+'/member/')
+  userRef = firebase.database().ref('user/' + uID +'/meeting/')
+  // add uid to member of the project
+  meetingRef.child(uID).update({
+    status : 'member',
+    timestamp : Date.now()
+  })
+  userRef.update({
+    [meetingCode] : true
+  })
+ }
+ 

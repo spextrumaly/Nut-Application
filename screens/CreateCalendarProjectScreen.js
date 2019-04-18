@@ -45,6 +45,7 @@ class CalendarScreen extends Component {
     })
   }
   render() {
+    console.log(this.props.userDetail)
     const {navigate} = this.props.navigation;
     const animatedStyleContinue = {
       transform: [{ scale: this.animatedValueContinue}]
