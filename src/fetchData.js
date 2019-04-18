@@ -79,5 +79,12 @@ export function joinMeeting(meetingCode){
   userRef.update({
     [meetingCode] : true
   })
- }
+}
+
+export function changeStatus(status, taskID){
+  let taskRef =  firebase.database().ref('task/'+ taskID);
+  taskRef.update({
+    status : status 
+  })
+}
  

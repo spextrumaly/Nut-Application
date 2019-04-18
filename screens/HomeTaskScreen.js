@@ -13,6 +13,7 @@ import * as Progress from 'react-native-progress';
 import moment from "moment";
 import { store } from '../Store/Store';
 import { connect } from 'react-redux'
+import { fetchAllTask, changeStatus } from '../src/fetchData';
 
 import CheckBoxListTask from '../components/CheckBoxListTask';
 
@@ -139,7 +140,7 @@ class HomeTaskScreen extends React.Component {
               </View>
               <View style={styles.containerFooter}>
                 <View style={styles.footer}>
-                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.doneTask(this.props.tasks, this.props.TaskId, navigate)}>
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.doneTask(this.props.tasks, this.props.TaskId, navigate, this.props.ProjectId)}>
                     <Text style={styles.signUpText}>Done Task</Text>
                   </TouchableHighlight>
                   <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.deleteTask(this.props.tasks, this.props.TaskId, navigate)}>
@@ -200,10 +201,12 @@ function mapDispatchToProps(dispatch) {
       });
       navigate('Project');
     },
-    doneTask(tasks, taskId, navigate) {
-      dispatch({ type: 'DONE_TASK',  
-        tasks: tasks, taskId : taskId
-      })
+    doneTask(tasks, taskId, navigate, projectId) {
+      changeStatus('done', taskId)
+      dispatch({ type: 'FETCH_CLEAR_ALL_TASK' })
+      fetchAllTask((tasks) => {
+        dispatch({ type: 'FETCH_ALL_TASK', payload: tasks })
+      }, projectId)
       navigate('Project');
     },
     checkBoxMethod(tasks, taskId, value) {
@@ -219,7 +222,8 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     tasks: state.tasks,
-    TaskId: state.TaskId
+    TaskId: state.TaskId,
+    ProjectId: state.ProjectId,
   }
 }
 

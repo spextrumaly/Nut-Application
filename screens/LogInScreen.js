@@ -122,9 +122,9 @@ class App extends React.Component {
   render() {
     return (
         <Container style={styles.container}>
+        <ScrollView style={styles.scrollContainer}>
         <Image source={require('../assets/images/bg.png')} style={styles.backgroundImage}></Image>
         <View style={styles.loginForm}>
-        <ScrollView style={styles.scrollContainer}>
           <Image source={require('../assets/images/text-nut.png')} style={styles.nutImg}></Image>
           <AwesomeButton
             backgroundDarker='#29487d'
@@ -142,8 +142,8 @@ class App extends React.Component {
           >
             <Text style={{ color: 'white', fontFamily: 'Kanit-Regular' }}> Login With Google</Text>
           </AwesomeButton>
-        </ScrollView>
         </View>
+        </ScrollView>
         </Container>
       
     );
