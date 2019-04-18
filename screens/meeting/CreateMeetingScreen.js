@@ -13,6 +13,7 @@ import {
 import { store } from '../../Store/Store';
 import { connect } from 'react-redux';
 
+var dismissKeyboard = require('dismissKeyboard');
 class CreateMeeting extends Component {
   static navigationOptions = {
     header: null,
@@ -48,43 +49,46 @@ class CreateMeeting extends Component {
     }
     return (
       <ImageBackground source={require('../../assets/images/bg.png')}style={{width: '100%', height: '100%'}}>
-        {/* <Text style={styles.textStep}>
-          STEP 1/2
-        </Text> */}
-        <View style={styles.container}>
-          {/* <Text style={styles.textHeader}>
-            What is your project ?
+        <TouchableWithoutFeedback onPressIn={dismissKeyboard}>
+          {/* <Text style={styles.textStep}>
+            STEP 1/2
           </Text> */}
-          <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../../assets/images/topic.png')}/>
-          <View style={styles.inputContainer}>
-            <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
-            <TextInput style={styles.inputs}
-              style={styles.textInput}
-              placeholder='Enter a meeting name...'
-              onChangeText={(nameMeeting)=> this.setState({nameMeeting})}
-              value={this.state.nameMeeting}
-              placeholderTextColor='grey'
-              underlineColorAndroid='transparent'/>
+          <View style={styles.container}>
+            {/* <Text style={styles.textHeader}>
+              What is your project ?
+            </Text> */}
+            <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../../assets/images/meeting-topic.png')}/>
+            <View style={styles.inputContainer}>
+              <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
+              <TextInput style={styles.inputs}
+                style={styles.textInput}
+                placeholder='Enter a meeting name...'
+                maxLength = {25}
+                onChangeText={(nameMeeting)=> this.setState({nameMeeting})}
+                value={this.state.nameMeeting}
+                placeholderTextColor='grey'
+                underlineColorAndroid='transparent'/>
+            </View>
+            <View style={styles.inputContainerMultiline}>
+              <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
+              <TextInput style={[styles.inputsMultiline, styles.textInput]}
+                  multiline = {true}
+                placeholder='Enter a description...'
+                onChangeText={(detailMeeting)=> this.setState({detailMeeting})}
+                value={this.state.detailMeeting}
+                placeholderTextColor='grey'
+                underlineColorAndroid='transparent'/>
+            </View>
+            <TouchableWithoutFeedback
+              onPressIn={this.handlePressInContinue}
+              onPressOut={() => this.handlePressOutContinue(navigate)}
+            >
+              <Animated.View style={[styles.buttonContainer, styles.signupButton, animatedStyleContinue]}>
+                <Text style={styles.signUpText}>Continue</Text>
+              </Animated.View>
+            </TouchableWithoutFeedback>
           </View>
-          <View style={styles.inputContainer}>
-            <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
-            <TextInput style={styles.inputs}
-              style={styles.textInput}
-              placeholder='Enter a description...'
-              onChangeText={(detailMeeting)=> this.setState({detailMeeting})}
-              value={this.state.detailMeeting}
-              placeholderTextColor='grey'
-              underlineColorAndroid='transparent'/>
-          </View>
-          <TouchableWithoutFeedback
-            onPressIn={this.handlePressInContinue}
-            onPressOut={() => this.handlePressOutContinue(navigate)}
-          >
-            <Animated.View style={[styles.buttonContainer, styles.signupButton, animatedStyleContinue]}>
-              <Text style={styles.signUpText}>Continue</Text>
-            </Animated.View>
-          </TouchableWithoutFeedback>
-        </View>
+        </TouchableWithoutFeedback>
       </ImageBackground>
     );
   }
@@ -179,5 +183,23 @@ const styles = StyleSheet.create({
   textInput: {
     fontFamily: 'Kanit-Regular',
     marginLeft:10,
-  }
+  },
+  inputContainerMultiline: {
+    borderBottomColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
+    borderRadius:30,
+    borderBottomWidth: 1,
+    width:250,
+    height: 200,
+    marginBottom:20,
+    paddingTop: 10,
+    flexDirection: 'row',
+    
+  },
+  inputsMultiline:{
+    marginLeft:16,
+    marginRight:16,
+    flex:2,
+    
+  },
 });

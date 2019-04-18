@@ -40,7 +40,7 @@ class CreateMeetingEndCalendar extends Component {
           STEP 2/2
         </Text> */}
         <View style={styles.container}>
-          <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../../assets/images/topic2.png')}/>
+          <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../../assets/images/time-pick.png')}/>
           <DateTimePicker
             mode='time'
             isVisible={this.state.isDateTimePickerVisible}

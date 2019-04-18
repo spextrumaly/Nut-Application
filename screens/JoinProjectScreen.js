@@ -48,6 +48,7 @@ class JoinProjectScreen extends Component {
     return (
       <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%', height: '100%'}}>
         <View style={styles.container}>
+        <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../assets/images/enter-nutid.png')}/>
           <View style={styles.inputContainer}>
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
@@ -143,5 +144,9 @@ const styles = StyleSheet.create({
   textInput: {
     fontFamily: 'Kanit-Regular',
     marginLeft:10,
-  }
+  },
+  topicContainer: {
+    width: '100%',
+    height: 100,
+  },
 });
