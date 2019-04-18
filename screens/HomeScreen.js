@@ -1,4 +1,5 @@
 import React from 'react';
+import * as Animatable from 'react-native-animatable';
 import {
   ScrollView,
   StyleSheet,
@@ -42,7 +43,10 @@ class HomeScreen extends React.Component {
                 <Text style={styles.taskText}>Feed</Text>
               </View>
             </View>
-            {/* <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../assets/images/whatisnut.png')}/> */}
+            <Animatable.View animation='pulse' easing="ease-out" iterationCount="infinite">
+              <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../assets/images/whatisnut.gif')}/>
+
+            </Animatable.View>
             <View style={styles.body}>
               <ScrollView style={styles.scrollContainer}>
               <View style={styles.projectContainer}>
