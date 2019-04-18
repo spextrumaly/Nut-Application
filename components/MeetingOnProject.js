@@ -13,7 +13,7 @@ export default class MeetingOnProject extends Component {
               <TouchableOpacity onPress={this.props.detailMethod}>
                 <View style={styles.taskText}>
                   {/* <Text style={styles.taskText}>Create Date : {this.props.val.date}</Text> */}
-                  {/* <Text style={styles.taskText}>Project : {this.props.val.ProjectName}</Text> */}
+                  {/* <Text style={styles.taskText}>Project : {this.props.val.name}</Text> */}
                   <Text>Meeting : {this.props.val.meetingName}</Text>
                   {/* <Text style={styles.taskText}>OWNER : {this.props.val.owner}</Text> */}
                 </View>

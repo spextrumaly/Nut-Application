@@ -3,6 +3,8 @@ import { View, Image, Text, ImageBackground, StyleSheet, TouchableHighlight} fro
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import moment from "moment";
 import { connect } from 'react-redux';
+import { fetchAllMeeting } from '../../src/fetchData';
+import * as firebase from 'firebase';
 
 class LocationMeeting extends Component {
   static navigationOptions = {
@@ -77,31 +79,6 @@ class LocationMeeting extends Component {
       </ImageBackground>
     );
   }
-
-  // addMeeting(location, navigate) {
-  //   var timestamp = moment().format();
-  //   var text = "";
-  //   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
-  //   for (var i = 0; i < 5; i++)
-  //     text += possible.charAt(Math.floor(Math.random() * possible.length));
-  //   store.meetingArray.push({
-  //     'meetingName': store.meetingState.name,
-  //     'meetingDetail': store.meetingState.details,
-  //     'createDate': timestamp,
-  //     'id': text,
-  //     'startDate': store.meetingState.startDate.dateString,
-  //     'startHour': store.meetingState.startHour,
-  //     'startMinutes': store.meetingState.startMinutes,
-  //     'endDate': store.meetingState.endDate.dateString,
-  //     'endHour': store.meetingState.endHour,
-  //     'endMinutes': store.meetingState.endMinutes,
-  //     'status': 'join',
-  //     'meetingLocation': store.meetingState.location,
-  //   });
-  //   this.setState({location:{}});
-  //   navigate('Meetings');
-  // }
 }
 
 function mapStateToProps(state) {
@@ -127,32 +104,75 @@ function mapDispatchToProps(dispatch) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return {
     AddMeeting: (name, detail, startDate, startHour, startMinutes, endHour, endMinutes, location, meetingOnProjectId, navigate) => {
-      dispatch({ type: 'ADD_MEETING',
-        meeting: {
-          'meetingName': name,
-          'meetingDetail': detail,
-          'createDate': timestamp,
-          'id': text,
-          'startDate': startDate.dateString,
-          'startHour': startHour,
-          'startMinutes': startMinutes,
-          'endHour': endHour,
-          'endMinutes': endMinutes,
-          'finalStartHour': '',
-          'finalStartMinutes': '',
-          'finalEndHour': '',
-          'finalEndMinutes': '',
-          'status': 'join',
-          'meetingLocation': location,
-          'meetingOnProjectId': meetingOnProjectId,
-          'onVote': true,
-          'vote': [],
-        }, newfeed : {
-          'meetingName': name,
-          'createDate': timestamp,
-          'id': text,
-          'status': 'createMeeting',
+      // dispatch({ type: 'ADD_MEETING',
+      //   meeting: {
+      //     'meetingName': name,
+      //     'meetingDetail': detail,
+      //     'createDate': timestamp,
+      //     'id': text,
+      //     'startDate': startDate.dateString,
+      //     'startHour': startHour,
+      //     'startMinutes': startMinutes,
+      //     'endHour': endHour,
+      //     'endMinutes': endMinutes,
+      //     'finalStartHour': '',
+      //     'finalStartMinutes': '',
+      //     'finalEndHour': '',
+      //     'finalEndMinutes': '',
+      //     'status': 'join',
+      //     'meetingLocation': location,
+      //     'meetingOnProjectId': meetingOnProjectId,
+      //     'onVote': true,
+      //     'vote': [],
+      //   }, newfeed : {
+      //     'meetingName': name,
+      //     'createDate': timestamp,
+      //     'id': text,
+      //     'status': 'createMeeting',
+      //   }
+      // })
+      let uID = firebase.auth().currentUser.uid;
+      meetingRef = firebase.database().ref('meeting/')
+      userRef = firebase.database().ref('user/' + uID +'/meeting/')
+      //add to ref/project
+      meetingRef.push({
+        'meetingName': name,
+        'meetingDetail': detail,
+        'createDate': timestamp,
+        'id': text,
+        'startDate': startDate.dateString,
+        'startHour': startHour,
+        'startMinutes': startMinutes,
+        'endHour': endHour,
+        'endMinutes': endMinutes,
+        'finalStartHour': '',
+        'finalStartMinutes': '',
+        'finalEndHour': '',
+        'finalEndMinutes': '',
+        'status': 'join',
+        'meetingLocation': location,
+        'meetingOnProjectId': meetingOnProjectId,
+        'onVote': true,
+        'vote': false,
+        
+      member : {
+        [uID] : {
+          timestamp : Date.now(),
+          status : 'master'
+          }
         }
+      }).then((snap) =>{
+        newKey = snap.key
+        meetingRef.child(newKey).update({
+          id : newKey
+        })
+        userRef.update({
+        [newKey] : true
+        })
+      })
+      dispatch({ type: 'FETCH_CLEAR_ALL_MEETING' })
+      fetchAllMeeting((meetings) => {
+        dispatch({ type: 'FETCH_ALL_MEETING', payload: meetings })
       })
       navigate('Meetings');
     },

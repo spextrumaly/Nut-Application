@@ -16,11 +16,16 @@ import MeetingOnProject from '../components/MeetingOnProject';
 import { store } from '../Store/Store';
 import moment from "moment";
 import { connect } from 'react-redux'
+import { fetchAllTask } from '../src/fetchData';
 
 class ProjectScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
+  componentDidMount() {
+    this.props.fetchDispatchAllTask(this.props.ProjectId)
+  }
 
   constructor(props){
     super(props);
@@ -32,6 +37,7 @@ class ProjectScreen extends React.Component {
 
   render() {
       const {navigate} = this.props.navigation;
+      console.log("Task Fetch : ", this.props.tasks)
       let id = this.props.projects.map((val) => {
         if(val.id == this.props.ProjectId) {
           return val.id
@@ -40,7 +46,7 @@ class ProjectScreen extends React.Component {
 
       let name = this.props.projects.map((val) => {
         if(val.id == this.props.ProjectId) {
-          return val.ProjectName
+          return val.name
         }
       })
 
@@ -181,7 +187,7 @@ function mapDispatchToProps(dispatch) {
           dispatch({ type: 'DELETE_PROJECT',  
           index: i,
           newfeed : {
-            'ProjectName': val.ProjectName,
+            'name': val.name,
             'createDate': timestamp,
             'status': 'deleteProject',
           }
@@ -190,6 +196,11 @@ function mapDispatchToProps(dispatch) {
       });
       navigate('HomeProject');
     },
+    fetchDispatchAllTask : (projectId) => {
+      fetchAllTask((tasks) => {
+        dispatch({ type: 'FETCH_ALL_TASK', payload: tasks })
+      }, projectId)
+    }
   }
 }
 

@@ -12,7 +12,9 @@ import {
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import moment from "moment";
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import * as firebase from 'firebase';
+import { fetchAllProject } from '../src/fetchData';
 
 class CalendarScreen extends Component {
   static navigationOptions = {
@@ -113,21 +115,37 @@ function mapDispatchToProps(dispatch) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return {
     AddProject: (date, name, detail, navigate) => {
-      dispatch({ type: 'ADD_PROJECT',  
-        project: {
-          'ProjectName': name,
-          'projectDetail':detail,
-          'createDate': timestamp,
-          'id': text,
-          'deadlineDate': date.dateString,
-          'status': 'join',
-        }, newfeed : {
-          'ProjectName': name,
-          'ProjectID': text,
-          'createDate': timestamp,
-          'id': text,
-          'status': 'createProject',
+      let uID = firebase.auth().currentUser.uid;
+      console.log(uID)
+      projectRef = firebase.database().ref('project/')
+      userRef = firebase.database().ref('user/' + uID +'/project/')
+      console.log('press create project');
+      //add to ref/project
+      projectRef.push({
+        'name': name,
+        'detail':detail,
+        'createDate': timestamp,
+        //'id': text,
+        'deadlineDate': date.dateString,
+        
+      member : {
+        [uID] : {
+          timestamp : Date.now(),
+          status : 'master'
+          }
         }
+      }).then((snap) =>{
+        newKey = snap.key
+        projectRef.child(newKey).update({
+          id : newKey
+        })
+        userRef.update({
+        [newKey] : true
+        })
+      })
+      dispatch({ type: 'FETCH_CLEAR_ALL_PROJECT' })
+      fetchAllProject((projects) => {
+        dispatch({ type: 'FETCH_ALL_PROJECT', payload: projects })
       })
       navigate('HomeProject');
     }

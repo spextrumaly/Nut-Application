@@ -11,6 +11,8 @@ import {
 import { Calendar } from 'react-native-calendars';
 import moment from "moment";
 import { connect } from 'react-redux'
+import * as firebase from 'firebase';
+import { fetchAllTask } from '../src/fetchData';
 
 class CalendarScreenTask extends Component {
   static navigationOptions = {
@@ -112,25 +114,31 @@ function mapDispatchToProps(dispatch) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return {
     addTask: (date, name, detail, projectId, navigate) => {
-      dispatch({ type: 'ADD_TASK',  
-        task: {
-          'ProjectName': name,
+      let projectRef = firebase.database().ref('project/'+projectId+'/task')
+      let taskRef = firebase.database().ref('task/')
+      taskRef.push({
+          'name': name,
           'ProjectID': projectId,
           'createDate': timestamp,
           'task': name,
-          'id': text,
           'description': detail,
           'status': 'active',
           'deadlineDate': date.dateString,
-          'checklists': []
-        }, newfeed : {
-          'ProjectID': projectId,
-          'task': name,
-          'createDate': timestamp,
-          'id': text,
-          'status': 'createTask',
-        }
+          'checklists': false
+        })
+        .then((snap) => {
+          const key = snap.key;
+          taskRef.child(key).update({
+            id : key
+          })
+          projectRef.child(key).update({
+            timestamp : Date.now()
+        })
       })
+      dispatch({ type: 'FETCH_CLEAR_ALL_TASK' })
+      fetchAllTask((tasks) => {
+        dispatch({ type: 'FETCH_ALL_TASK', payload: tasks })
+      }, projectId)
       navigate('Project');
     }
   }

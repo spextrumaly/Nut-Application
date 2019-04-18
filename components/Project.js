@@ -16,7 +16,7 @@ export default class Project extends React.Component {
             <View style={styles.headCard}>
               <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
               <View>
-                <Text style={styles.projectNameText}>{this.props.val.ProjectName}</Text>
+                <Text style={styles.nameText}>{this.props.val.name}</Text>
                 <Text style={styles.projectOwnerText}>Undefind User</Text>
               </View>
               <View style={styles.bodyDeadline}>
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
-    projectNameText: {
+    nameText: {
       paddingLeft: 10,
       fontSize: 20,
     },

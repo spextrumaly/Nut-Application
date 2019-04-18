@@ -3,18 +3,20 @@ import { SafeAreaView } from 'react-navigation';
 import { Platform, StatusBar, Text, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { fetchAllData, fetchAllProject } from './src/fetchData';
+
 const initialState = {
-  user: {},
+  userDetail: {},
   ProjectId: '',
   TaskId: '',
   MeetingId: '',
   allProjects: [{
-    'ProjectName': 'Default',
+    'name': 'Default',
     'date':'-',
     'id': 'aaaaa',
-  },{'ProjectName': 'Default',
+  },{'name': 'Default',
     'date':'-',
     'id': 'bbbbb',
     },],
@@ -37,11 +39,47 @@ const initialState = {
   taskStateName: '',
   taskStateDetail: '',
   newfeeds: [],
-  meetingOnProjectId: ''
+  meetingOnProjectId: '',
+  statusLogin: false
 }
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'LOGIN_SUCCESS' :
+    return Object.assign({}, state, {
+      statusLogin: true
+    })
+    case 'FETCH_USER_DATA':
+      return Object.assign({}, state, {
+        userDetail: fetchAllData()
+      })
+    case 'FETCH_ALL_PROJECT':
+      return Object.assign({}, state, {
+        projects: state.projects.concat(action.payload)
+      })
+    case 'FETCH_CLEAR_ALL_PROJECT':
+      return Object.assign({}, state, {
+        projects: []
+      })
+    case 'FETCH_CLEAR_ALL_MEETING':
+      return Object.assign({}, state, {
+        meetings: []
+      })
+    case 'FETCH_CLEAR_ALL_TASK':
+      return Object.assign({}, state, {
+        tasks: []
+      })
+    case 'FETCH_ALL_MEETING':
+      if(action.payload != null){
+        return Object.assign({}, state, {
+          meetings: state.meetings.concat(action.payload)
+        })
+      }
+      return state
+    case 'FETCH_ALL_TASK':
+      return Object.assign({}, state, {
+        tasks: state.tasks.concat(action.payload)
+      })
     case 'DELETE_MEETING':
     return { 
       ...state,

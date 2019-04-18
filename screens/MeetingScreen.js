@@ -36,7 +36,6 @@ class MeetingScreen extends React.Component {
     this.animatedValueAdd = new Animated.Value(0);
   }
   render() {
-    console.log("MEETING :", this.props.meetings)
     const {navigate} = this.props.navigation;
     let meetings = this.props.meetings.map((val, key)=>{
         return <Meeting key={key} keyval={key} val={val}

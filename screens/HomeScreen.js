@@ -54,7 +54,7 @@ class HomeScreen extends React.Component {
       );
   }
   detailProjectMethod(navigate, val){
-    store.ProjectName = val.ProjectName;
+    store.name = val.name;
     store.ProjectId = val.ProjectID;
     navigate('Project')
   }

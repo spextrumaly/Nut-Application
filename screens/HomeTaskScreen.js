@@ -33,11 +33,13 @@ class HomeTaskScreen extends React.Component {
       const {navigate} = this.props.navigation;
       let checklists = this.props.tasks.map((val)=>{
         if(val.id == this.props.TaskId){
-          return val.checklists.map((checklist, key) => {
-            return <CheckBoxListTask keyval={key} key={key} val={checklist}
-            checkBoxMethod = {() => this.props.checkBoxMethod(this.props.tasks, this.props.TaskId, checklist)}
-            />
-          })
+          if(val.checklists){
+            return val.checklists.map((checklist, key) => {
+              return <CheckBoxListTask keyval={key} key={key} val={checklist}
+              checkBoxMethod = {() => this.props.checkBoxMethod(this.props.tasks, this.props.TaskId, checklist)}
+              />
+            })
+          }
         }
       });
       let taskName = this.props.tasks.map((val)=>{
@@ -151,7 +153,7 @@ class HomeTaskScreen extends React.Component {
     let i = 0
     let len = 0
     this.props.tasks.map((val)=>{
-      if(val.id == this.props.TaskId){
+      if(val.id == this.props.TaskId && val.checklists){
         len = val.checklists.length
         val.checklists.map((checklist) => {
           if(checklist.checked){
@@ -184,7 +186,7 @@ function mapDispatchToProps(dispatch) {
           index: i,
           newfeed : {
             'TaskName': val.task,
-            'ProjectName': val.ProjectName,
+            'name': val.name,
             'createDate': timestamp,
             'status': 'deleteTask',
           }

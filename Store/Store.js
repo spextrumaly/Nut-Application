@@ -1,13 +1,13 @@
 export const store = {
   test: '',
-  ProjectName: '',
+  name: '',
   ProjectId: '',
   TaskName: '',
   TaskId: '',
   MeetingName: '',
   MeetingId: '',
   projectArray: [{
-    'ProjectName': 'Default',
+    'name': 'Default',
     'date':'-',
     'id': 'aaaaa',
     'status': 'join',

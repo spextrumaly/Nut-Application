@@ -3,14 +3,15 @@ import { StyleSheet, Text, View, AsyncStorage, Image } from 'react-native';
 import * as firebase from 'firebase';
 import AwesomeButton from "react-native-really-awesome-button";
 import { firebaseConfig } from './../src/firebaseConfig';
-
+import { connect } from 'react-redux';
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 import { Container, Content, Header, Form, Input, Item, Button, Label } from 'native-base'
+import { fetchAllProject, fetchAllMeeting } from '../src/fetchData';
 
 
-export default class App extends React.Component {
+class App extends React.Component {
 
   constructor(props) {
     super(props)
@@ -20,8 +21,10 @@ export default class App extends React.Component {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
         console.log(user.displayName + ' login Screen');
+        this.props.fetchAllData()
+        this.props.fetchDispatchAllProject()
+        this.props.fetchDispatchAllMeeting()
         this.props.navigation.navigate('App');
-
       }
     })
   }
@@ -50,6 +53,7 @@ export default class App extends React.Component {
               name: res.user.displayName,
               mail: res.user.email,
               last_logged_in: Date.now(),
+              timestamp: Date.now()
             });
          } else {
            console.log('old user');
@@ -66,6 +70,8 @@ export default class App extends React.Component {
        .catch( error => {
         console.log("firebase cred err:", error);
        })
+       console.log("LOGIN")
+       this.props.fetchAllData()
       } else {
         return { cancelled: true };
       }
@@ -93,6 +99,7 @@ export default class App extends React.Component {
               name: res.user.displayName,
               mail: res.user.email,
               last_logged_in: Date.now(),
+              timestamp: Date.now()
             });
          } else {
            console.log('old user');
@@ -109,6 +116,8 @@ export default class App extends React.Component {
        .catch( error => {
         console.log("firebase cred err:", error);
        })
+      console.log("LOGIN")
+      this.props.fetchAllData()
     }
   };
 
@@ -140,6 +149,29 @@ export default class App extends React.Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchAllData: () => {
+      dispatch({ type: 'FETCH_USER_DATA',  
+      })
+    },
+    fetchDispatchAllProject: () => {
+        fetchAllProject((projects) => {
+          dispatch({ type: 'FETCH_ALL_PROJECT', payload: projects
+        })
+      })
+    },
+    fetchDispatchAllMeeting: () => {
+      fetchAllMeeting((meetings) => {
+        dispatch({ type: 'FETCH_ALL_MEETING', payload: meetings })
+      })
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App)
+
 
 const styles = StyleSheet.create({
   container: {
