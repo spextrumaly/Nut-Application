@@ -247,6 +247,9 @@ const styles = StyleSheet.create({
     margin:5,
     justifyContent: 'center'
   },
+  projectContainer: {
+    fontFamily: 'Kanit-Regular'
+  },
   taskText: {
     justifyContent: 'center',
     alignItems: 'center',

@@ -69,8 +69,6 @@ class SelectProjectCreate extends Component {
               <Text style={styles.signUpText}>Create Project Meeting</Text>
             </Animated.View>
           </TouchableWithoutFeedback>
-        </View>
-        <View style={styles.container}>
           <TouchableWithoutFeedback
             onPressIn={() => this.handlePressInCreateTask}
             onPressOut={() => this.handlePressOutCreateTask(navigate)}

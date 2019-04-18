@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  Animated,
   Dimensions,
   ImageBackground,
 } from 'react-native';
@@ -16,6 +17,9 @@ import MeetingOnProject from '../components/MeetingOnProject';
 import { store } from '../Store/Store';
 import moment from "moment";
 import { connect } from 'react-redux'
+
+const showAnimation = "slideInUp"
+const hideAnimation = "slideOutDown"
 
 class ProjectScreen extends React.Component {
   static navigationOptions = {
@@ -27,9 +31,15 @@ class ProjectScreen extends React.Component {
     this.state = {
         taskText: '',
         taskOwner: '',
+        showSelect: false,
+        showCreate: false,
+        showJoin: false,
+        anim: false
     };
   }
-
+  componentWillMount() {
+    this.animatedValueAdd = new Animated.Value(0);
+  }
   render() {
       const {navigate} = this.props.navigation;
       let id = this.props.projects.map((val) => {
@@ -134,24 +144,81 @@ class ProjectScreen extends React.Component {
               {/* <ScrollView style={styles.scrollContainer}>
                   {tasks}
               </ScrollView> */}
+              {this.state.showSelect == true ? 
+              <View style={styles.buttonAdd}>
               <Animatable.View animation='pulse' easing="ease-out" iterationCount="infinite">
-                <AwesomeButton 
-                  backgroundDarker='#372c2a'
-                  backgroundColor='#4A3C39'
-                  borderRadius={100}
-                  paddingTop={10}
-                  paddingBottom={10}
-                  paddingHorizontal={10}
-                  width={80}
-                  onPress= {() => this.props.navigation.navigate('SelectProjectCreate')}
-                  style={styles.addButton}>
-                  <Text style={styles.addButtonText}>{!this.state.anim ? '+' : 'x'}</Text>
-                </AwesomeButton>
+                <Animatable.View animation={this.state.anim ? showAnimation : hideAnimation} >
+                  <AwesomeButton 
+                    style={styles.createBtnAnimate}
+                    backgroundDarker='#372c2a'
+                    backgroundColor='#4A3C39'
+                    width={170}
+                    borderRadius={30}
+                    onPress= {() => {this.props.navigation.navigate('CreateMeeting'); this.props.ContinueMeeting(this.props.meetingOnProjectId, this.props.ProjectId, navigate); this.setState({showSelect: false}); this.setState({anim: false});}}
+                    >
+                    <Text style={styles.signUpText}>Create Project Meeting</Text>
+                  </AwesomeButton>
+                </Animatable.View>
               </Animatable.View>
+              <Animatable.View animation='pulse' easing="ease-out" iterationCount="infinite">
+                <Animatable.View animation={this.state.anim ? showAnimation : hideAnimation} >
+                  <AwesomeButton 
+                    style={styles.joinBtnAnimate}
+                    backgroundDarker='#372c2a'
+                    backgroundColor='#4A3C39'
+                    width={170}
+                    borderRadius={30}
+                    onPress= {() => {this.props.navigation.navigate('CreateTask'); this.setState({showSelect: false}); this.setState({anim: false});}}
+                    >
+                    <Text style={styles.signUpText}>Create Project Task</Text>
+                  </AwesomeButton>
+                </Animatable.View>
+              </Animatable.View>
+              </View>
+              : null }
+              <View style={styles.footerFlex}>
+                <Animatable.View animation='pulse' easing="ease-out" iterationCount="infinite">
+                  <AwesomeButton 
+                    backgroundDarker='#372c2a'
+                    backgroundColor='#4A3C39'
+                    borderRadius={100}
+                    paddingTop={10}
+                    paddingBottom={10}
+                    paddingHorizontal={10}
+                    width={80}
+                    onPress={ this.addTask.bind(this)} 
+                    style={styles.addButton}>
+                    <Text style={styles.addButtonText}>{!this.state.anim ? '+' : 'x'}</Text>
+                  </AwesomeButton>
+                </Animatable.View>
+              </View>
           </View>
       );
   }
+  addTask(){
+    if(this.state.showSelect == true) {
+      Animated.timing(this.animatedValueAdd, {
+        toValue: 0,
+        duration: 200
+      }).start(() => {
+        this.setState({anim: false});
+        setTimeout(() => this.setState({
+          showSelect: false
+      }), 500)
+      })
+    } else {
+      Animated.timing(this.animatedValueAdd, {
+        toValue: 1,
+        duration: 200
+      }).start(() => {
+        this.setState({showSelect: true});
+        this.setState({anim: true});
+      })
+    }
+  }
 }
+
+
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -199,7 +266,23 @@ function mapStateToProps(state) {
     TaskId: state.TaskId,
     projects: state.projects,
     ProjectId: state.ProjectId,
-    meetings: state.meetings
+    meetings: state.meetings,
+    meetingOnProjectId: state.meetingOnProjectId,
+    ProjectId: state.ProjectId
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    ContinueTask: (navigate) => {
+      navigate('CreateTask')
+    },
+    ContinueMeeting: (meetingOnProjectId, ProjectId, navigate) => {
+      dispatch({ type: 'CREATE_MEETING_ON_PROJECT',  
+        id: ProjectId
+      })
+      navigate('CreateMeeting')
+    }
   }
 }
 
@@ -262,9 +345,46 @@ const styles = StyleSheet.create({
     elevation: 8
   },
   addButtonText: {
-    color: '#fff',
-    fontSize: 40,
-    fontFamily: 'Kanit-Regular'
+      color: '#fff',
+      fontSize: 40,
+      fontFamily: 'Kanit-Regular'
+  },
+  buttonAdd: {
+    position: 'absolute',
+    zIndex: 11,
+    bottom: 60,
+    width: 150,
+    right: 17,
+    height: 70,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  createBtnAnimate: {
+    position: 'absolute',
+    zIndex: 11,
+    bottom: 100,
+    right: -60,
+  },
+  joinBtnAnimate: {
+    position: 'absolute',
+    zIndex: 11,
+    bottom: 25,
+    right: -60,
+
+  },
+  buttonAddStyle: {
+    marginBottom: 10,
+    backgroundColor: '#4A3C39',
+  },
+  buttonContainer: {
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:150,
+    marginLeft:5,
+    borderRadius:30,
   },
   task: {
     position: 'relative',
@@ -283,9 +403,11 @@ const styles = StyleSheet.create({
   taskText: {
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: 25,
     fontFamily: 'Kanit-Bold',
+    fontSize: 25,
     paddingLeft: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
     color: '#f5f5dc'
   },
   taskSubText: {
@@ -314,5 +436,9 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: '#4A3C39',
     marginBottom: 10,
+  },
+  signUpText: {
+    color: 'white',
+    fontFamily: 'Kanit-Regular'
   },
 });

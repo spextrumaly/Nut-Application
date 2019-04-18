@@ -65,14 +65,17 @@ const styles = StyleSheet.create({
     projectNameText: {
       paddingLeft: 10,
       fontSize: 20,
+      fontFamily: 'Kanit-Medium'
     },
     projectOwnerText: {
       paddingLeft: 10,
       fontSize: 10,
+      fontFamily: 'Kanit-Italic'
     },
     projectText: {
       fontSize: 10,
       color: '#696969',
+      fontFamily: 'Kanit-Regular'
     },
     projectDelete: {
         backgroundColor: '#4A3C39',
