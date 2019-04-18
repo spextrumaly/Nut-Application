@@ -36,6 +36,19 @@ export function fetchAllMeeting(callback) {
   })
 }
 
+export function fetchAllMeetingPlan(callback) {
+  let uID =  firebase.auth().currentUser.uid;
+  firebase.database().ref('user/'+ uID +'/meetingPlan/')
+  .once('value',function(snapshot){
+    snapshot.forEach(function(child){
+      firebase.database().ref('meetingPlan/' + child.key)
+        .once('value', function(snapshot){
+          callback(snapshot.val())
+        })
+    })
+  })
+}
+
 export function fetchAllTask(callback, projectID) {
   console.log("project id : ", projectID)
   let uID =  firebase.auth().currentUser.uid;
@@ -87,4 +100,26 @@ export function changeStatus(status, taskID){
     status : status 
   })
 }
- 
+
+export function addNewChecklist( name, taskID ){
+	checkListRef =  firebase.database().ref('task/'+ taskID + '/checklist/')
+	checkListRef.push({
+		name : name,
+		checked : false,
+	}).then((snap) => {
+		const newKey = snap.key
+		checkListRef.child(newKey).update({
+		id : newKey
+		})
+  })
+}
+
+
+export function addCheckedChecklist( taskID, checklistValue ){
+	ref = firebase.database().ref('task/'+ taskID + '/checklist/' + checklistValue.id)
+	ref.update({
+	  checked : !checklistValue.checked
+  })
+}
+
+

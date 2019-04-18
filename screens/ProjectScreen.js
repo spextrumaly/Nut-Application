@@ -16,7 +16,7 @@ import MeetingOnProject from '../components/MeetingOnProject';
 import { store } from '../Store/Store';
 import moment from "moment";
 import { connect } from 'react-redux'
-import { fetchAllTask } from '../src/fetchData';
+import { fetchAllTask, changeStatus } from '../src/fetchData';
 
 class ProjectScreen extends React.Component {
   static navigationOptions = {
@@ -173,9 +173,11 @@ function mapDispatchToProps(dispatch) {
       navigate('HomeTask')
     },
     lateTask(tasks, taskId, navigate) {
-      dispatch({ type: 'LATE_TASK',  
-        tasks: tasks, taskId : taskId
-      })
+      changeStatus('late', taskId)
+      dispatch({ type: 'FETCH_CLEAR_ALL_TASK' })
+      fetchAllTask((tasks) => {
+        dispatch({ type: 'FETCH_ALL_TASK', payload: tasks })
+      }, projectId)
       navigate('Project');
     },
     deleteProject: (projects, projectId, navigate) => {

@@ -42,6 +42,11 @@ class MeetingScreen extends React.Component {
                 detailMethod={() => this.props.detailMethod(val, navigate)}
               />
     });
+    let meetingPlan = this.props.meetingsPlan.map((val, key)=>{
+      return <Meeting key={key} keyval={key} val={val}
+              detailMethod={() => this.props.detailMethod(val, navigate)}
+            />
+    });
     return (
       <View style={styles.container}>
         <View key={this.props.keyval} style={styles.task}>
@@ -54,6 +59,7 @@ class MeetingScreen extends React.Component {
           <ScrollView style={styles.scrollContainer}>
           <View style={styles.projectContainer}>
             {meetings}
+            {meetingPlan}
           </View>
           </ScrollView>
           {this.state.showSelect == true ? 
@@ -138,6 +144,7 @@ class MeetingScreen extends React.Component {
 function mapStateToProps(state) {
   return {
     meetings: state.meetings,
+    meetingsPlan: state.meetingsPlan
   }
 }
 

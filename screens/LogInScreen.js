@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 firebase.initializeApp(firebaseConfig);
 
 import { Container, Content, Header, Form, Input, Item, Button, Label } from 'native-base'
-import { fetchAllProject, fetchAllMeeting, fetchAllData } from '../src/fetchData';
+import { fetchAllProject, fetchAllMeeting, fetchAllData, fetchAllMeetingPlan } from '../src/fetchData';
 
 
 class App extends React.Component {
@@ -24,6 +24,7 @@ class App extends React.Component {
         this.props.fetchDispatchAllData()
         this.props.fetchDispatchAllProject()
         this.props.fetchDispatchAllMeeting()
+        this.props.fetchDispatchAllMeetingPlan()
         this.props.navigation.navigate('App');
       }
     })
@@ -167,6 +168,11 @@ function mapDispatchToProps(dispatch) {
     fetchDispatchAllMeeting: () => {
       fetchAllMeeting((meetings) => {
         dispatch({ type: 'FETCH_ALL_MEETING', payload: meetings })
+      })
+    },
+    fetchDispatchAllMeetingPlan: () => {
+      fetchAllMeetingPlan((meetings) => {
+        dispatch({ type: 'FETCH_ALL_MEETING_PLAN', payload: meetings })
       })
     },
   }

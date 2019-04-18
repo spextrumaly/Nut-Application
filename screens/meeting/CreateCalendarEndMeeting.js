@@ -91,6 +91,7 @@ class CreateMeetingEndCalendar extends Component {
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = (date) => {
+    console.log(date)
     console.log('A date has been picked: ', date.getHours());
     console.log('A date has been picked: ', date.getMinutes());
     this.setState({ hourStart: date.getHours(),minutesStart: date.getMinutes()})

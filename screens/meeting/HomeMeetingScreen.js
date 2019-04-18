@@ -22,7 +22,7 @@ class MeetingScreen extends React.Component {
     this.state = {
       meeting: {},
       selectedTime: false,
-      selectedIndex: 0,
+      selectedIndex: [],
     };
   }
 
@@ -33,7 +33,17 @@ class MeetingScreen extends React.Component {
           return val.meetingName
         }
       });
+      let meetingPlanName = this.props.meetingsPlan.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.meetingName
+        }
+      });
       let id = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.id
+        }
+      });
+      let idPlan = this.props.meetingsPlan.map((val)=>{
         if( val.id == this.props.MeetingId){
           return val.id
         }
@@ -43,7 +53,17 @@ class MeetingScreen extends React.Component {
           return val.meetingDetail
         }
       });
+      let meetingPlanDetail = this.props.meetingsPlan.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.meetingDetail
+        }
+      });
       let startDate = this.props.meetings.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return val.startDate
+        }
+      });
+      let startDatePlan = this.props.meetingsPlan.map((val)=>{
         if( val.id == this.props.MeetingId){
           return val.startDate
         }
@@ -54,10 +74,22 @@ class MeetingScreen extends React.Component {
           return startHour.push(val.startHour)
         }
       });
+      let startHourPlan = []
+      this.props.meetingsPlan.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return startHourPlan.push(val.startHour)
+        }
+      });
       let startMinutes = []
       this.props.meetings.map((val)=>{
         if( val.id == this.props.MeetingId){
           return startMinutes.push(val.startMinutes)
+        }
+      });
+      let startMinutesPlan = []
+      this.props.meetingsPlan.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return startMinutesPlan.push(val.startMinutes)
         }
       });
       let endHour = []
@@ -66,10 +98,22 @@ class MeetingScreen extends React.Component {
           return endHour.push(val.endHour)
         }
       });
+      let endHourPlan = []
+      this.props.meetingsPlan.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return endHourPlan.push(val.endHour)
+        }
+      });
       let endMinutes = []
       this.props.meetings.map((val)=>{
         if( val.id == this.props.MeetingId){
           return endMinutes.push(val.endMinutes)
+        }
+      });
+      let endMinutesPlan = []
+      this.props.meetingsPlan.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return endMinutesPlan.push(val.endMinutes)
         }
       });
       let finalStartHour = this.props.meetings.map((val)=>{
@@ -97,39 +141,52 @@ class MeetingScreen extends React.Component {
           return val.meetingLocation
         }
       });
-      let onVote = false
-      this.props.meetings.map((val)=>{
+      let meetingLocationPlan = this.props.meetingsPlan.map((val)=>{
         if( val.id == this.props.MeetingId){
-          return onVote = val.onVote
+          return val.meetingLocation
         }
       });
+      let onVote = false
+      if(this.props.meetings){
+        this.props.meetings.map((val)=>{
+          if( val.id == this.props.MeetingId){
+            return onVote = val.onVote
+          }
+        });
+      }
+      if(this.props.meetingsPlan){
+        this.props.meetingsPlan.map((val)=>{
+          if( val.id == this.props.MeetingId){
+            return onVote = val.onVote
+          }
+        });
+      }
       let vote = []
       this.props.meetings.map((val)=>{
         if( val.id == this.props.MeetingId){
           return vote = val.vote
         }
       });
-      console.log("hour : ", startHour)
       return (
           <View style={styles.container}>
             <ScrollView>
               <View style={styles.task}>
                 <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
                 <View>
-                  <Text style={styles.taskText}>{meetingName}</Text>
-                  <Text style={styles.taskSubText}>id : {id}</Text>
+                  <Text style={styles.taskText}>{ onVote ? meetingPlanName : meetingName}</Text>
+                  <Text style={styles.taskSubText}>id : { !onVote ? id : idPlan}</Text>
                   <TouchableOpacity onPress={() => this.props.deleteMeeting(this.props.meetings, this.props.MeetingId, navigate)} style={styles.projectDelete}>
                     <Text style={styles.projectDeleteText}>Delete</Text>
                   </TouchableOpacity>
                 </View>
               </View>
               <Text>Detail</Text>
-              <Text>{meetingDetail}</Text>
-              <Text>Date : {startDate}</Text>
+              <Text>{ !onVote ? meetingDetail : meetingPlanDetail}</Text>
+              <Text>Date : { !onVote ? startDate : startDatePlan}</Text>
               { onVote ?  <Text>Vote Time To Meeting</Text> : <Text>Time To Meeting</Text>}
-              { onVote ?  this.renderTime(startHour, startMinutes, endHour, endMinutes) : <Text>{finalStartHour} : {finalStartMinutes} - {finalEndHour} : {finalEndMinutes}</Text>}
+              { onVote ?  this.renderTime(startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan) : <Text>{finalStartHour} : {finalStartMinutes} - {finalEndHour} : {finalEndMinutes}</Text>}
               <Text>Location</Text>
-              <Text>{meetingLocation}</Text>
+              <Text>{ !onVote ? meetingLocation : meetingLocationPlan}</Text>
               { onVote ? <View style={styles.containerFooter}>
                 <View style={styles.footer}>
                   <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.voteTime(this.state.selectedIndex, this.props.MeetingId, navigate)}>
@@ -147,13 +204,15 @@ class MeetingScreen extends React.Component {
   }
 
   renderTime(startHour, startMinutes, endHour, endMinutes) {
+    console.log(this.state.selectedIndex)
     let checked = false
     let time
     if(startHour[0]) {
       time =  startHour[0].map((key, index)=>{
         checked = false
-        if(this.state.selectedTime && this.state.selectedIndex == index){
-          checked = true
+        if(this.state.selectedTime && this.state.selectedIndex.includes(index)){
+          console.log('++HERE++')
+          checked = !checked
         }
         return <VoteTime key= {index + key} keyVal={key} startHour={startHour} startMinutes={startMinutes} endHour={endHour} endMinutes={endMinutes} i={index} checked={checked} selectedTime={() => this.selectedTime(index)}/>
       })
@@ -162,14 +221,23 @@ class MeetingScreen extends React.Component {
   }
 
   selectedTime(index) {
-    this.setState({ selectedTime: true, selectedIndex: index, });
+    let selectedIndex
+    if(this.state.selectedIndex.includes(index)){
+       selectedIndex = this.state.selectedIndex.filter((i)=>{
+        i != index
+      })
+    } else {
+      selectedIndex = [...this.state.selectedIndex, index]
+    }
+    this.setState({ selectedTime: true, selectedIndex });
   }
 }
 
 function mapStateToProps(state) {
   return {
     meetings: state.meetings,
-    MeetingId: state.MeetingId
+    MeetingId: state.MeetingId,
+    meetingsPlan: state.meetingsPlan
   }
 }
 
@@ -203,17 +271,14 @@ function mapDispatchToProps(dispatch) {
       for( let i = 0; i < startHour[0].length; i ++) {
         let j = 0
         meetingsVote.map((val) => {
-          console.log("val : ", val)
           if(val == i) {
             j = j + 1
           }
         })
         sum.push(j)
       }
-      console.log("sum : ", sum)
       maxVote = Math.max(...sum);
       let indexMaxVoteTime = sum.indexOf(maxVote);
-      console.log(indexMaxVoteTime)
       dispatch({ type: 'CLOSE_VOTE_TIME_MEETING',
       finalStartHour: startHour[0][indexMaxVoteTime],
       finalStartMinutes: startMinutes[0][indexMaxVoteTime],

@@ -13,7 +13,7 @@ import * as Progress from 'react-native-progress';
 import moment from "moment";
 import { store } from '../Store/Store';
 import { connect } from 'react-redux'
-import { fetchAllTask, changeStatus } from '../src/fetchData';
+import { fetchAllTask, changeStatus, addNewChecklist, addCheckedChecklist } from '../src/fetchData';
 
 import CheckBoxListTask from '../components/CheckBoxListTask';
 
@@ -32,19 +32,21 @@ class HomeTaskScreen extends React.Component {
 
   render() {
       const {navigate} = this.props.navigation;
-      let checklists = this.props.tasks.map((val)=>{
+      let checklist = this.props.tasks.map((val)=>{
         if(val.id == this.props.TaskId){
-          if(val.checklists){
-            return val.checklists.map((checklist, key) => {
-              return <CheckBoxListTask keyval={key} key={key} val={checklist}
-              checkBoxMethod = {() => this.props.checkBoxMethod(this.props.tasks, this.props.TaskId, checklist)}
-              />
-            })
+          if(val.checklist){
+              return Object.keys(val.checklist).map((key) => {
+                const aChecklist = val.checklist[key]
+                  return <CheckBoxListTask keyval={key} key={key} val={aChecklist}
+                  checkBoxMethod = {() => this.props.checkBoxMethod(this.props.TaskId, aChecklist, this.props.ProjectId)}
+                  />
+              })
           }
         }
       });
       let taskName = this.props.tasks.map((val)=>{
         if( val.id == this.props.TaskId){
+          console.log(val)
           return val.task
         }
       });
@@ -77,7 +79,7 @@ class HomeTaskScreen extends React.Component {
               <Text style={styles.inListText}>in list : {taskStatus}</Text>
             </View>
             <View style={styles.containerProgress}>
-              <Progress.Circle size={50} progress={this.statusbar() || 100} color={'green'} showsText={true}/>
+              <Progress.Circle size={50} progress={this.statusbar() || 0} color={'green'}/>
             </View>
           </View>
           <View style = { styles.containerScrollViewHolder }>
@@ -122,14 +124,14 @@ class HomeTaskScreen extends React.Component {
                         <Text style= { styles.headCard} >CHECKLIST</Text>
                       </View>
                       <View style = { styles.containerCheckList } >
-                        {console.log(checklists) || checklists ? checklists : null}
+                        { checklist ? checklist : null}
                         <View style={{flexDirection: 'row',}}>
                           <TextInput
                             style={{height: 30, borderColor: 'gray', borderWidth: 1, width: '40%', margin: 10, marginLeft: 15, color: 'gray', backgroundColor: 'white'}}
                             onChangeText={(text) => this.setState({text})}
                             value={this.state.text}
                           />
-                          <TouchableHighlight style={[styles.buttonContainerAddList, styles.addTaskButton]} onPress={() => this.props.addListTask(this.state.text, this.props.TaskId)}>
+                          <TouchableHighlight style={[styles.buttonContainerAddList, styles.addTaskButton]} onPress={() => this.props.addListTask(this.state.text, this.props.TaskId, this.props.ProjectId)}>
                             <Text style={styles.signUpText}>Add CheckList</Text>
                           </TouchableHighlight>
                         </View>
@@ -159,12 +161,13 @@ class HomeTaskScreen extends React.Component {
     let i = 0
     let len = 0
     this.props.tasks.map((val)=>{
-      if(val.id == this.props.TaskId && val.checklists){
-        len = val.checklists.length
-        val.checklists.map((checklist) => {
-          if(checklist.checked){
-            i = i + 1
-          }
+      if(val.id == this.props.TaskId && val.checklist){
+        len = Object.keys(val.checklist).length
+        Object.keys(val.checklist).map((key) => {
+          const aChecklist = val.checklist[key]
+            if(aChecklist.checked) {
+              i = i + 1
+            }
         })
       }
     });
@@ -175,14 +178,19 @@ class HomeTaskScreen extends React.Component {
 function mapDispatchToProps(dispatch) {
   var timestamp = moment().format();
   return {
-    addListTask: (name, taskId) => {
-      var id = "";
-      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      for (var i = 0; i < 5; i++)
-        id += possible.charAt(Math.floor(Math.random() * possible.length));
-      dispatch({ type: 'ADD_CHECKLIST_STATE',  
-        name: name, id : id, taskId: taskId, checked: false
-      })
+    addListTask: (name, taskId, projectId) => {
+      addNewChecklist(name, taskId)
+      dispatch({ type: 'FETCH_CLEAR_ALL_TASK' })
+      fetchAllTask((tasks) => {
+        dispatch({ type: 'FETCH_ALL_TASK', payload: tasks })
+      }, projectId)
+      // var id = "";
+      // var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      // for (var i = 0; i < 5; i++)
+      //   id += possible.charAt(Math.floor(Math.random() * possible.length));
+      // dispatch({ type: 'ADD_CHECKLIST_STATE',  
+      //   name: name, id : id, taskId: taskId, checked: false
+      // })
     },
     deleteTask(tasks, taskId, navigate) {
       tasks.map((val, index)=>{
@@ -209,12 +217,12 @@ function mapDispatchToProps(dispatch) {
       }, projectId)
       navigate('Project');
     },
-    checkBoxMethod(tasks, taskId, value) {
-      dispatch({ type: 'DONE_CHECKLIST',  
-        tasks: tasks, taskId : taskId, value: value
-      })
-      console.log("Check : ", value)
-
+    checkBoxMethod(taskId, value, projectId) {
+      addCheckedChecklist( taskId, value )
+      dispatch({ type: 'FETCH_CLEAR_ALL_TASK' })
+      fetchAllTask((tasks) => {
+        dispatch({ type: 'FETCH_ALL_TASK', payload: tasks })
+      }, projectId)
     }
   }
 }

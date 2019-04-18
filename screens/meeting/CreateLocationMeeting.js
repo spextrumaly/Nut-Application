@@ -3,7 +3,7 @@ import { View, Image, Text, ImageBackground, StyleSheet, TouchableHighlight} fro
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import moment from "moment";
 import { connect } from 'react-redux';
-import { fetchAllMeeting } from '../../src/fetchData';
+import { fetchAllMeetingPlan } from '../../src/fetchData';
 import * as firebase from 'firebase';
 
 class LocationMeeting extends Component {
@@ -133,28 +133,27 @@ function mapDispatchToProps(dispatch) {
       //   }
       // })
       let uID = firebase.auth().currentUser.uid;
-      meetingRef = firebase.database().ref('meeting/')
-      userRef = firebase.database().ref('user/' + uID +'/meeting/')
+      meetingRef = firebase.database().ref('meetingPlan/')
+      userRef = firebase.database().ref('user/' + uID +'/meetingPlan/')
       //add to ref/project
       meetingRef.push({
         'meetingName': name,
         'meetingDetail': detail,
         'createDate': timestamp,
-        'id': text,
         'startDate': startDate.dateString,
         'startHour': startHour,
         'startMinutes': startMinutes,
         'endHour': endHour,
         'endMinutes': endMinutes,
-        'finalStartHour': '',
-        'finalStartMinutes': '',
-        'finalEndHour': '',
-        'finalEndMinutes': '',
-        'status': 'join',
+        // 'finalStartHour': '',
+        // 'finalStartMinutes': '',
+        // 'finalEndHour': '',
+        // 'finalEndMinutes': '',
         'meetingLocation': location,
         'meetingOnProjectId': meetingOnProjectId,
         'onVote': true,
         'vote': false,
+        'countVote': 0,
         'ownerName': ownerName,
         
       member : {
@@ -172,9 +171,9 @@ function mapDispatchToProps(dispatch) {
         [newKey] : true
         })
       })
-      dispatch({ type: 'FETCH_CLEAR_ALL_MEETING' })
-      fetchAllMeeting((meetings) => {
-        dispatch({ type: 'FETCH_ALL_MEETING', payload: meetings })
+      dispatch({ type: 'FETCH_CLEAR_ALL_MEETING_PLAN' })
+      fetchAllMeetingPlan((meetings) => {
+        dispatch({ type: 'FETCH_ALL_MEETING_PLAN', payload: meetings })
       })
       navigate('Meetings');
     },
