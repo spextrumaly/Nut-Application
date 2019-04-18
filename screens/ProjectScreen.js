@@ -37,7 +37,6 @@ class ProjectScreen extends React.Component {
 
   render() {
       const {navigate} = this.props.navigation;
-      console.log("Task Fetch : ", this.props.tasks)
       let id = this.props.projects.map((val) => {
         if(val.id == this.props.ProjectId) {
           return val.id

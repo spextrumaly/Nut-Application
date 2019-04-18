@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   scrollContainer: {
-    marginBottom: 100
+    // marginBottom: 100
   },
   body: {
     backgroundColor: '#DCDCDC',

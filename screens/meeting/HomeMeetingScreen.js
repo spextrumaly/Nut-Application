@@ -298,12 +298,13 @@ const styles = StyleSheet.create({
     position: 'relative',
     padding: 15,
     flexDirection: 'row',
-    backgroundColor: "#f5f5dc",
+    backgroundColor: "#4A3C39",
   },
   inputIcon:{
     width:50,
     height:50,
     margin:5,
+    marginTop: 35,
     justifyContent: 'center'
   },
   taskText: {
@@ -312,7 +313,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     paddingLeft: 10,
     paddingTop: 5,
-    color: '#4A3C39',
+    color: '#f5f5dc',
     fontFamily: 'Kanit-Bold',
   },
   taskSubText: {
@@ -321,14 +322,14 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingLeft: 10,
     paddingTop: 5,
-    color: '#4A3C39'
+    color: '#f5f5dc'
   },
   projectDeleteText: {
     fontSize: 13,
-    color: '#f5f5dc',
+    color: '#4A3C39',
   },
   projectDelete: {
-    backgroundColor: '#4A3C39',
+    backgroundColor: '#f5f5dc',
     padding: 10,
     width: 60,
     paddingTop: 5,
