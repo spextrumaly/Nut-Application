@@ -38,6 +38,7 @@ class MeetingScreen extends React.Component {
       let meetingPlanName 
       this.props.meetingsPlan.map((val)=>{
         if( val.id == this.props.MeetingId){
+          console.log(val)
           meetingPlanName = val.meetingName
         }
       });
@@ -175,7 +176,22 @@ class MeetingScreen extends React.Component {
           return vote = val.vote
         }
       });
-      console.log(vote)
+      
+      let showCloseVote = false
+      let uId = firebase.auth().currentUser.uid
+      this.props.meetingsPlan.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          if(val.member[uId].status == 'master'){
+            showCloseVote = true
+          }
+        }
+      });
+      let member
+      this.props.meetingsPlan.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          member = val.member
+        }
+      });
       return (
           <View style={styles.container}>
             <ScrollView>
@@ -201,9 +217,13 @@ class MeetingScreen extends React.Component {
                   <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.voteTime(this.state.selectedIndex, this.props.MeetingId, navigate)}>
                     <Text style={styles.signUpText}>Vote Time</Text>
                   </TouchableHighlight>
-                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.closeVoteTime(this.props.MeetingId, vote, startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan, navigate, meetingPlanName, meetingPlanDetail, meetingLocationPlan, meetingOnProjectId, ownerName, startDatePlan)}>
-                    <Text style={styles.signUpText}>Close Vote Time</Text>
-                  </TouchableHighlight>
+                  { showCloseVote ?
+                    <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.closeVoteTime(this.props.MeetingId, vote, startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan, navigate, meetingPlanName, meetingPlanDetail, meetingLocationPlan, meetingOnProjectId, ownerName, startDatePlan, member)}>
+                      <Text style={styles.signUpText}>Close Vote Time</Text>
+                    </TouchableHighlight>
+                    :
+                    null
+                  }
                 </View>
               </View>
               : null }
@@ -275,7 +295,7 @@ function mapDispatchToProps(dispatch) {
       })
       navigate('Meetings');
     },
-    closeVoteTime: (meetingId, meetingsVote, startHour, startMinutes, endHour, endMinutes, navigate, name, detail, location, meetingOnProjectId, ownerName, startDatePlan) => {
+    closeVoteTime: (meetingId, meetingsVote, startHour, startMinutes, endHour, endMinutes, navigate, name, detail, location, meetingOnProjectId, ownerName, startDatePlan, member) => {
       var timestamp = moment().format();
       let sum = []
       for( let i = 0; i < startHour[0].length; i ++) {
@@ -288,7 +308,6 @@ function mapDispatchToProps(dispatch) {
       meetingRef = firebase.database().ref('meeting/')
       userRef = firebase.database().ref('user/' + uID +'/meeting/')
       //add to ref/project
-      console.log(name)
       meetingRef.push({
         'meetingName': name,
         'meetingDetail': detail,
@@ -302,12 +321,7 @@ function mapDispatchToProps(dispatch) {
         'meetingOnProjectId': meetingOnProjectId,
         'ownerName': ownerName,
         'onVote': false,
-      member : {
-        [uID] : {
-          timestamp : Date.now(),
-          status : 'master'
-          }
-        }
+        member : member
       }).then((snap) =>{
         newKey = snap.key
         meetingRef.child(newKey).update({
