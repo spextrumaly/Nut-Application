@@ -6,7 +6,6 @@ import { CheckBox } from 'react-native-elements'
 
 export default class VoteTimeMeeting extends Component {
     render() {
-      console.log("CheckBox")
       return (
           <CheckBox 
             key={this.props.keyVal}

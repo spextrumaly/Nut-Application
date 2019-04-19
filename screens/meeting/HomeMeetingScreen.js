@@ -10,8 +10,9 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import moment from "moment";
-
+import * as firebase from 'firebase';
 import VoteTime from '../../components/VoteTimeMeeting'
+import { addVote, fetchAllMeetingPlan, fetchAllMeeting } from '../../src/fetchData';
 
 class MeetingScreen extends React.Component { 
   static navigationOptions = {
@@ -28,44 +29,52 @@ class MeetingScreen extends React.Component {
 
   render() {
       const {navigate} = this.props.navigation;
-      let meetingName = this.props.meetings.map((val)=>{
+      let meetingName
+      this.props.meetings.map((val)=>{
         if( val.id == this.props.MeetingId){
-          return val.meetingName
+          meetingName = val.meetingName
         }
       });
-      let meetingPlanName = this.props.meetingsPlan.map((val)=>{
+      let meetingPlanName 
+      this.props.meetingsPlan.map((val)=>{
         if( val.id == this.props.MeetingId){
-          return val.meetingName
+          meetingPlanName = val.meetingName
         }
       });
-      let id = this.props.meetings.map((val)=>{
+      let id
+      this.props.meetings.map((val)=>{
         if( val.id == this.props.MeetingId){
-          return val.id
+          return id = val.id
         }
       });
-      let idPlan = this.props.meetingsPlan.map((val)=>{
+      let idPlan
+      this.props.meetingsPlan.map((val)=>{
         if( val.id == this.props.MeetingId){
-          return val.id
+          return idPlan = val.id
         }
       });
-      let meetingDetail = this.props.meetings.map((val)=>{
+      let meetingDetail
+      this.props.meetings.map((val)=>{
         if( val.id == this.props.MeetingId){
-          return val.meetingDetail
+          return meetingDetail = val.meetingDetail
         }
       });
-      let meetingPlanDetail = this.props.meetingsPlan.map((val)=>{
+      let meetingPlanDetail
+      this.props.meetingsPlan.map((val)=>{
         if( val.id == this.props.MeetingId){
-          return val.meetingDetail
+          meetingPlanDetail = val.meetingDetail
         }
       });
-      let startDate = this.props.meetings.map((val)=>{
+      let startDate
+      this.props.meetings.map((val)=>{
         if( val.id == this.props.MeetingId){
-          return val.startDate
+          startDate = val.startDate
         }
       });
-      let startDatePlan = this.props.meetingsPlan.map((val)=>{
+      let startDatePlan
+      this.props.meetingsPlan.map((val)=>{
         if( val.id == this.props.MeetingId){
-          return val.startDate
+          startDatePlan = val.startDate
         }
       });
       let startHour = []
@@ -116,34 +125,28 @@ class MeetingScreen extends React.Component {
           return endMinutesPlan.push(val.endMinutes)
         }
       });
-      let finalStartHour = this.props.meetings.map((val)=>{
+      let meetingLocation
+      this.props.meetings.map((val)=>{
         if( val.id == this.props.MeetingId){
-          return val.finalStartHour
+          meetingLocation = val.meetingLocation
         }
       });
-      let finalStartMinutes = this.props.meetings.map((val)=>{
+      let meetingLocationPlan
+      this.props.meetingsPlan.map((val)=>{
         if( val.id == this.props.MeetingId){
-          return val.finalStartMinutes
+          meetingLocationPlan = val.meetingLocation
         }
       });
-      let finalEndHour = this.props.meetings.map((val)=>{
+      let ownerName
+      this.props.meetingsPlan.map((val)=>{
         if( val.id == this.props.MeetingId){
-          return val.finalEndHour
+          ownerName = val.ownerName
         }
       });
-      let finalEndMinutes = this.props.meetings.map((val)=>{
+      let meetingOnProjectId
+      this.props.meetingsPlan.map((val)=>{
         if( val.id == this.props.MeetingId){
-          return val.finalEndMinutes
-        }
-      });
-      let meetingLocation = this.props.meetings.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return val.meetingLocation
-        }
-      });
-      let meetingLocationPlan = this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return val.meetingLocation
+          meetingOnProjectId = val.meetingOnProjectId
         }
       });
       let onVote = false
@@ -167,6 +170,12 @@ class MeetingScreen extends React.Component {
           return vote = val.vote
         }
       });
+      this.props.meetingsPlan.map((val)=>{
+        if( val.id == this.props.MeetingId){
+          return vote = val.vote
+        }
+      });
+      console.log(vote)
       return (
           <View style={styles.container}>
             <ScrollView>
@@ -184,7 +193,7 @@ class MeetingScreen extends React.Component {
               <Text>{ !onVote ? meetingDetail : meetingPlanDetail}</Text>
               <Text>Date : { !onVote ? startDate : startDatePlan}</Text>
               { onVote ?  <Text>Vote Time To Meeting</Text> : <Text>Time To Meeting</Text>}
-              { onVote ?  this.renderTime(startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan) : <Text>{finalStartHour} : {finalStartMinutes} - {finalEndHour} : {finalEndMinutes}</Text>}
+              { onVote ?  this.renderTime(startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan) : <Text>{startHour} : {startMinutes} - {endHour} : {endMinutes}</Text>}
               <Text>Location</Text>
               <Text>{ !onVote ? meetingLocation : meetingLocationPlan}</Text>
               { onVote ? <View style={styles.containerFooter}>
@@ -192,7 +201,7 @@ class MeetingScreen extends React.Component {
                   <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.voteTime(this.state.selectedIndex, this.props.MeetingId, navigate)}>
                     <Text style={styles.signUpText}>Vote Time</Text>
                   </TouchableHighlight>
-                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.closeVoteTime(this.props.MeetingId, vote, startHour, startMinutes, endHour, endMinutes, navigate)}>
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.closeVoteTime(this.props.MeetingId, vote, startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan, navigate, meetingPlanName, meetingPlanDetail, meetingLocationPlan, meetingOnProjectId, ownerName, startDatePlan)}>
                     <Text style={styles.signUpText}>Close Vote Time</Text>
                   </TouchableHighlight>
                 </View>
@@ -204,14 +213,12 @@ class MeetingScreen extends React.Component {
   }
 
   renderTime(startHour, startMinutes, endHour, endMinutes) {
-    console.log(this.state.selectedIndex)
     let checked = false
     let time
     if(startHour[0]) {
       time =  startHour[0].map((key, index)=>{
         checked = false
         if(this.state.selectedTime && this.state.selectedIndex.includes(index)){
-          console.log('++HERE++')
           checked = !checked
         }
         return <VoteTime key= {index + key} keyVal={key} startHour={startHour} startMinutes={startMinutes} endHour={endHour} endMinutes={endMinutes} i={index} checked={checked} selectedTime={() => this.selectedTime(index)}/>
@@ -261,30 +268,62 @@ function mapDispatchToProps(dispatch) {
       navigate('Meetings');
     },
     voteTime: (index, meetingId, navigate) => {
-      dispatch({ type: 'ADD_VOTE_TIME_MEETING',
-        index: index, meetingId: meetingId
+      addVote(index, meetingId);
+      dispatch({ type: 'FETCH_CLEAR_ALL_MEETING_PLAN' })
+      fetchAllMeetingPlan((meetings) => {
+        dispatch({ type: 'FETCH_ALL_MEETING_PLAN', payload: meetings })
       })
       navigate('Meetings');
     },
-    closeVoteTime: (meetingId, meetingsVote, startHour, startMinutes, endHour, endMinutes, navigate) => {
+    closeVoteTime: (meetingId, meetingsVote, startHour, startMinutes, endHour, endMinutes, navigate, name, detail, location, meetingOnProjectId, ownerName, startDatePlan) => {
+      var timestamp = moment().format();
       let sum = []
       for( let i = 0; i < startHour[0].length; i ++) {
-        let j = 0
-        meetingsVote.map((val) => {
-          if(val == i) {
-            j = j + 1
-          }
-        })
-        sum.push(j)
+        let voteScore =  Object.keys(meetingsVote).filter( key => meetingsVote[key] === i).length
+        sum.push(voteScore)
       }
       maxVote = Math.max(...sum);
       let indexMaxVoteTime = sum.indexOf(maxVote);
-      dispatch({ type: 'CLOSE_VOTE_TIME_MEETING',
-      finalStartHour: startHour[0][indexMaxVoteTime],
-      finalStartMinutes: startMinutes[0][indexMaxVoteTime],
-      finalEndHour: endHour[0][indexMaxVoteTime],
-      finalEndMinutes: endMinutes[0][indexMaxVoteTime],
-      meetingId: meetingId
+      let uID = firebase.auth().currentUser.uid;
+      meetingRef = firebase.database().ref('meeting/')
+      userRef = firebase.database().ref('user/' + uID +'/meeting/')
+      //add to ref/project
+      console.log(name)
+      meetingRef.push({
+        'meetingName': name,
+        'meetingDetail': detail,
+        'createDate': timestamp,
+        'startDate': startDatePlan,
+        'startHour': startHour[0][indexMaxVoteTime],
+        'startMinutes': startMinutes[0][indexMaxVoteTime],
+        'endHour': endHour[0][indexMaxVoteTime],
+        'endMinutes': endMinutes[0][indexMaxVoteTime],
+        'meetingLocation': location,
+        'meetingOnProjectId': meetingOnProjectId,
+        'ownerName': ownerName,
+        'onVote': false,
+      member : {
+        [uID] : {
+          timestamp : Date.now(),
+          status : 'master'
+          }
+        }
+      }).then((snap) =>{
+        newKey = snap.key
+        meetingRef.child(newKey).update({
+          id : newKey
+        })
+        userRef.update({
+        [newKey] : true
+        })
+      })
+      dispatch({ type: 'FETCH_CLEAR_ALL_MEETING_PLAN' })
+      fetchAllMeetingPlan((meetings) => {
+        dispatch({ type: 'FETCH_ALL_MEETING_PLAN', payload: meetings })
+      })
+      dispatch({ type: 'FETCH_CLEAR_ALL_MEETING' })
+      fetchAllMeeting((meetings) => {
+        dispatch({ type: 'FETCH_ALL_MEETING', payload: meetings })
       })
       navigate('Meetings');
     }

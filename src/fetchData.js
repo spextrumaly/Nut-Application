@@ -114,6 +114,12 @@ export function addNewChecklist( name, taskID ){
   })
 }
 
+export function addVote( indexVote, meetingId ){
+  vote =  firebase.database().ref('meetingPlan/'+ meetingId + '/vote/')
+  indexVote.map((i) => {
+    vote.push().set(i)
+  })
+}
 
 export function addCheckedChecklist( taskID, checklistValue ){
 	ref = firebase.database().ref('task/'+ taskID + '/checklist/' + checklistValue.id)
