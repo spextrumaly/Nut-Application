@@ -82,10 +82,10 @@ function mapDispatchToProps(dispatch) {
     addProject: (id, navigate) => {
       joinMeeting(id)
       dispatch({ type: 'FETCH_CLEAR_ALL_MEETING' })
-      fetchAllMeeting((meetings) => {
-        dispatch({ type: 'FETCH_ALL_MEETING', payload: meetings
-        })
-      })
+      // fetchAllMeeting((meetings) => {
+      //   dispatch({ type: 'FETCH_ALL_MEETING', payload: meetings
+      //   })
+      // })
       navigate('Meetings');
     }
   }

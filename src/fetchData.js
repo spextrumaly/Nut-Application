@@ -10,10 +10,11 @@ export function fetchAllData(callback) {
   })
 }
 
-export function fetchAllProject(callback) {
+export function fetchAllProject(callback, clearFunction) {
   let uID =  firebase.auth().currentUser.uid;
   firebase.database().ref('user/'+ uID +'/project/')
-  .once('value',function(snapshot){
+  .on('value',function(snapshot){
+    clearFunction()
     snapshot.forEach(function(child){
       firebase.database().ref('project/' + child.key)
         .once('value', function(snapshot){
@@ -23,26 +24,30 @@ export function fetchAllProject(callback) {
   })
 }
 
-export function fetchAllMeeting(callback) {
+export function fetchAllMeeting(callback, clearFunction) {
   let uID =  firebase.auth().currentUser.uid;
   firebase.database().ref('user/'+ uID +'/meeting/')
-  .once('value',function(snapshot){
+  .on('value',function(snapshot){
+    clearFunction()
     snapshot.forEach(function(child){
       firebase.database().ref('meeting/' + child.key)
         .once('value', function(snapshot){
+          console.log("test:", snapshot.val())
           callback(snapshot.val())
         })
     })
   })
 }
 
-export function fetchAllMeetingPlan(callback) {
+export function fetchAllMeetingPlan(callback, clearFunction) {
   let uID =  firebase.auth().currentUser.uid;
   firebase.database().ref('user/'+ uID +'/meetingPlan/')
-  .once('value',function(snapshot){
+  .on('value',function(snapshot){
+    clearFunction()
     snapshot.forEach(function(child){
       firebase.database().ref('meetingPlan/' + child.key)
         .once('value', function(snapshot){
+          console.log("test:", snapshot.val())
           callback(snapshot.val())
         })
     })
@@ -50,7 +55,6 @@ export function fetchAllMeetingPlan(callback) {
 }
 
 export function fetchAllTask(callback, projectID) {
-  console.log("project id : ", projectID)
   let uID =  firebase.auth().currentUser.uid;
   firebase.database().ref('project/' +projectID+'/task')
   .once('value',function(snapshot){
@@ -82,8 +86,8 @@ export function joinProject(projectCode){
 export function joinMeeting(meetingCode){
   // rom ku
   let uID =  firebase.auth().currentUser.uid;
-  meetingRef = firebase.database().ref('meeting/' + meetingCode+'/member/')
-  userRef = firebase.database().ref('user/' + uID +'/meeting/')
+  meetingRef = firebase.database().ref('meetingPlan/' + meetingCode+'/member/')
+  userRef = firebase.database().ref('user/' + uID +'/meetingPlan/')
   // add uid to member of the project
   meetingRef.child(uID).update({
     status : 'member',

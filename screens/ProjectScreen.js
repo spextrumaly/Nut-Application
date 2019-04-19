@@ -1,5 +1,6 @@
 import React from 'react';
 import * as Animatable from 'react-native-animatable';
+import * as firebase from 'firebase';
 import AwesomeButton from "react-native-really-awesome-button";
 import {
   ScrollView,
@@ -75,6 +76,15 @@ class ProjectScreen extends React.Component {
         }
       });
 
+      let activeMeetingsPlan = this.props.meetingsPlan.map((val, key)=>{
+        if( val.meetingOnProjectId == this.props.ProjectId){
+          return <MeetingOnProject key={key} keyval={key} val={val}
+          deleteMethod={()=>this.deleteTask(key)}
+          detailMethod={() => this.props.detailMethod(val, navigate)}
+          />
+        }
+      });
+
       let lateTasks = this.props.tasks.map((val, key)=>{
         if( val.ProjectID == this.props.ProjectId){
           if(val.status == 'late') {
@@ -118,6 +128,7 @@ class ProjectScreen extends React.Component {
                         <ScrollView style = { styles.containerCard}>
                           {activeMeetings}
                           {activeTasks}
+                          {activeMeetingsPlan}
                         </ScrollView>                      
                       </View>
                       <View style = { [styles.item, {width: screenWidth/1.5} ]}>
@@ -181,20 +192,26 @@ function mapDispatchToProps(dispatch) {
       navigate('Project');
     },
     deleteProject: (projects, projectId, navigate) => {
-      var timestamp = moment().format();
-      projects.map((val, index)=>{
-        if( val.id == projectId){
-          const i = index
-          dispatch({ type: 'DELETE_PROJECT',  
-          index: i,
-          newfeed : {
-            'name': val.name,
-            'createDate': timestamp,
-            'status': 'deleteProject',
-          }
-        })
-        }
-      });
+      const deleteProjectAll = (cb) => {
+        firebase.database().ref('project/' + projectId).once('value')
+          .then(function (snapshot) {
+            Object.keys(snapshot.val().member).map((key) => {
+              userRef = firebase.database().ref('user/' + key + '/project/' + projectId)
+              userRef.remove()
+              if (cb) {
+                cb()
+              }
+            })
+          })
+
+      }
+      const deleteUserProject = () => {
+        deleteProjectAll(() => {
+          firebase.database().ref('project/' + projectId).remove()
+        });
+      }
+
+      deleteUserProject();
       navigate('HomeProject');
     },
     fetchDispatchAllTask : (projectId) => {
@@ -212,7 +229,8 @@ function mapStateToProps(state) {
     TaskId: state.TaskId,
     projects: state.projects,
     ProjectId: state.ProjectId,
-    meetings: state.meetings
+    meetings: state.meetings,
+    meetingsPlan: state.meetingsPlan
   }
 }
 

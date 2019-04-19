@@ -12,7 +12,9 @@ import {
 import * as Progress from 'react-native-progress';
 import moment from "moment";
 import { store } from '../Store/Store';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import * as firebase from 'firebase';
+
 import { fetchAllTask, changeStatus, addNewChecklist, addCheckedChecklist } from '../src/fetchData';
 
 import CheckBoxListTask from '../components/CheckBoxListTask';
@@ -145,7 +147,7 @@ class HomeTaskScreen extends React.Component {
                   <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.doneTask(this.props.tasks, this.props.TaskId, navigate, this.props.ProjectId)}>
                     <Text style={styles.signUpText}>Done Task</Text>
                   </TouchableHighlight>
-                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.deleteTask(this.props.tasks, this.props.TaskId, navigate)}>
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.deleteTask(this.props.tasks, this.props.TaskId, navigate, this.props.ProjectId)}>
                     <Text style={styles.signUpText}>Delete Task</Text>
                   </TouchableHighlight>
                 </View>
@@ -184,29 +186,14 @@ function mapDispatchToProps(dispatch) {
       fetchAllTask((tasks) => {
         dispatch({ type: 'FETCH_ALL_TASK', payload: tasks })
       }, projectId)
-      // var id = "";
-      // var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      // for (var i = 0; i < 5; i++)
-      //   id += possible.charAt(Math.floor(Math.random() * possible.length));
-      // dispatch({ type: 'ADD_CHECKLIST_STATE',  
-      //   name: name, id : id, taskId: taskId, checked: false
-      // })
     },
-    deleteTask(tasks, taskId, navigate) {
-      tasks.map((val, index)=>{
-        if( val.id == taskId){
-          const i = index
-          dispatch({ type: 'DELETE_TASK',  
-          index: i,
-          newfeed : {
-            'TaskName': val.task,
-            'name': val.name,
-            'createDate': timestamp,
-            'status': 'deleteTask',
-          }
-        })
-        }
-      });
+    deleteTask(tasks, taskId, navigate, projectId) {
+      firebase.database().ref('task/' + taskId).remove()
+      firebase.database().ref('project/' + projectId + '/task/' + taskId).remove()
+      dispatch({ type: 'FETCH_CLEAR_ALL_TASK' })
+      fetchAllTask((tasks) => {
+        dispatch({ type: 'FETCH_ALL_TASK', payload: tasks })
+      }, projectId)
       navigate('Project');
     },
     doneTask(tasks, taskId, navigate, projectId) {

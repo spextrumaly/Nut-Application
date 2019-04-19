@@ -145,10 +145,10 @@ function mapDispatchToProps(dispatch) {
         [newKey] : true
         })
       })
-      dispatch({ type: 'FETCH_CLEAR_ALL_PROJECT' })
-      fetchAllProject((projects) => {
-        dispatch({ type: 'FETCH_ALL_PROJECT', payload: projects })
-      })
+      // dispatch({ type: 'FETCH_CLEAR_ALL_PROJECT' })
+      // fetchAllProject((projects) => {
+      //   dispatch({ type: 'FETCH_ALL_PROJECT', payload: projects })
+      // })
       navigate('HomeProject');
     }
   }

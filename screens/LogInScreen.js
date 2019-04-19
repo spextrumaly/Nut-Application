@@ -160,20 +160,21 @@ function mapDispatchToProps(dispatch) {
     })
     },
     fetchDispatchAllProject: () => {
-        fetchAllProject((projects) => {
+      fetchAllProject((projects) => {
           dispatch({ type: 'FETCH_ALL_PROJECT', payload: projects
         })
-      })
+      },() => dispatch({ type: 'FETCH_CLEAR_ALL_PROJECT' }))
     },
     fetchDispatchAllMeeting: () => {
       fetchAllMeeting((meetings) => {
         dispatch({ type: 'FETCH_ALL_MEETING', payload: meetings })
-      })
+      }, () => dispatch({ type: 'FETCH_CLEAR_ALL_MEETING' })
+    )
     },
     fetchDispatchAllMeetingPlan: () => {
       fetchAllMeetingPlan((meetings) => {
         dispatch({ type: 'FETCH_ALL_MEETING_PLAN', payload: meetings })
-      })
+      }, () => dispatch({ type: 'FETCH_CLEAR_ALL_MEETING_PLAN' }))
     },
   }
 }

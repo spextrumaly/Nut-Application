@@ -14,11 +14,11 @@ import * as firebase from 'firebase';
 import VoteTime from '../../components/VoteTimeMeeting'
 import { addVote, fetchAllMeetingPlan, fetchAllMeeting } from '../../src/fetchData';
 
-class MeetingScreen extends React.Component { 
+class MeetingScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       meeting: {},
@@ -28,220 +28,227 @@ class MeetingScreen extends React.Component {
   }
 
   render() {
-      const {navigate} = this.props.navigation;
-      let meetingName
-      this.props.meetings.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          meetingName = val.meetingName
-        }
-      });
-      let meetingPlanName 
-      this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          console.log(val)
-          meetingPlanName = val.meetingName
-        }
-      });
-      let id
-      this.props.meetings.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return id = val.id
-        }
-      });
-      let idPlan
-      this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return idPlan = val.id
-        }
-      });
-      let meetingDetail
-      this.props.meetings.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return meetingDetail = val.meetingDetail
-        }
-      });
-      let meetingPlanDetail
-      this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          meetingPlanDetail = val.meetingDetail
-        }
-      });
-      let startDate
-      this.props.meetings.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          startDate = val.startDate
-        }
-      });
-      let startDatePlan
-      this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          startDatePlan = val.startDate
-        }
-      });
-      let startHour = []
-      this.props.meetings.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return startHour.push(val.startHour)
-        }
-      });
-      let startHourPlan = []
-      this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return startHourPlan.push(val.startHour)
-        }
-      });
-      let startMinutes = []
-      this.props.meetings.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return startMinutes.push(val.startMinutes)
-        }
-      });
-      let startMinutesPlan = []
-      this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return startMinutesPlan.push(val.startMinutes)
-        }
-      });
-      let endHour = []
-      this.props.meetings.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return endHour.push(val.endHour)
-        }
-      });
-      let endHourPlan = []
-      this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return endHourPlan.push(val.endHour)
-        }
-      });
-      let endMinutes = []
-      this.props.meetings.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return endMinutes.push(val.endMinutes)
-        }
-      });
-      let endMinutesPlan = []
-      this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return endMinutesPlan.push(val.endMinutes)
-        }
-      });
-      let meetingLocation
-      this.props.meetings.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          meetingLocation = val.meetingLocation
-        }
-      });
-      let meetingLocationPlan
-      this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          meetingLocationPlan = val.meetingLocation
-        }
-      });
-      let ownerName
-      this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          ownerName = val.ownerName
-        }
-      });
-      let meetingOnProjectId
-      this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          meetingOnProjectId = val.meetingOnProjectId
-        }
-      });
-      let onVote = false
-      if(this.props.meetings){
-        this.props.meetings.map((val)=>{
-          if( val.id == this.props.MeetingId){
-            return onVote = val.onVote
-          }
-        });
+    const { navigate } = this.props.navigation;
+    let meetingName
+    this.props.meetings.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        meetingName = val.meetingName
       }
-      if(this.props.meetingsPlan){
-        this.props.meetingsPlan.map((val)=>{
-          if( val.id == this.props.MeetingId){
-            return onVote = val.onVote
-          }
-        });
+    });
+    let meetingPlanName
+    this.props.meetingsPlan.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        meetingPlanName = val.meetingName
       }
-      let vote = []
-      this.props.meetings.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return vote = val.vote
+    });
+    let id
+    this.props.meetings.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        return id = val.id
+      }
+    });
+    let idPlan
+    this.props.meetingsPlan.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        return idPlan = val.id
+      }
+    });
+    let meetingDetail
+    this.props.meetings.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        return meetingDetail = val.meetingDetail
+      }
+    });
+    let meetingPlanDetail
+    this.props.meetingsPlan.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        meetingPlanDetail = val.meetingDetail
+      }
+    });
+    let startDate
+    this.props.meetings.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        startDate = val.startDate
+      }
+    });
+    let startDatePlan
+    this.props.meetingsPlan.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        startDatePlan = val.startDate
+      }
+    });
+    let startHour = []
+    this.props.meetings.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        return startHour.push(val.startHour)
+      }
+    });
+    let startHourPlan = []
+    this.props.meetingsPlan.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        return startHourPlan.push(val.startHour)
+      }
+    });
+    let startMinutes = []
+    this.props.meetings.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        return startMinutes.push(val.startMinutes)
+      }
+    });
+    let startMinutesPlan = []
+    this.props.meetingsPlan.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        return startMinutesPlan.push(val.startMinutes)
+      }
+    });
+    let endHour = []
+    this.props.meetings.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        return endHour.push(val.endHour)
+      }
+    });
+    let endHourPlan = []
+    this.props.meetingsPlan.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        return endHourPlan.push(val.endHour)
+      }
+    });
+    let endMinutes = []
+    this.props.meetings.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        return endMinutes.push(val.endMinutes)
+      }
+    });
+    let endMinutesPlan = []
+    this.props.meetingsPlan.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        return endMinutesPlan.push(val.endMinutes)
+      }
+    });
+    let meetingLocation
+    this.props.meetings.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        meetingLocation = val.meetingLocation
+      }
+    });
+    let meetingLocationPlan
+    this.props.meetingsPlan.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        meetingLocationPlan = val.meetingLocation
+      }
+    });
+    let ownerName
+    this.props.meetingsPlan.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        ownerName = val.ownerName
+      }
+    });
+    let meetingOnProjectId
+    this.props.meetingsPlan.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        meetingOnProjectId = val.meetingOnProjectId
+      }
+    });
+    let onVote = false
+    if (this.props.meetings) {
+      this.props.meetings.map((val) => {
+        if (val.id == this.props.MeetingId) {
+          return onVote = val.onVote
         }
       });
-      this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          return vote = val.vote
+    }
+    if (this.props.meetingsPlan) {
+      this.props.meetingsPlan.map((val) => {
+        if (val.id == this.props.MeetingId) {
+          return onVote = val.onVote
         }
       });
-      
-      let showCloseVote = false
-      let uId = firebase.auth().currentUser.uid
-      this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          if(val.member[uId].status == 'master'){
-            showCloseVote = true
-          }
+    }
+    let vote = []
+    this.props.meetings.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        return vote = val.vote
+      }
+    });
+    this.props.meetingsPlan.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        return vote = val.vote
+      }
+    });
+
+    let showCloseVote = false
+    let uId = firebase.auth().currentUser.uid
+    this.props.meetingsPlan.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        if (val.member[uId].status == 'master') {
+          showCloseVote = true
         }
-      });
-      let member
-      this.props.meetingsPlan.map((val)=>{
-        if( val.id == this.props.MeetingId){
-          member = val.member
-        }
-      });
-      return (
-          <View style={styles.container}>
-            <ScrollView>
-              <View style={styles.task}>
-                <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
-                <View>
-                  <Text style={styles.taskText}>{ onVote ? meetingPlanName : meetingName}</Text>
-                  <Text style={styles.taskSubText}>id : { !onVote ? id : idPlan}</Text>
-                  <TouchableOpacity onPress={() => this.props.deleteMeeting(this.props.meetings, this.props.MeetingId, navigate)} style={styles.projectDelete}>
-                    <Text style={styles.projectDeleteText}>Delete</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <Text>Detail</Text>
-              <Text>{ !onVote ? meetingDetail : meetingPlanDetail}</Text>
-              <Text>Date : { !onVote ? startDate : startDatePlan}</Text>
-              { onVote ?  <Text>Vote Time To Meeting</Text> : <Text>Time To Meeting</Text>}
-              { onVote ?  this.renderTime(startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan) : <Text>{startHour} : {startMinutes} - {endHour} : {endMinutes}</Text>}
-              <Text>Location</Text>
-              <Text>{ !onVote ? meetingLocation : meetingLocationPlan}</Text>
-              { onVote ? <View style={styles.containerFooter}>
-                <View style={styles.footer}>
-                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.voteTime(this.state.selectedIndex, this.props.MeetingId, navigate)}>
-                    <Text style={styles.signUpText}>Vote Time</Text>
-                  </TouchableHighlight>
-                  { showCloseVote ?
-                    <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.closeVoteTime(this.props.MeetingId, vote, startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan, navigate, meetingPlanName, meetingPlanDetail, meetingLocationPlan, meetingOnProjectId, ownerName, startDatePlan, member)}>
-                      <Text style={styles.signUpText}>Close Vote Time</Text>
-                    </TouchableHighlight>
-                    :
-                    null
-                  }
-                </View>
-              </View>
-              : null }
-            </ScrollView>
+      }
+    });
+    let member
+    this.props.meetingsPlan.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        member = val.member
+      }
+    });
+    return (
+      <View style={styles.container}>
+        <ScrollView>
+          <View style={styles.task}>
+            <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')} />
+            <View>
+              <Text style={styles.taskText}>{onVote ? meetingPlanName : meetingName}</Text>
+              <Text style={styles.taskSubText}>id : {!onVote ? id : idPlan}</Text>
+              { !onVote ?
+                <TouchableOpacity onPress={() => this.props.deleteMeeting(this.props.MeetingId, navigate)} style={styles.projectDelete}>
+                  <Text style={styles.projectDeleteText}>Delete</Text>
+                </TouchableOpacity>
+                : 
+                null
+              }
+            </View>
           </View>
-      );
+          <Text>Detail</Text>
+          <Text>{!onVote ? meetingDetail : meetingPlanDetail}</Text>
+          <Text>Date : {!onVote ? startDate : startDatePlan}</Text>
+          {onVote ? <Text>Vote Time To Meeting</Text> : <Text>Time To Meeting</Text>}
+          {onVote ? this.renderTime(startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan) : <Text>{startHour} : {startMinutes} - {endHour} : {endMinutes}</Text>}
+          <Text>Location</Text>
+          <Text>{!onVote ? meetingLocation : meetingLocationPlan}</Text>
+          {onVote ? <View style={styles.containerFooter}>
+            <View style={styles.footer}>
+              {!showCloseVote ?
+                <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.voteTime(this.state.selectedIndex, this.props.MeetingId, navigate)}>
+                  <Text style={styles.signUpText}>Vote Time</Text>
+                </TouchableHighlight>
+                :
+                null
+              }
+              {showCloseVote ?
+                <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.closeVoteTime(this.props.MeetingId, vote, startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan, navigate, meetingPlanName, meetingPlanDetail, meetingLocationPlan, meetingOnProjectId, ownerName, startDatePlan, member)}>
+                  <Text style={styles.signUpText}>Close Vote Time</Text>
+                </TouchableHighlight>
+                :
+                null
+              }
+            </View>
+          </View>
+            : null}
+        </ScrollView>
+      </View>
+    );
   }
 
   renderTime(startHour, startMinutes, endHour, endMinutes) {
     let checked = false
     let time
-    if(startHour[0]) {
-      time =  startHour[0].map((key, index)=>{
+    if (startHour[0]) {
+      time = startHour[0].map((key, index) => {
         checked = false
-        if(this.state.selectedTime && this.state.selectedIndex.includes(index)){
+        if (this.state.selectedTime && this.state.selectedIndex.includes(index)) {
           checked = !checked
         }
-        return <VoteTime key= {index + key} keyVal={key} startHour={startHour} startMinutes={startMinutes} endHour={endHour} endMinutes={endMinutes} i={index} checked={checked} selectedTime={() => this.selectedTime(index)}/>
+        return <VoteTime key={index + key} keyVal={key} startHour={startHour} startMinutes={startMinutes} endHour={endHour} endMinutes={endMinutes} i={index} checked={checked} selectedTime={() => this.selectedTime(index)} />
       })
     }
     return time
@@ -249,8 +256,8 @@ class MeetingScreen extends React.Component {
 
   selectedTime(index) {
     let selectedIndex
-    if(this.state.selectedIndex.includes(index)){
-       selectedIndex = this.state.selectedIndex.filter((i)=>{
+    if (this.state.selectedIndex.includes(index)) {
+      selectedIndex = this.state.selectedIndex.filter((i) => {
         i != index
       })
     } else {
@@ -271,44 +278,53 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   var timestamp = moment().format();
   return {
-    deleteMeeting: (meetings, MeetingId, navigate) => {
-      meetings.map((val, index)=>{
-        if( val.id == MeetingId){
-          const i = index
-          dispatch({ type: 'DELETE_MEETING',  
-          index: i,
-          newfeed : {
-            'MeetingName': val.meetingName,
-            'createDate': timestamp,
-            'status': 'deleteMeeting',
-          }
-        })
-        }
-      });
+    deleteMeeting: (meetingId, navigate) => {
+      const deleteMeetingAll = (cb) => {
+        firebase.database().ref('meeting/' + meetingId).once('value')
+          .then(function (snapshot) {
+            Object.keys(snapshot.val().member).map((key) => {
+              userRef = firebase.database().ref('user/' + key + '/meeting/' + meetingId)
+              userRef.remove()
+              if (cb) {
+                cb()
+              }
+            })
+          })
+
+      }
+      const deleteUserMeeting = () => {
+        deleteMeetingAll(() => {
+          firebase.database().ref('meeting/' + meetingId).remove()
+        });
+      }
+
+      deleteUserMeeting();
       navigate('Meetings');
     },
     voteTime: (index, meetingId, navigate) => {
       addVote(index, meetingId);
-      dispatch({ type: 'FETCH_CLEAR_ALL_MEETING_PLAN' })
-      fetchAllMeetingPlan((meetings) => {
-        dispatch({ type: 'FETCH_ALL_MEETING_PLAN', payload: meetings })
-      })
+      // dispatch({ type: 'FETCH_CLEAR_ALL_MEETING_PLAN' })
+      // fetchAllMeetingPlan((meetings) => {
+      //   dispatch({ type: 'FETCH_ALL_MEETING_PLAN', payload: meetings })
+      // })
       navigate('Meetings');
     },
     closeVoteTime: (meetingId, meetingsVote, startHour, startMinutes, endHour, endMinutes, navigate, name, detail, location, meetingOnProjectId, ownerName, startDatePlan, member) => {
       var timestamp = moment().format();
       let sum = []
-      for( let i = 0; i < startHour[0].length; i ++) {
-        let voteScore =  Object.keys(meetingsVote).filter( key => meetingsVote[key] === i).length
+      for (let i = 0; i < startHour[0].length; i++) {
+        let voteScore = Object.keys(meetingsVote).filter(key => meetingsVote[key] === i).length
         sum.push(voteScore)
       }
       maxVote = Math.max(...sum);
+      Object.keys(member).map(key => {
+        console.log(key)
+      })
       let indexMaxVoteTime = sum.indexOf(maxVote);
-      let uID = firebase.auth().currentUser.uid;
-      meetingRef = firebase.database().ref('meeting/')
-      userRef = firebase.database().ref('user/' + uID +'/meeting/')
+      firebase.database().ref('meetingPlan/' + meetingId).remove()
+      meetingRef = firebase.database().ref('meeting/' + meetingId)
       //add to ref/project
-      meetingRef.push({
+      meetingRef.update({
         'meetingName': name,
         'meetingDetail': detail,
         'createDate': timestamp,
@@ -321,23 +337,16 @@ function mapDispatchToProps(dispatch) {
         'meetingOnProjectId': meetingOnProjectId,
         'ownerName': ownerName,
         'onVote': false,
-        member : member
-      }).then((snap) =>{
-        newKey = snap.key
-        meetingRef.child(newKey).update({
-          id : newKey
+        'id': meetingId,
+        member: member
+      }).then(() => {
+        Object.keys(member).map(key => {
+          userRef = firebase.database().ref('user/' + key + '/meeting/')
+          userRef.update({
+            [meetingId]: true
+          })
+          firebase.database().ref('user/' + key + '/meetingPlan/' + meetingId).remove()
         })
-        userRef.update({
-        [newKey] : true
-        })
-      })
-      dispatch({ type: 'FETCH_CLEAR_ALL_MEETING_PLAN' })
-      fetchAllMeetingPlan((meetings) => {
-        dispatch({ type: 'FETCH_ALL_MEETING_PLAN', payload: meetings })
-      })
-      dispatch({ type: 'FETCH_CLEAR_ALL_MEETING' })
-      fetchAllMeeting((meetings) => {
-        dispatch({ type: 'FETCH_ALL_MEETING', payload: meetings })
       })
       navigate('Meetings');
     }
@@ -355,7 +364,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollViewHolder:
-  { 
+  {
     margin: 10,
     flex: 1,
     marginTop: 20,
@@ -418,10 +427,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: "#4A3C39",
   },
-  inputIcon:{
-    width:50,
-    height:50,
-    margin:5,
+  inputIcon: {
+    width: 50,
+    height: 50,
+    margin: 5,
     marginTop: 35,
     justifyContent: 'center'
   },
@@ -452,7 +461,7 @@ const styles = StyleSheet.create({
     width: 60,
     paddingTop: 5,
     paddingBottom: 5,
-    borderRadius:5,
+    borderRadius: 5,
     margin: 10,
     marginBottom: 5,
   },
@@ -469,7 +478,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     marginLeft: 5,
-    borderRadius:10,
+    borderRadius: 10,
   },
   buttonContainerAddList: {
     height: 30,
@@ -478,7 +487,7 @@ const styles = StyleSheet.create({
     width: '50%',
     margin: 10,
     marginLeft: 8,
-    borderRadius:10,
+    borderRadius: 10,
   },
   signupButton: {
     backgroundColor: "#f5f5dc",

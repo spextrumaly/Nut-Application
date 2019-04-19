@@ -5,17 +5,14 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
-  
-  TouchableWithoutFeedback,
   Animated,
   View,
   Image,
-  TouchableHighlight,
 } from 'react-native';
 import Meeting from '../components/Meeting';
 import { store } from '../Store/Store';
 import { connect } from 'react-redux'
+import { fetchAllMeetingPlan, fetchAllMeeting } from '../src/fetchData';
 
 const showAnimation = "slideInUp"
 const hideAnimation = "slideOutDown"
@@ -35,7 +32,9 @@ class MeetingScreen extends React.Component {
   componentWillMount() {
     this.animatedValueAdd = new Animated.Value(0);
   }
+
   render() {
+    console.log(this.props.meetings.length)
     const {navigate} = this.props.navigation;
     let meetings = this.props.meetings.map((val, key)=>{
         return <Meeting key={key} keyval={key} val={val}
@@ -155,7 +154,7 @@ function mapDispatchToProps(dispatch) {
         id: val.id
     })
       navigate('Meeting')
-    }
+    },
   }
 }
 

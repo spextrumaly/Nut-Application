@@ -171,10 +171,10 @@ function mapDispatchToProps(dispatch) {
         [newKey] : true
         })
       })
-      dispatch({ type: 'FETCH_CLEAR_ALL_MEETING_PLAN' })
-      fetchAllMeetingPlan((meetings) => {
-        dispatch({ type: 'FETCH_ALL_MEETING_PLAN', payload: meetings })
-      })
+      // dispatch({ type: 'FETCH_CLEAR_ALL_MEETING_PLAN' })
+      // fetchAllMeetingPlan((meetings) => {
+      //   dispatch({ type: 'FETCH_ALL_MEETING_PLAN', payload: meetings })
+      // })
       navigate('Meetings');
     },
     AddLocation: (location) => {
