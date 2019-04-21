@@ -44,16 +44,10 @@ class HomeProjectScreen extends React.Component {
       });
       return (
           <View style={styles.container}>
-            <View key={this.props.keyval} style={styles.task}>
-              <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
-              <View>
-                <Text style={styles.taskText}>Donate</Text>
-              </View>
-            </View>
             <View style={styles.body}>
               <WebView
                 source={{uri: 'https://donorbox.org/nut-application-donate'}}
-                style={{marginTop: -170}}
+                style={{marginTop: 30}}
                 
                 
               />
@@ -114,7 +108,7 @@ const styles = StyleSheet.create({
     // marginBottom: 100
   },
   body: {
-    backgroundColor: '#f5f3f2',
+    backgroundColor: '#fff',
     flex: 1,
   },
   footer: {
