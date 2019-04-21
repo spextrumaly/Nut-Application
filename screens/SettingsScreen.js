@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     color: 'white',
-    fontFamily: 'Kanit-Regular'
+    fontFamily: 'Kanit-Medium'
   },
   task: {
     position: 'relative',
