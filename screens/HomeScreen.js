@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import Project from '../components/Project'
 import ActiveTask from '../components/ActiveTask'
-import Meeting from '../components/Meeting'
+import Meeting from '../components/MeetingNewFeed'
 import { store } from '../Store/Store';
 import { connect } from 'react-redux';
 import moment from "moment";

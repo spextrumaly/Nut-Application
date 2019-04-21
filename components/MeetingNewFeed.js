@@ -8,23 +8,23 @@ import {
 } from 'react-native';
 import moment from "moment";
 
-export default class Project extends React.Component {
+export default class Meeting extends React.Component {
   render() {
     return (
-        <View key={this.props.keyval} style={styles.project}>
-          <TouchableOpacity onPress={this.props.detailTaskMethod}>
-            <View style={styles.headCard}>
-              <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
-              <View>
-                <Text style={styles.nameText}>{this.props.val.task}</Text>
-                <Text style={styles.projectOwnerText}>{this.props.val.ownerName}</Text>
-              </View>
-              <View style={styles.bodyDeadline}>
-                <Text style={styles.projectText}>Due {this.countDown(this.props.val.deadlineDate,this.props.val.createDate)}</Text>
-              </View>
+      <View key={this.props.keyval} style={styles.project}>
+        <TouchableOpacity onPress={this.props.detailMethod}>
+          <View style={styles.headCard}>
+            <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
+            <View>
+              <Text style={styles.nameText}>{this.props.val.meetingName} { this.props.val.onVote ? <Text style={styles.onVote}>(voting)</Text> : null }</Text>
+              <Text style={styles.projectOwnerText}>{this.props.val.ownerName}</Text>
             </View>
-          </TouchableOpacity>
-        </View>
+            <View style={styles.bodyDeadline}>
+              <Text style={styles.projectText}>Due {this.countDown(this.props.val.startDate,this.props.val.createDate)}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
     );
   }
 
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     backgroundColor: 'white',
     borderRadius: 5,
-    opacity: 0.75,
+    opacity: 0.75
   },
     headCard: {
       position: 'relative',
@@ -62,6 +62,9 @@ const styles = StyleSheet.create({
     inputIcon:{
       width:50,
       height:50,
+    },
+    onVote: {
+      fontSize: 10,
     },
     bodyDeadline: {
       position: 'absolute',
