@@ -228,10 +228,30 @@ class ProjectScreen extends React.Component {
   }
 }
 
-
+function mapStateToProps(state) {
+  return {
+    tasks: state.tasks,
+    TaskId: state.TaskId,
+    projects: state.projects,
+    ProjectId: state.ProjectId,
+    meetings: state.meetings,
+    meetingsPlan: state.meetingsPlan,
+    meetingOnProjectId: state.meetingOnProjectId,
+    ProjectId: state.ProjectId
+  }
+}
 
 function mapDispatchToProps(dispatch) {
   return {
+    ContinueTask: (navigate) => {
+      navigate('CreateTask')
+    },
+    ContinueMeeting: (meetingOnProjectId, ProjectId, navigate) => {
+      dispatch({ type: 'CREATE_MEETING_ON_PROJECT',  
+        id: ProjectId
+      })
+      navigate('CreateMeeting')
+    },
     detailMethod: (val, navigate) => {
       dispatch({ type: 'DETAIL_MEETING',
         id: val.id
@@ -280,33 +300,6 @@ function mapDispatchToProps(dispatch) {
       fetchAllTask((tasks) => {
         dispatch({ type: 'FETCH_ALL_TASK', payload: tasks })
       }, projectId)
-    }
-  }
-}
-
-function mapStateToProps(state) {
-  return {
-    tasks: state.tasks,
-    TaskId: state.TaskId,
-    projects: state.projects,
-    ProjectId: state.ProjectId,
-    meetings: state.meetings,
-    meetingsPlan: state.meetingsPlan,
-    meetingOnProjectId: state.meetingOnProjectId,
-    ProjectId: state.ProjectId
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    ContinueTask: (navigate) => {
-      navigate('CreateTask')
-    },
-    ContinueMeeting: (meetingOnProjectId, ProjectId, navigate) => {
-      dispatch({ type: 'CREATE_MEETING_ON_PROJECT',  
-        id: ProjectId
-      })
-      navigate('CreateMeeting')
     }
   }
 }
