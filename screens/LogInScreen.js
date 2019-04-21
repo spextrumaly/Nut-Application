@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, AsyncStorage, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage, Image, ImageBackground, ScrollView } from 'react-native';
 import * as firebase from 'firebase';
 import AwesomeButton from "react-native-really-awesome-button";
 import { firebaseConfig } from './../src/firebaseConfig';
@@ -123,30 +123,29 @@ class App extends React.Component {
 
   render() {
     return (
-        <Container style={styles.container}>
-        <ScrollView style={styles.scrollContainer}>
-        <Image source={require('../assets/images/bg.png')} style={styles.backgroundImage}></Image>
-        <View style={styles.loginForm}>
-          <Image source={require('../assets/images/text-nut.png')} style={styles.nutImg}></Image>
-          <AwesomeButton
-            backgroundDarker='#29487d'
-            backgroundColor='#3b5998'
-            stretch={true}
-            onPress={this._loginWithFacebook}
-          >
-            <Text style={{ color: 'white', fontFamily: 'Kanit-Regular' }}> Login With Facebook</Text>
-          </AwesomeButton>
-          <AwesomeButton style={{ marginTop: 10}}
-            stretch={true}
-            backgroundDarker='#900c3f'
-            backgroundColor='#c70039'
-            onPress={this._loginWithGoogle}
-          >
-            <Text style={{ color: 'white', fontFamily: 'Kanit-Regular' }}> Login With Google</Text>
-          </AwesomeButton>
-        </View>
-        </ScrollView>
-        </Container>
+        <ImageBackground source={require('../assets/images/bg.png')} style={styles.backgroundImage}>
+          <View style={styles.loginForm}>
+            <Image source={require('../assets/images/text-nut.png')} style={styles.nutImg}></Image>
+            <View style={styles.buttonContainer}>
+              <AwesomeButton
+                backgroundDarker='#29487d'
+                backgroundColor='#3b5998'
+                stretch={true}
+                onPress={this._loginWithFacebook}
+              >
+                <Text style={{ color: 'white', fontFamily: 'Kanit-Regular' }}> Login With Facebook</Text>
+              </AwesomeButton>
+              <AwesomeButton style={{ marginTop: 10}}
+                stretch={true}
+                backgroundDarker='#900c3f'
+                backgroundColor='#c70039'
+                onPress={this._loginWithGoogle}
+              >
+                <Text style={{ color: 'white', fontFamily: 'Kanit-Regular' }}> Login With Google</Text>
+              </AwesomeButton>
+            </View>
+          </View>
+        </ImageBackground>
       
     );
   }
@@ -197,7 +196,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(App)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4A3C39',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10
@@ -206,23 +204,25 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
   },
   nutImg: {
-    marginLeft: 'auto',
-    marginTop: -300,
     width: '80%',
-    marginBottom: -250,
-    marginRight: 'auto',
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    // marginTop: -400,
+    // marginLeft: 'auto',
+    // marginRight: 'auto',
+    position: 'absolute',
+    top: -300,
+    left: 50
+  },
+  buttonContainer: {
+    marginTop: 450
   },
   backgroundImage: {
-    flex: 1,
-    resizeMode: 'contain' // or 'stretch'
+    width: '100%',
+    height: '100%'
   },
   loginForm: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 20
+    padding: 20,
+    position: 'relative'
+    
   },
 });

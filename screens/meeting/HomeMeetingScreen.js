@@ -7,6 +7,8 @@ import {
   Image,
   TouchableHighlight,
   ScrollView,
+  Clipboard,
+  AlertIOS,
   ImageBackground
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -206,7 +208,9 @@ class MeetingScreen extends React.Component {
             <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')} />
             <View style={styles.headMeeting}>
               <Text style={styles.taskText}>{onVote ? meetingPlanName : meetingName}</Text>
-              <Text style={styles.taskSubText}>id : {!onVote ? id : idPlan}</Text>
+              <Text style={styles.taskSubText}
+                    onPress={() => {!onVote ? Clipboard.setString(id.toString()) : Clipboard.setString(idPlan.toString()); AlertIOS.alert('Alert', 'Copied MeetingID to clipboard!'); }}>
+                    MeetingID: {!onVote ? id : idPlan}</Text>
             </View>
           </View>
           <View style={styles.containerMeeting}>
