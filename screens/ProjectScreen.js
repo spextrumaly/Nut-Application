@@ -10,7 +10,9 @@ import {
   View,
   Image,
   Animated,
+  AlertIOS,
   Dimensions,
+  Clipboard,
   ImageBackground,
 } from 'react-native';
 import Task from '../components/Task';
@@ -117,7 +119,9 @@ class ProjectScreen extends React.Component {
                 <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
                 <View>
                   <Text style={styles.taskText}>{name}</Text>
-                  <Text style={styles.taskSubText}>id : {id}</Text>
+                  <Text style={styles.taskSubText}
+                    onPress={() => {Clipboard.setString(id.toString()); AlertIOS.alert('Alert', 'Copied NutID to clipboard!'); }}>
+                    NutID: {id}</Text>
                   <TouchableOpacity onPress={() => this.props.deleteProject(this.props.projects, this.props.ProjectId, navigate)} style={styles.projectDelete}>
                     <Text style={styles.projectDeleteText}>Delete</Text>
                   </TouchableOpacity>
@@ -314,7 +318,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   containerCard: {
-    borderRadius: 10,
+    borderRadius: 5,
+    zIndex: 4
   },
   scrollViewHolder: { 
     margin: 10,
@@ -323,9 +328,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   item: {
-    backgroundColor: '#D3D3D3',
+    backgroundColor: '#e6e0df',
+    borderRadius: 5,
+    opacity: 0.75,
     flex: 1,
-    padding: 10,
+    padding: 15,
     marginRight: 10,
   },
   textHeader: {
@@ -425,12 +432,12 @@ const styles = StyleSheet.create({
     fontSize: 25,
     paddingLeft: 10,
     paddingTop: 10,
-    paddingBottom: 10,
     color: '#f5f5dc'
   },
   taskSubText: {
     justifyContent: 'center',
     alignItems: 'center',
+    fontFamily: 'Kanit-Regular',
     fontSize: 15,
     paddingLeft: 10,
     paddingTop: 5,
@@ -438,6 +445,7 @@ const styles = StyleSheet.create({
   },
   projectDeleteText: {
     fontSize: 13,
+    fontFamily: 'Kanit-Regular',
     color: '#4A3C39',
   },
   projectDelete: {
@@ -453,6 +461,8 @@ const styles = StyleSheet.create({
   headCard: {
     fontSize: 17,
     color: '#4A3C39',
+    textTransform: 'uppercase',
+    fontFamily: 'Kanit-Medium',
     marginBottom: 10,
   },
   signUpText: {

@@ -14,7 +14,7 @@ export default class Task extends Component {
                 <View style={styles.taskText}>
                   {/* <Text style={styles.taskText}>Create Date : {this.props.val.date}</Text> */}
                   {/* <Text style={styles.taskText}>Project : {this.props.val.name}</Text> */}
-                  <Text>Task : {this.props.val.task}</Text>
+                  <Text style={styles.titleText}>{this.props.val.task}</Text>
                   {/* <Text style={styles.taskText}>OWNER : {this.props.val.owner}</Text> */}
                 </View>
                 <View style={styles.containerPeople}>
@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
     margin: 5,
     marginLeft: 0,
     marginRight: 0,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10
+    backgroundColor: '#fff',
+    borderRadius: 5,
   },
   peopleIcon:{
     width:15,
@@ -53,6 +53,13 @@ const styles = StyleSheet.create({
   },
   taskText: {
     padding: 5,
-    fontSize: 10
+    fontSize: 10,
+    color: '#4A3C39',
+    fontFamily: 'Kanit-Regular'
   },
+  titleText: {
+    fontSize: 15,
+    color: '#4A3C39',
+    fontFamily: 'Kanit-Medium'
+  }
 });
