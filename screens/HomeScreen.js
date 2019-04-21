@@ -11,10 +11,12 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import NewFeed from '../components/NewFeed';
-import { NavigationActions } from 'react-navigation';
+import Project from '../components/Project'
+import Task from '../components/Task'
+import Meeting from '../components/Meeting'
 import { store } from '../Store/Store';
 import { connect } from 'react-redux';
+import moment from "moment";
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -26,13 +28,32 @@ class HomeScreen extends React.Component {
   }
 
   render() {
-    console.log("Home newfeed", this.props.newfeeds)
       const {navigate} = this.props.navigation;
-      let newfeeds = this.props.newfeeds.map((val, key)=>{
-          return <NewFeed key={key} keyval={key} val={val}
-          detailProjectMethod={() => this.detailProjectMethod(navigate, val)}
-          detailTaskMethod={() => this.detailTaskMethod(navigate, val)}
+      let projects = this.props.projects.map((val, key)=>{
+        return <Project key={key} keyval={key} val={val}
+        detailMethod={() => this.props.detailMethodProject(navigate, val)}
+        />
+      });
+      let activeTasks = this.props.tasks.map((val, key)=>{
+        if(val.status == 'active' && !moment().isAfter(val.deadlineDate)) {
+          return <Task key={key} keyval={key} val={val}
+          deleteMethod={()=>this.deleteTask(key)}
+          detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
           />
+        }
+      });
+      let lateTasks = this.props.tasks.map((val, key)=>{
+        if(moment().isAfter(val.deadlineDate)) {
+          return <Task key={key} keyval={key} val={val}
+          deleteMethod={()=>this.deleteTask(key)}
+          detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
+          />
+        }
+      });
+      let meetings = this.props.meetings.map((val, key)=>{
+        return <Meeting key={key} keyval={key} val={val}
+                detailMethod={() => this.props.detailMethodMeeting(val, navigate)}
+              />
       });
       return (
           <View style={styles.container}>
@@ -46,32 +67,63 @@ class HomeScreen extends React.Component {
             <View style={styles.body}>
               <ScrollView style={styles.scrollContainer}>
               <View style={styles.projectContainer}>
-                {newfeeds.reverse()}
+                {
+                  meetings && meetings.length ? <Text>Active Meetings</Text> : null
+                }
+                {meetings}
+                {
+                  projects && projects.length ? <Text>Active Projects</Text> : null
+                }
+                {projects}
+                {
+                  activeTasks && activeTasks.length ? <Text>Active Task</Text> : null
+                }
+                {activeTasks}
+                {
+                  lateTasks && lateTasks.length ? <Text>Late Task</Text> : null
+                }
+                {lateTasks}
               </View>
               </ScrollView>
             </View>
           </View>
       );
   }
-  detailProjectMethod(navigate, val){
-    store.name = val.name;
-    store.ProjectId = val.ProjectID;
-    navigate('Project')
-  }
-  detailTaskMethod(navigate, val){
-    store.TaskName = val.task;
-    store.TaskId = val.id;
-    navigate('HomeTask')
-  }
 }
 
 function mapStateToProps(state) {
   return {
-    newfeeds: state.newfeeds
+    newfeeds: state.newfeeds,
+    projects: state.projects,
+    tasks: state.tasks,
+    meetings: state.meetings
   }
 }
 
-export default connect(mapStateToProps)(HomeScreen)
+function mapDispatchToProps(dispatch) {
+  return {
+    detailMethodProject: (navigate, val) => {
+      dispatch({ type: 'DETAIL_PROJECT',  
+        id: val.id
+      })
+      navigate('Project')
+    },
+    detailMethodMeeting: (val, navigate) => {
+      dispatch({ type: 'DETAIL_MEETING',
+        id: val.id
+    })
+      navigate('Meeting')
+    },
+    detailTaskMethod: (navigate, val) => {
+      dispatch({ type: 'ADD_ID_TASK_STATE',  
+        id: val.id
+      })
+      navigate('HomeTask')
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
 
 
 const styles = StyleSheet.create({
