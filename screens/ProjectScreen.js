@@ -51,14 +51,18 @@ class ProjectScreen extends React.Component {
   render() {
       const {navigate} = this.props.navigation;
       let id = this.props.projects.map((val) => {
-        if(val.id == this.props.ProjectId) {
-          return val.id
+        if(val){
+          if(val.id == this.props.ProjectId) {
+            return val.id
+          }
         }
       })
 
       let name = this.props.projects.map((val) => {
-        if(val.id == this.props.ProjectId) {
-          return val.name
+        if(val) {
+          if(val.id == this.props.ProjectId) {
+            return val.name
+          }
         }
       })
 

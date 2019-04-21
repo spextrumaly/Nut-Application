@@ -105,33 +105,6 @@ function mapDispatchToProps(dispatch) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return {
     AddMeeting: (name, detail, startDate, startHour, startMinutes, endHour, endMinutes, location, meetingOnProjectId, ownerName, navigate) => {
-      // dispatch({ type: 'ADD_MEETING',
-      //   meeting: {
-      //     'meetingName': name,
-      //     'meetingDetail': detail,
-      //     'createDate': timestamp,
-      //     'id': text,
-      //     'startDate': startDate.dateString,
-      //     'startHour': startHour,
-      //     'startMinutes': startMinutes,
-      //     'endHour': endHour,
-      //     'endMinutes': endMinutes,
-      //     'finalStartHour': '',
-      //     'finalStartMinutes': '',
-      //     'finalEndHour': '',
-      //     'finalEndMinutes': '',
-      //     'status': 'join',
-      //     'meetingLocation': location,
-      //     'meetingOnProjectId': meetingOnProjectId,
-      //     'onVote': true,
-      //     'vote': [],
-      //   }, newfeed : {
-      //     'meetingName': name,
-      //     'createDate': timestamp,
-      //     'id': text,
-      //     'status': 'createMeeting',
-      //   }
-      // })
       let uID = firebase.auth().currentUser.uid;
       meetingRef = firebase.database().ref('meetingPlan/')
       userRef = firebase.database().ref('user/' + uID +'/meetingPlan/')
@@ -145,10 +118,6 @@ function mapDispatchToProps(dispatch) {
         'startMinutes': startMinutes,
         'endHour': endHour,
         'endMinutes': endMinutes,
-        // 'finalStartHour': '',
-        // 'finalStartMinutes': '',
-        // 'finalEndHour': '',
-        // 'finalEndMinutes': '',
         'meetingLocation': location,
         'meetingOnProjectId': meetingOnProjectId,
         'onVote': true,
@@ -171,10 +140,6 @@ function mapDispatchToProps(dispatch) {
         [newKey] : true
         })
       })
-      // dispatch({ type: 'FETCH_CLEAR_ALL_MEETING_PLAN' })
-      // fetchAllMeetingPlan((meetings) => {
-      //   dispatch({ type: 'FETCH_ALL_MEETING_PLAN', payload: meetings })
-      // })
       navigate('Meetings');
     },
     AddLocation: (location) => {
