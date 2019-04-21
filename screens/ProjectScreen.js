@@ -91,7 +91,7 @@ class ProjectScreen extends React.Component {
 
       let lateTasks = this.props.tasks.map((val, key)=>{
         if( val.ProjectID == this.props.ProjectId){
-          if(moment().isAfter(val.deadlineDate)) {
+          if(moment().isAfter(val.deadlineDate) && val.status == 'active') {
             return <Task key={key} keyval={key} val={val}
             detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
             />

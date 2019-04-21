@@ -75,14 +75,17 @@ class HomeTaskScreen extends React.Component {
       return (
         <View style={styles.container}>
           <View key={this.props.keyval} style={styles.task}>
-            <Image style={styles.taskIcon} source={require('../assets/images/task.png')}/>
+          <Image style={styles.inputIcon} source={require('../assets/images/icon.png')} />
             <View>
               <Text style={styles.taskText}>{taskName}</Text>
-              <Text style={styles.inListText}>in list : {taskStatus}</Text>
+              <Text style={styles.inListText}>Status : {taskStatus}</Text>
+              <View style={styles.progress}>
+                <Progress.Bar color={'#f5f5dc'} progress={this.statusbar() || 0} width={130} />
+              </View>
             </View>
-            <View style={styles.containerProgress}>
-              <Progress.Circle size={50} progress={this.statusbar() || 0} color={'green'}/>
-            </View>
+            {/* <View style={styles.containerProgress}>
+              <Progress.Circle size={50} progress={this.statusbar() || 0} color={'#f5f5dc'} showsText={true}/>
+            </View> */}
           </View>
           <View style = { styles.containerScrollViewHolder }>
             <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%', height: '100%'}}>
@@ -92,19 +95,19 @@ class HomeTaskScreen extends React.Component {
                   <View style = { [styles.item, {width: '100%'} ]}>
                     <View style = { styles.containerTopic }>
                       <View style = { styles.containerMember } >
-                        <Image style={styles.memberIcon} source={require('../assets/images/people.png')}/>
+                        {/* <Image style={styles.memberIcon} source={require('../assets/images/people.png')}/> */}
                         <Text style= { styles.headCard} >OWNER MEMBERS</Text>
                       </View>
                       <View style = { styles.containerMembers }>
                         <View style = { styles.containerMember }>
-                          <Image style={styles.avatarIcon} source={require('../assets/images/avatar.png')}/>
+                          {/* <Image style={styles.avatarIcon} source={require('../assets/images/avatar.png')}/> */}
                           <Text style= { styles.memberText} >{ownerName}</Text>
                         </View>
                       </View>
                     </View>
                     <View style = { styles.containerTopic }>
                       <View style = { styles.containerMember } >
-                        <Image style={styles.memberIcon} source={require('../assets/images/due_date.png')}/>
+                        {/* <Image style={styles.memberIcon} source={require('../assets/images/due_date.png')}/> */}
                         <Text style= { styles.headCard} >DUE DATE</Text>
                       </View>
                       <View style = { styles.containerMember } >
@@ -113,7 +116,7 @@ class HomeTaskScreen extends React.Component {
                     </View>
                     <View style = { styles.containerTopic }>
                       <View style = { styles.containerMember } >
-                        <Image style={styles.memberIcon} source={require('../assets/images/des.png')}/>
+                        {/* <Image style={styles.memberIcon} source={require('../assets/images/des.png')}/> */}
                         <Text style= { styles.headCard} >DESCRIPTION</Text>
                       </View>
                       <View style = { styles.containerMember } >
@@ -122,7 +125,7 @@ class HomeTaskScreen extends React.Component {
                     </View>
                     <View style = { styles.containerTopic }>
                       <View style = { styles.containerMember } >
-                        <Image style={styles.memberIcon} source={require('../assets/images/checkList.png')}/>
+                        {/* <Image style={styles.memberIcon} source={require('../assets/images/checkList.png')}/> */}
                         <Text style= { styles.headCard} >CHECKLIST</Text>
                       </View>
                       <View style = { styles.containerCheckList } >
@@ -272,8 +275,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#4A3C39",
   },
   inputIcon:{
-    width:30,
-    height:30,
+    width:50,
+    height:50,
     margin:5,
     justifyContent: 'center'
   },
@@ -287,7 +290,12 @@ const styles = StyleSheet.create({
   },
   inListText: {
     paddingLeft: 10,
-    color: '#f5f5dc'
+    color: '#f5f5dc',
+    fontFamily: 'Kanit-Bold',
+  },
+  progress: {
+    paddingLeft: 10,
+    paddingTop: 10
   },
   containerScrollViewHolder: {
     justifyContent: 'center',
@@ -319,17 +327,22 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 5,
     color: '#4A3C39',
+    fontFamily: 'Kanit-Bold',
+
   },
   memberText: {
     fontSize: 15,
     padding: 5,
-    fontFamily: 'Kanit-Italic'
+    marginLeft: 15,
+    color: '#4A3C39',
+    fontFamily: 'Kanit-Regular'
   },
   deadlineText: {
     fontSize: 15,
     padding: 5,
     marginLeft: 15,
     color: '#4A3C39',
+    fontFamily: 'Kanit-Regular',
   },
   buttonContainer: {
     height: 45,

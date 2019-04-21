@@ -526,7 +526,7 @@ const styles = StyleSheet.create({
   detail: {
     color: '#4A3C39',
     fontSize: 18,
-    fontFamily: 'Kanit-Regular',
+    fontFamily: 'Kanit-Bold',
     paddingLeft: 15,
   },
   meetingDetail: {
@@ -546,7 +546,7 @@ const styles = StyleSheet.create({
     color: '#4A3C39',
     fontSize: 18,
     paddingLeft: 15,
-    fontFamily: 'Kanit-Regular',
+    fontFamily: 'Kanit-Bold',
     paddingBottom: 12,
   },
   headMeeting: {
