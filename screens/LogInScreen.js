@@ -124,25 +124,27 @@ class App extends React.Component {
   render() {
     return (
         <ImageBackground source={require('../assets/images/bg.png')} style={styles.backgroundImage}>
-        <View style={styles.loginForm}>
-          <Image source={require('../assets/images/text-nut.png')} style={styles.nutImg}></Image>
-          <AwesomeButton
-            backgroundDarker='#29487d'
-            backgroundColor='#3b5998'
-            stretch={true}
-            onPress={this._loginWithFacebook}
-          >
-            <Text style={{ color: 'white', fontFamily: 'Kanit-Regular' }}> Login With Facebook</Text>
-          </AwesomeButton>
-          <AwesomeButton style={{ marginTop: 10}}
-            stretch={true}
-            backgroundDarker='#900c3f'
-            backgroundColor='#c70039'
-            onPress={this._loginWithGoogle}
-          >
-            <Text style={{ color: 'white', fontFamily: 'Kanit-Regular' }}> Login With Google</Text>
-          </AwesomeButton>
-        </View>
+          <View style={styles.loginForm}>
+            <Image source={require('../assets/images/text-nut.png')} style={styles.nutImg}></Image>
+            <View style={styles.buttonContainer}>
+              <AwesomeButton
+                backgroundDarker='#29487d'
+                backgroundColor='#3b5998'
+                stretch={true}
+                onPress={this._loginWithFacebook}
+              >
+                <Text style={{ color: 'white', fontFamily: 'Kanit-Regular' }}> Login With Facebook</Text>
+              </AwesomeButton>
+              <AwesomeButton style={{ marginTop: 10}}
+                stretch={true}
+                backgroundDarker='#900c3f'
+                backgroundColor='#c70039'
+                onPress={this._loginWithGoogle}
+              >
+                <Text style={{ color: 'white', fontFamily: 'Kanit-Regular' }}> Login With Google</Text>
+              </AwesomeButton>
+            </View>
+          </View>
         </ImageBackground>
       
     );
@@ -202,18 +204,25 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
   },
   nutImg: {
-    marginLeft: 'auto',
-    marginTop: -300,
     width: '80%',
-    marginBottom: -250,
-    marginRight: 'auto',
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    // marginTop: -400,
+    // marginLeft: 'auto',
+    // marginRight: 'auto',
+    position: 'absolute',
+    top: -300,
+    left: 50
+  },
+  buttonContainer: {
+    marginTop: 450
   },
   backgroundImage: {
     width: '100%',
     height: '100%'
   },
   loginForm: {
-    padding: 20
+    padding: 20,
+    position: 'relative'
+    
   },
 });
