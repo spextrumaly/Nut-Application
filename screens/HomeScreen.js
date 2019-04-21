@@ -17,6 +17,7 @@ import Meeting from '../components/Meeting'
 import { store } from '../Store/Store';
 import { connect } from 'react-redux';
 import moment from "moment";
+import { fetchAllTask } from '../src/fetchData';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -28,22 +29,18 @@ class HomeScreen extends React.Component {
   }
 
   render() {
+      console.log(this.props.userDetail)
       const {navigate} = this.props.navigation;
-      let projects = this.props.projects.map((val, key)=>{
-        return <Project key={key} keyval={key} val={val}
-        detailMethod={() => this.props.detailMethodProject(navigate, val)}
-        />
-      });
-      let activeTasks = this.props.tasks.map((val, key)=>{
-        if(val.status == 'active' && !moment().isAfter(val.deadlineDate)) {
+      let activetasksNewFeed = this.props.tasksNewFeed.map((val, key)=>{
+        if(val.status == 'active' && !moment().isAfter(val.deadlineDate) && this.props.userDetail.name == val.ownerName) {
           return <Task key={key} keyval={key} val={val}
           deleteMethod={()=>this.deleteTask(key)}
           detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
           />
         }
       });
-      let lateTasks = this.props.tasks.map((val, key)=>{
-        if(moment().isAfter(val.deadlineDate)) {
+      let latetasksNewFeed = this.props.tasksNewFeed.map((val, key)=>{
+        if(moment().isAfter(val.deadlineDate)  && this.props.userDetail.name == val.ownerName) {
           return <Task key={key} keyval={key} val={val}
           deleteMethod={()=>this.deleteTask(key)}
           detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
@@ -72,17 +69,13 @@ class HomeScreen extends React.Component {
                 }
                 {meetings}
                 {
-                  projects && projects.length ? <Text>Active Projects</Text> : null
+                  activetasksNewFeed && activetasksNewFeed.length ? <Text>Active Task</Text> : null
                 }
-                {projects}
+                {activetasksNewFeed}
                 {
-                  activeTasks && activeTasks.length ? <Text>Active Task</Text> : null
+                  latetasksNewFeed && latetasksNewFeed.length ? <Text>Late Task</Text> : null
                 }
-                {activeTasks}
-                {
-                  lateTasks && lateTasks.length ? <Text>Late Task</Text> : null
-                }
-                {lateTasks}
+                {latetasksNewFeed}
               </View>
               </ScrollView>
             </View>
@@ -95,8 +88,9 @@ function mapStateToProps(state) {
   return {
     newfeeds: state.newfeeds,
     projects: state.projects,
-    tasks: state.tasks,
-    meetings: state.meetings
+    tasksNewFeed: state.tasksNewFeed,
+    meetings: state.meetings,
+    userDetail: state.userDetail
   }
 }
 
