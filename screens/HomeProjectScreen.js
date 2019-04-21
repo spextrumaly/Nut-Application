@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     // marginBottom: 100
   },
   body: {
-    backgroundColor: '#DCDCDC',
+    backgroundColor: '#f5f3f2',
     flex: 1,
   },
   footer: {
@@ -246,6 +246,9 @@ const styles = StyleSheet.create({
     height:30,
     margin:5,
     justifyContent: 'center'
+  },
+  projectContainer: {
+    fontFamily: 'Kanit-Regular'
   },
   taskText: {
     justifyContent: 'center',

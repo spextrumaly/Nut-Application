@@ -323,6 +323,7 @@ const styles = StyleSheet.create({
   memberText: {
     fontSize: 15,
     padding: 5,
+    fontFamily: 'Kanit-Italic'
   },
   deadlineText: {
     fontSize: 15,

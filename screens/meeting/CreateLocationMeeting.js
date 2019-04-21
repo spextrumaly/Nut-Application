@@ -22,7 +22,7 @@ class LocationMeeting extends Component {
     return (
       <ImageBackground source={require('../../assets/images/bg.png')}style={{width: '100%', height: '100%'}}>
         <View style={styles.container}>
-          <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../../assets/images/topic2.png')}/>
+          <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../../assets/images/where.png')}/>
           <GooglePlacesAutocomplete
               placeholder='Enter a location...'
               minLength={1}

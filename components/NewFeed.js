@@ -11,8 +11,10 @@ import moment from "moment";
 export default class NewFeed extends React.Component {
   render() {  
     return (
-        <View key={this.props.keyval} style={styles.project}>
-         {this.createNewFeed()}
+        <View>
+          <View key={this.props.keyval} style={styles.project}>
+          {this.createNewFeed()}
+          </View>
         </View>
     );
   }
@@ -24,7 +26,7 @@ export default class NewFeed extends React.Component {
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
             <View>
-              <Text style={styles.nameText}>Created project {this.props.val.name}</Text>
+              <Text style={styles.projectNameText}>Created the {this.props.val.ProjectName} project</Text>
               <Text style={styles.projectOwnerText}>by Undefind User</Text>
             </View>
           </View>
@@ -40,7 +42,7 @@ export default class NewFeed extends React.Component {
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
             <View>
-              <Text style={styles.nameText}>Delete project {this.props.val.name}</Text>
+              <Text style={styles.projectNameText}>Deleted the {this.props.val.ProjectName} project</Text>
               <Text style={styles.projectOwnerText}>by Undefind User</Text>
             </View>
           </View>
@@ -56,8 +58,8 @@ export default class NewFeed extends React.Component {
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
             <View>
-              <Text style={styles.nameText}>Created task {this.props.val.task}</Text>
-              <Text style={styles.projectOwnerText}>on {this.props.val.name} Project</Text>
+              <Text style={styles.projectNameText}>Created the {this.props.val.task} task</Text>
+              <Text style={styles.projectOwnerText}>on the {this.props.val.ProjectName} project</Text>
               <Text style={styles.projectOwnerText}>by Undefind User</Text>
             </View>
           </View>
@@ -73,8 +75,8 @@ export default class NewFeed extends React.Component {
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
             <View>
-              <Text style={styles.nameText}>Delete task {this.props.val.task}</Text>
-              <Text style={styles.projectOwnerText}>on {this.props.val.name} Project</Text>
+              <Text style={styles.projectNameText}>Delete the {this.props.val.task} task</Text>
+              <Text style={styles.projectOwnerText}>on the {this.props.val.ProjectName} project</Text>
               <Text style={styles.projectOwnerText}>by Undefind User</Text>
             </View>
           </View>
@@ -90,7 +92,7 @@ export default class NewFeed extends React.Component {
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
             <View>
-              <Text style={styles.nameText}>Created meeting {this.props.val.meetingName}</Text>
+              <Text style={styles.projectNameText}>Created the {this.props.val.meetingName} meeting</Text>
               <Text style={styles.projectOwnerText}>by Undefind User</Text>
             </View>
           </View>
@@ -106,7 +108,7 @@ export default class NewFeed extends React.Component {
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
             <View>
-              <Text style={styles.nameText}>Delete meeting {this.props.val.meetingName}</Text>
+              <Text style={styles.projectNameText}>Deleted the {this.props.val.meetingName} meeting</Text>
               <Text style={styles.projectOwnerText}>by Undefind User</Text>
             </View>
           </View>
@@ -126,14 +128,20 @@ const styles = StyleSheet.create({
     project: {
       flex: 1,
       flexDirection: 'column',
-      padding: 10,
+      padding: 20,
       borderBottomWidth:1,
-      borderBottomColor: '#696969',
+      borderBottomColor: '#ffffff',
       borderTopWidth:1,
-      borderTopColor: '#696969',
+      borderTopColor: '#ffffff',
       marginLeft: 0,
+      shadowColor: '#696969',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.3,
+      shadowRadius: 2,
+      elevation: 1,
       marginRight: 0,
       marginBottom: 5,
+      marginTop: 5,
       backgroundColor: 'white',
     },
     headCard: {
@@ -156,14 +164,19 @@ const styles = StyleSheet.create({
     nameText: {
       paddingLeft: 10,
       fontSize: 20,
+      fontFamily: 'Kanit-Medium',
+      color: '#4A3C39',
     },
     projectOwnerText: {
       paddingLeft: 10,
       fontSize: 10,
+      fontFamily: 'Kanit-Italic',
+      
     },
     projectText: {
       fontSize: 10,
       color: '#696969',
+      fontFamily: 'Kanit-Regular'
     },
     projectDelete: {
         backgroundColor: '#4A3C39',
@@ -181,5 +194,9 @@ const styles = StyleSheet.create({
   },
     projectDeleteText: {
         color: 'white'
-    }
+    },
+    topicContainer: {
+      width: '100%',
+      height: 100,
+    },
 });
