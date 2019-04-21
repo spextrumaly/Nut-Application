@@ -66,23 +66,40 @@ class HomeScreen extends React.Component {
             <View style={styles.body}>
               <ScrollView style={styles.scrollContainer}>
               <View style={styles.projectContainer}>
+                <View style={styles.containerFeed}>
                 {
-                  meetings && meetings.length ? <Text>Active Meetings</Text> : null
+                  meetings && meetings.length ? <View style={styles.containerTitle}><Text style={styles.titleFeed}>Active Meetings</Text></View> : null
                 }
-                {meetings}
+                  <View style={styles.meetings}>
+                    {meetings}
+                  </View>
+                </View>
+                <View style={styles.containerFeed}>
                 {
-                  activetasksNewFeed && activetasksNewFeed.length ? <Text>Active Task</Text> : null
+                  activetasksNewFeed.find(function(element) {
+                    if(element !== undefined){
+                      return true
+                    }
+                    ;
+                  })  ? <View style={styles.containerTitle}><Text style={styles.titleFeed}>Active Task</Text></View> : null
                 }
-                {activetasksNewFeed}
+                  <View style={styles.meetings}>
+                    {activetasksNewFeed}
+                  </View>
+                </View>
+                <View style={styles.containerFeed}>
                 {
                   latetasksNewFeed.find(function(element) {
                     if(element !== undefined){
                       return true
                     }
                     ;
-                  }) ? <Text>Late Task</Text> : null
+                  }) ? <View style={styles.containerTitle}><Text style={styles.titleFeed}>Late Task</Text></View> : null
                 }
-                {latetasksNewFeed}
+                  <View style={styles.meetings}>
+                    {latetasksNewFeed}
+                  </View>
+                </View>
               </View>
               </ScrollView>
             </View>
@@ -140,22 +157,46 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
   },
+  containerFeed: {
+    margin: 10,
+  },
+  meetings: {
+    backgroundColor: '#4A3C39',
+    padding: 10,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+  },
+  containerTitle: {
+    backgroundColor: '#4A3C39',
+    width: 150,
+    textAlign: 'center',
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+  },
+  titleFeed: {
+    padding: 10,
+    paddingBottom: 5,
+    fontFamily: 'Kanit-Regular',
+    textAlign: 'center',
+    color: '#f5f5dc',
+  },
   whatIsNut: {
   },
   footer: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      zIndex: 10
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10
   },
   textInput: {
-      alignSelf: 'stretch',
-      color: '#fff',
-      padding: 10,
-      fontFamily: 'Kanit-Regular',
-      backgroundColor: '#252525',
-      borderTopColor: '#ededed'
+    alignSelf: 'stretch',
+    color: '#fff',
+    padding: 10,
+    fontFamily: 'Kanit-Regular',
+    backgroundColor: '#252525',
+    borderTopColor: '#ededed'
   },
   addButton: {
       position: 'absolute',

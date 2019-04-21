@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginTop: 5,
     backgroundColor: 'white',
+    borderRadius: 5,
   },
     headCard: {
       position: 'relative',
