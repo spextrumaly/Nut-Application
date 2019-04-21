@@ -5,6 +5,7 @@ import {
   Text,
   View,
   Image,
+  Linking,
   TouchableHighlight,
   AsyncStorage,
 } from 'react-native';
@@ -58,7 +59,8 @@ export default class SettingScreen extends React.Component {
               </View>
             </View>
           </TouchableHighlight>
-          <TouchableHighlight>
+          <TouchableHighlight
+            onPress={() => Linking.openURL('https://donorbox.org/nut-application-donate')}>
             <View style={styles.containerSetting}>
               <Image style={styles.settingIcon} source={require('../assets/images/donate.png')}/>
               <View style={styles.containerTopicSetting}>

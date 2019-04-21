@@ -19,8 +19,8 @@ import CalendarMeetingScreen from '../screens/meeting/CreateCalendarMeeting'
 import CalendarMeetingEndScreen from '../screens/meeting/CreateCalendarEndMeeting'
 import LocationMeetingScreen from '../screens/meeting/CreateLocationMeeting'
 import MeetingScreen from '../screens/meeting/HomeMeetingScreen';
-import JoinMeetingScreen from '../screens/meeting/JoinMeetingScreen'
-import SelectProjectCreate from '../screens/SelectProjectCreate'
+import JoinMeetingScreen from '../screens/meeting/JoinMeetingScreen';
+import SelectProjectCreate from '../screens/SelectProjectCreate';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
