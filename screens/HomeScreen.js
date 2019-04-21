@@ -44,8 +44,6 @@ class HomeScreen extends React.Component {
               </View>
             </View>
             <Animatable.View animation='pulse' easing="ease-out" iterationCount="infinite">
-              <Image style={styles.topicContainer} resizeMode={'contain'} source={require('../assets/images/whatisnut.gif')}/>
-
             </Animatable.View>
             <View style={styles.body}>
               <ScrollView style={styles.scrollContainer}>
@@ -82,7 +80,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#DCDCDC',
+    backgroundColor: '#f5f3f2',
   },
   topicContainer: {
     width: '100%',

@@ -33,19 +33,25 @@ export default class Project extends React.Component {
   }
 }
 const styles = StyleSheet.create({
-    project: {
-      flex: 1,
-      flexDirection: 'column',
-      padding: 10,
-      borderBottomWidth:1,
-      borderBottomColor: '#696969',
-      borderTopWidth:1,
-      borderTopColor: '#696969',
-      marginLeft: 0,
-      marginRight: 0,
-      marginBottom: 5,
-      backgroundColor: 'white',
-    },
+  project: {
+    flex: 1,
+    flexDirection: 'column',
+    padding: 20,
+    borderBottomWidth:1,
+    borderBottomColor: '#ffffff',
+    borderTopWidth:1,
+    borderTopColor: '#ffffff',
+    marginLeft: 0,
+    shadowColor: '#696969',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 1,
+    marginRight: 0,
+    marginBottom: 5,
+    marginTop: 5,
+    backgroundColor: 'white',
+  },
     headCard: {
       position: 'relative',
       flexDirection: 'row',

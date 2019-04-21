@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     marginBottom: 100
   },
   body: {
-    backgroundColor: '#DCDCDC',
+    backgroundColor: '#f5f3f2',
     flex: 1,
   },
   footer: {
