@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, AsyncStorage, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage, Image, ImageBackground, ScrollView } from 'react-native';
 import * as firebase from 'firebase';
 import AwesomeButton from "react-native-really-awesome-button";
 import { firebaseConfig } from './../src/firebaseConfig';
@@ -123,9 +123,7 @@ class App extends React.Component {
 
   render() {
     return (
-        <Container style={styles.container}>
-        <ScrollView style={styles.scrollContainer}>
-        <Image source={require('../assets/images/bg.png')} style={styles.backgroundImage}></Image>
+        <ImageBackground source={require('../assets/images/bg.png')} style={styles.backgroundImage}>
         <View style={styles.loginForm}>
           <Image source={require('../assets/images/text-nut.png')} style={styles.nutImg}></Image>
           <AwesomeButton
@@ -145,8 +143,7 @@ class App extends React.Component {
             <Text style={{ color: 'white', fontFamily: 'Kanit-Regular' }}> Login With Google</Text>
           </AwesomeButton>
         </View>
-        </ScrollView>
-        </Container>
+        </ImageBackground>
       
     );
   }
@@ -197,7 +194,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(App)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4A3C39',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10
@@ -214,15 +210,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   },
   backgroundImage: {
-    flex: 1,
-    resizeMode: 'contain' // or 'stretch'
+    width: '100%',
+    height: '100%'
   },
   loginForm: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
     padding: 20
   },
 });
