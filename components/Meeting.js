@@ -16,7 +16,7 @@ export default class Meeting extends React.Component {
           <View style={styles.headCard}>
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <View>
-              <Text style={styles.nameText}>{this.props.val.meetingName}</Text>
+    <Text style={styles.nameText}>{this.props.val.meetingName} { this.props.val.onVote ? <Text style={styles.onVote}>(on vote)</Text> : null }</Text>
               <Text style={styles.projectOwnerText}>{this.props.val.ownerName}</Text>
             </View>
             <View style={styles.bodyDeadline}>
@@ -60,6 +60,9 @@ const styles = StyleSheet.create({
     inputIcon:{
       width:50,
       height:50,
+    },
+    onVote: {
+      fontSize: 10,
     },
     bodyDeadline: {
       position: 'absolute',
