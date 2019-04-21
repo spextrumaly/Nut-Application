@@ -68,7 +68,7 @@ export default class SettingScreen extends React.Component {
               </View>
             </View>
           </TouchableHighlight>
-          <TouchableHighlight onPress={this._signOutAsync}>
+          <TouchableHighlight onPress={() => this._signOutAsync()}>
             <View style={styles.containerSetting}>
               <View style={styles.containerIconTopicSetting}>
                 <Image style={styles.settingIcon} source={require('../assets/images/logout.png')}/>
@@ -84,7 +84,12 @@ export default class SettingScreen extends React.Component {
   }
   _signOutAsync = async () => {
     await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
+    try {
+      await firebase.auth().signOut();
+      this.props.navigation.navigate('Auth');
+    } catch (e){
+      console.log(e)
+    } 
   };
 }
 

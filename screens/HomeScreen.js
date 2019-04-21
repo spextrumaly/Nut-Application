@@ -30,7 +30,6 @@ class HomeScreen extends React.Component {
   }
 
   render() {
-      console.log(latetasksNewFeed)
       const {navigate} = this.props.navigation;
       let activetasksNewFeed = this.props.tasksNewFeed.map((val, key)=>{
         if(val.status == 'active' && !moment().isAfter(val.deadlineDate) && this.props.userDetail.name == val.ownerName) {
@@ -40,7 +39,8 @@ class HomeScreen extends React.Component {
           />
         }
       });
-      let latetasksNewFeed = this.props.tasksNewFeed.map((val, key)=>{
+      let latetasksNewFeed = []
+      latetasksNewFeed = this.props.tasksNewFeed.map((val, key)=>{
         if(moment().isAfter(val.deadlineDate)  && this.props.userDetail.name == val.ownerName && val.status == 'active') {
           return <Task key={key} keyval={key} val={val}
           deleteMethod={()=>this.deleteTask(key)}
@@ -75,7 +75,12 @@ class HomeScreen extends React.Component {
                 }
                 {activetasksNewFeed}
                 {
-                  typeof latetasksNewFeed !== 'undefined' ? <Text>Late Task</Text> : null
+                  latetasksNewFeed.find(function(element) {
+                    if(element !== undefined){
+                      return true
+                    }
+                    ;
+                  }) ? <Text>Late Task</Text> : null
                 }
                 {latetasksNewFeed}
               </View>
