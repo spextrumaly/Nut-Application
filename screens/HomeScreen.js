@@ -13,7 +13,7 @@ import {
   Dimensions,
 } from 'react-native';
 import Project from '../components/Project'
-import Task from '../components/Task'
+import ActiveTask from '../components/ActiveTask'
 import Meeting from '../components/Meeting'
 import { store } from '../Store/Store';
 import { connect } from 'react-redux';
@@ -33,7 +33,7 @@ class HomeScreen extends React.Component {
       const {navigate} = this.props.navigation;
       let activetasksNewFeed = this.props.tasksNewFeed.map((val, key)=>{
         if(val.status == 'active' && !moment().isAfter(val.deadlineDate) && this.props.userDetail.name == val.ownerName) {
-          return <Task key={key} keyval={key} val={val}
+          return <ActiveTask key={key} keyval={key} val={val}
           deleteMethod={()=>this.deleteTask(key)}
           detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
           />
@@ -42,7 +42,7 @@ class HomeScreen extends React.Component {
       let latetasksNewFeed = []
       latetasksNewFeed = this.props.tasksNewFeed.map((val, key)=>{
         if(moment().isAfter(val.deadlineDate)  && this.props.userDetail.name == val.ownerName && val.status == 'active') {
-          return <Task key={key} keyval={key} val={val}
+          return <ActiveTask key={key} keyval={key} val={val}
           deleteMethod={()=>this.deleteTask(key)}
           detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
           />
