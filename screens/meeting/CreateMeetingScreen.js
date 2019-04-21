@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { store } from '../../Store/Store';
 import { connect } from 'react-redux';
-
+import AwesomeButton from "react-native-really-awesome-button";
 var dismissKeyboard = require('dismissKeyboard');
 class CreateMeeting extends Component {
   static navigationOptions = {
@@ -79,14 +79,15 @@ class CreateMeeting extends Component {
                 placeholderTextColor='grey'
                 underlineColorAndroid='transparent'/>
             </View>
-            <TouchableWithoutFeedback
-              onPressIn={this.handlePressInContinue}
-              onPressOut={() => this.handlePressOutContinue(navigate)}
-            >
-              <Animated.View style={[styles.buttonContainer, styles.signupButton, animatedStyleContinue]}>
-                <Text style={styles.signUpText}>Continue</Text>
-              </Animated.View>
-            </TouchableWithoutFeedback>
+            <AwesomeButton
+                style={{opacity: 0.8}}
+                backgroundDarker='#4A3C39'
+                backgroundColor='#7B6B68'
+                width={250}
+                borderRadius={30}
+                onPress={() => this.handlePressOutContinue(navigate)}>
+                <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Continue</Text>
+              </AwesomeButton>
           </View>
         </TouchableWithoutFeedback>
       </ImageBackground>

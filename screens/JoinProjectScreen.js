@@ -13,6 +13,7 @@ import {
 import { store } from '../Store/Store';
 import { connect } from 'react-redux'
 import { fetchAllProject, joinProject } from '../src/fetchData';
+import AwesomeButton from "react-native-really-awesome-button";
 
 class JoinProjectScreen extends Component {
   static navigationOptions = {
@@ -60,14 +61,16 @@ class JoinProjectScreen extends Component {
               placeholderTextColor='grey'
               underlineColorAndroid='transparent'/>
           </View>
-          <TouchableWithoutFeedback
-            onPressIn={this.handlePressInContinue}
-            onPressOut={() => this.handlePressOutContinue(navigate)}
-          >
-            <Animated.View style={[styles.buttonContainer, styles.signupButton, animatedStyleContinue]}>
-              <Text style={styles.signUpText}>Join Project</Text>
-            </Animated.View>
-          </TouchableWithoutFeedback>
+          <AwesomeButton
+                style={{opacity: 0.8}}
+                backgroundDarker='#4A3C39'
+                backgroundColor='#7B6B68'
+                width={250}
+                borderRadius={30}
+                onPress={() => this.handlePressOutContinue(navigate)}
+              >
+                <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Join Project</Text>
+              </AwesomeButton>
         </View>
       </ImageBackground>
     );

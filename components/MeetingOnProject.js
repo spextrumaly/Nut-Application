@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 export default class MeetingOnProject extends Component {
     render() {
         return (
@@ -14,7 +15,7 @@ export default class MeetingOnProject extends Component {
                 <View style={styles.taskText}>
                   {/* <Text style={styles.taskText}>Create Date : {this.props.val.date}</Text> */}
                   {/* <Text style={styles.taskText}>Project : {this.props.val.name}</Text> */}
-                  <Text>Meeting : {this.props.val.meetingName}</Text>
+                  <Text><Ionicons name="md-people" size={16} color="#4A3C39" />  {this.props.val.meetingName}</Text>
                   {/* <Text style={styles.taskText}>OWNER : {this.props.val.owner}</Text> */}
                 </View>
                 <View style={styles.containerPeople}>
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     margin: 5,
     marginLeft: 0,
     marginRight: 0,
-    backgroundColor: '#f5f5dc',
+    backgroundColor: '#fff',
     borderRadius: 10
   },
   peopleIcon:{
@@ -53,6 +54,8 @@ const styles = StyleSheet.create({
   },
   taskText: {
     padding: 5,
-    fontSize: 10
+    fontSize: 10,
+    color: '#4A3C39',
+    fontFamily: 'Kanit-Regular'
   },
 });

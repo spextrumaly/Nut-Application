@@ -126,9 +126,17 @@ class ProjectScreen extends React.Component {
                   <Text style={styles.taskSubText}
                     onPress={() => {Clipboard.setString(id.toString()); AlertIOS.alert('Alert', 'Copied NutID to clipboard!'); }}>
                     NutID: {id}</Text>
-                  <TouchableOpacity onPress={() => this.props.deleteProject(this.props.projects, this.props.ProjectId, navigate)} style={styles.projectDelete}>
-                    <Text style={styles.projectDeleteText}>Delete</Text>
-                  </TouchableOpacity>
+                    <AwesomeButton
+                      style={{marginTop: 10, marginLeft: 9}}
+                      backgroundDarker='#900c3f'
+                      backgroundColor='#c70039'
+                      width={60}
+                      height={30}
+                      borderRadius={10}
+                      onPress={() => this.props.deleteProject(this.props.projects, this.props.ProjectId, navigate)}
+                    >
+                      <Text style={{ color: '#fff', fontFamily: 'Kanit-Medium', fontSize: 13}}>Delete</Text>
+                    </AwesomeButton>
                 </View>
               </View>
               <View style = { styles.containerScrollViewHolder }>

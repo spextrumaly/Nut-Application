@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux'
 import { fetchAllMeeting, joinMeeting } from '../../src/fetchData';
+import AwesomeButton from "react-native-really-awesome-button";
 
 class JoinMeetingScreen extends Component {
   static navigationOptions = {
@@ -57,14 +58,16 @@ class JoinMeetingScreen extends Component {
               placeholderTextColor='grey'
               underlineColorAndroid='transparent'/>
           </View>
-          <TouchableWithoutFeedback
-            onPressIn={this.handlePressInContinue}
-            onPressOut={() => this.handlePressOutContinue(navigate)}
-          >
-            <Animated.View style={[styles.buttonContainer, styles.signupButton, animatedStyleContinue]}>
-              <Text style={styles.signUpText}>Join Meeting</Text>
-            </Animated.View>
-          </TouchableWithoutFeedback>
+          <AwesomeButton
+                style={{opacity: 0.8}}
+                backgroundDarker='#4A3C39'
+                backgroundColor='#7B6B68'
+                width={250}
+                borderRadius={30}
+                onPress={() => this.handlePressOutContinue(navigate)}
+              >
+                <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Join Meeting</Text>
+              </AwesomeButton>
         </View>
       </ImageBackground>
     );

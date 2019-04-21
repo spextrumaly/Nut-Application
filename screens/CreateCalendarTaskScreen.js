@@ -13,7 +13,7 @@ import moment from "moment";
 import { connect } from 'react-redux'
 import * as firebase from 'firebase';
 import { fetchAllTask } from '../src/fetchData';
-
+import AwesomeButton from "react-native-really-awesome-button";
 class CalendarScreenTask extends Component {
   static navigationOptions = {
     header: null,
@@ -59,37 +59,40 @@ class CalendarScreenTask extends Component {
               borderRadius: 30,
               width: '90%',
               paddingBottom: 15,
-              paddingTop: 10
+              paddingTop: 10,
+              opacity: 0.8
             }}
             theme={{
-              backgroundColor: '#f5f5dc',
+              backgroundColor: '#7B6B68',
               textDayFontFamily: 'Kanit-Regular',
               textMonthFontFamily: 'Kanit-Bold',
               textDayHeaderFontFamily: 'Kanit-Bold',
               textTodayFontFamily: 'Kanit-Regular',
-              calendarBackground: '#f5f5dc',
-              textSectionTitleColor: '#372c2a',
-              selectedDayBackgroundColor: '#4A3C39',
-              selectedDayTextColor: '#f5f5dc',
-              todayTextColor: '#d0d7dd',
-              dayTextColor: '#4A3C39',
-              textDisabledColor: '#d0d7dd',
-              dotColor: '#4A3C39',
+              calendarBackground: '#7B6B68',
+              textSectionTitleColor: '#e6e0df',
+              selectedDayBackgroundColor: '#f5f3f2',
+              selectedDayTextColor: '#7B6B68',
+              todayTextColor: '#808080',
+              dayTextColor: '#f5f3f2',
+              textDisabledColor: '#808080',
+              dotColor: '#f5f3f2',
               selectedDotColor: '#ffffff',
-              arrowColor: '#4A3C39',
-              monthTextColor: '#372c2a',
+              arrowColor: '#f5f3f2',
+              monthTextColor: '#e6e0df',
             }}
             markedDates={{[this.state.markedDates]: { selected: true },}}
             onDayPress={(day) => {this.setState({date:day, markedDates:day.dateString})}}
           />
-          <TouchableWithoutFeedback
-            onPressIn={this.handlePressInContinue}
-            onPressOut={() => this.handlePressOutContinue(navigate)}
-          >
-            <Animated.View style={[styles.buttonContainer, styles.signupButton, animatedStyleContinue]}>
-              <Text style={styles.signUpText}>Add Task</Text>
-            </Animated.View>
-          </TouchableWithoutFeedback>
+            <AwesomeButton
+                style={{ marginTop: 20, opacity: 0.8}}
+                backgroundDarker='#4A3C39'
+                backgroundColor='#7B6B68'
+                width={250}
+                borderRadius={30}
+                onPress={() => this.handlePressOutContinue(navigate)}
+              >
+                <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Add Task</Text>
+              </AwesomeButton>
         </View>
       </ImageBackground>
     );
@@ -187,6 +190,6 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     color: '#4A3C39',
-    fontFamily: 'Kanit-Regular'
+    fontFamily: 'Kanit-Medium'
   },
 });
