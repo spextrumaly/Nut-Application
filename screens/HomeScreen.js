@@ -8,6 +8,7 @@ import {
   View,
   TextInput,
   TouchableHighlight,
+  ImageBackground,
   Button,
   Image,
   Dimensions,
@@ -73,7 +74,9 @@ class HomeScreen extends React.Component {
                       <Text style={styles.titleFeed}>Active Meetings</Text>
                     </View>
                     <View style={styles.meetings}>
+                  <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%'}}>
                       {meetings}
+                  </ImageBackground>
                     </View>
                   </View> : null
                 }
@@ -89,7 +92,9 @@ class HomeScreen extends React.Component {
                       <Text style={styles.titleFeed}>Active Task</Text>
                     </View>
                     <View style={styles.meetings}>
+                    <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%'}}>
                       {activetasksNewFeed}
+                    </ImageBackground>
                     </View>
                   </View> : null
                 }
@@ -105,7 +110,9 @@ class HomeScreen extends React.Component {
                       <Text style={styles.titleFeed}>Late Task</Text>
                     </View>
                     <View style={styles.meetings}>
+                    <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%'}}>
                       {latetasksNewFeed}
+                    </ImageBackground>
                     </View>
                   </View> : null
                   }
