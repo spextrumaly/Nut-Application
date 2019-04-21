@@ -20,7 +20,7 @@ export default class Project extends React.Component {
                 <Text style={styles.projectOwnerText}>{this.props.val.ownerName}</Text>
               </View>
               <View style={styles.bodyDeadline}>
-                <Text style={styles.projectText}>Deadline: {this.countDown(this.props.val.deadlineDate,this.props.val.createDate)}</Text>
+                <Text style={styles.projectText}>Due {this.countDown(this.props.val.deadlineDate,this.props.val.createDate)}</Text>
               </View>
             </View>
           </TouchableOpacity>

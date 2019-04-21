@@ -16,11 +16,11 @@ export default class Meeting extends React.Component {
           <View style={styles.headCard}>
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <View>
-    <Text style={styles.nameText}>{this.props.val.meetingName} { this.props.val.onVote ? <Text style={styles.onVote}>(on vote)</Text> : null }</Text>
+    <Text style={styles.nameText}>{this.props.val.meetingName} { this.props.val.onVote ? <Text style={styles.onVote}>(voting)</Text> : null }</Text>
               <Text style={styles.projectOwnerText}>{this.props.val.ownerName}</Text>
             </View>
             <View style={styles.bodyDeadline}>
-              <Text style={styles.projectText}>Due : {this.countDown(this.props.val.startDate,this.props.val.createDate)}</Text>
+              <Text style={styles.projectText}>Due {this.countDown(this.props.val.startDate,this.props.val.createDate)}</Text>
             </View>
           </View>
         </TouchableOpacity>
