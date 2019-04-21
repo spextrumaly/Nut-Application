@@ -11,7 +11,7 @@ import {
   ImageBackground
 } from 'react-native';
 import { connect } from 'react-redux';
-
+import AwesomeButton from "react-native-really-awesome-button";
 var dismissKeyboard = require('dismissKeyboard');
 class CreateProjectScreen extends Component {
   static navigationOptions = {
@@ -78,14 +78,16 @@ class CreateProjectScreen extends Component {
                 placeholderTextColor='grey'
                 underlineColorAndroid='transparent'/>
             </View>
-            <TouchableWithoutFeedback
-              onPressIn={this.handlePressInContinue}
-              onPressOut={() => this.handlePressOutContinue(navigate)}
-            >
-              <Animated.View style={[styles.buttonContainer, styles.signupButton, animatedStyleContinue]}>
-                <Text style={styles.signUpText}>Continue</Text>
-              </Animated.View>
-            </TouchableWithoutFeedback>
+            <AwesomeButton
+                style={{opacity: 0.8}}
+                backgroundDarker='#4A3C39'
+                backgroundColor='#7B6B68'
+                width={250}
+                borderRadius={30}
+                onPress={() => this.handlePressOutContinue(navigate)}
+              >
+                <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Continue</Text>
+              </AwesomeButton>
           </View>
         </TouchableWithoutFeedback>
       </ImageBackground>
@@ -158,17 +160,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom:20,
+    marginBottom:30,
     width:250,
     marginLeft:5,
-    borderRadius:30,
-  },
-  signupButton: {
-    backgroundColor: "#f5f5dc",
-  },
-  signUpText: {
-    color: '#4A3C39',
-    fontFamily: 'Kanit-Medium'
   },
   textInput: {
     marginLeft:10,

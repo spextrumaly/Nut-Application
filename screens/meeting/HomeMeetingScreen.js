@@ -16,6 +16,7 @@ import moment from "moment";
 import * as firebase from 'firebase';
 import VoteTime from '../../components/VoteTimeMeeting'
 import { addVote, fetchAllMeetingPlan, fetchAllMeeting } from '../../src/fetchData';
+import AwesomeButton from "react-native-really-awesome-button";
 
 class MeetingScreen extends React.Component {
   static navigationOptions = {
@@ -202,8 +203,8 @@ class MeetingScreen extends React.Component {
     });
     return (
       <View style={styles.container}>
+        <ImageBackground source={require('../../assets/images/bg.png')}style={{width: '100%', height: '100%'}}>
         <ScrollView>
-        {/* <ImageBackground source={require('../../assets/images/bg.png')}style={{width: '100%', height: '100%'}}> */}
           <View style={styles.task}>
             <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')} />
             <View style={styles.headMeeting}>
@@ -221,14 +222,20 @@ class MeetingScreen extends React.Component {
             {onVote ? this.renderTime(startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan) : <Text style={styles.meetingDetail}>{startHour} : {startMinutes} - {endHour} : {endMinutes}</Text>}
             <Text  style={styles.meetingDate} >Location</Text>
             <Text style={styles.meetingDetail}>{!onVote ? meetingLocation : meetingLocationPlan}</Text>
-            <Text  style={styles.meetingDate} >Host By {!onVote ? ownerNameMeeting : ownerName}</Text>
+            <Text  style={styles.hostBy} >Host By {!onVote ? ownerNameMeeting : ownerName}</Text>
           </View>
           { !onVote ?
             <View style={styles.containerFooter}>
               <View style={styles.footer}>
-                <TouchableOpacity onPress={() => this.props.deleteMeeting(this.props.MeetingId, navigate)} style={[styles.buttonContainer, styles.signupButton]}>
-                  <Text style={styles.signUpText}>Delete</Text>
-                </TouchableOpacity>
+                <AwesomeButton
+                    style={{opacity: 0.8}}
+                    backgroundDarker='#4A3C39'
+                    backgroundColor='#7B6B68'
+                    stretch={true}
+                    borderRadius={30}
+                    onPress={() => this.props.deleteMeeting(this.props.MeetingId, navigate)}>
+                    <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Delete</Text>
+                  </AwesomeButton>
               </View>
             </View>
             : 
@@ -237,24 +244,37 @@ class MeetingScreen extends React.Component {
           {onVote ? <View style={styles.containerFooter}>
               <View style={styles.footer}>
                 {!showCloseVote ?
-                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.voteTime(this.state.selectedIndex, this.props.MeetingId, navigate)}>
-                    <Text style={styles.signUpText}>Vote Time</Text>
-                  </TouchableHighlight>
+                  <AwesomeButton
+                    style={{opacity: 0.8}}
+                    backgroundDarker='#4A3C39'
+                    backgroundColor='#7B6B68'
+                    stretch={true}
+                    borderRadius={30}
+                    onPress={() => this.props.voteTime(this.state.selectedIndex, this.props.MeetingId, navigate)}>
+                    <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Voting</Text>
+                  </AwesomeButton>
                   :
                   null
                 }
                 {showCloseVote ?
-                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.closeVoteTime(this.props.MeetingId, vote, startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan, navigate, meetingPlanName, meetingPlanDetail, meetingLocationPlan, meetingOnProjectId, ownerName, startDatePlan, member)}>
-                    <Text style={styles.signUpText}>Close Vote Time</Text>
-                  </TouchableHighlight>
+                  <AwesomeButton
+                    style={{opacity: 0.8}}
+                    backgroundDarker='#4A3C39'
+                    backgroundColor='#7B6B68'
+                    width={250}
+                    stretch={true}
+                    borderRadius={30}
+                    onPress={() => this.props.closeVoteTime(this.props.MeetingId, vote, startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan, navigate, meetingPlanName, meetingPlanDetail, meetingLocationPlan, meetingOnProjectId, ownerName, startDatePlan, member)}>
+                    <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Close Voting</Text>
+                  </AwesomeButton>
                   :
                   null
                 }
               </View>
             </View>
               : null}
-          {/* </ImageBackground> */}
         </ScrollView>
+          </ImageBackground>
       </View>
     );
   }
@@ -430,7 +450,6 @@ const styles = StyleSheet.create({
     zIndex: 11,
     right: 20,
     bottom: 40,
-    backgroundColor: '#4A3C39',
     width: 70,
     height: 70,
     borderRadius: 35,
@@ -470,14 +489,14 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingLeft: 10,
     paddingTop: 5,
-    color: '#f5f5dc'
+    color: '#f5f5dc',
+    fontFamily: 'Kanit-Regular'
   },
   projectDeleteText: {
     fontSize: 13,
     color: '#4A3C39',
   },
   projectDelete: {
-    backgroundColor: '#f5f5dc',
     padding: 10,
     width: 60,
     paddingTop: 5,
@@ -510,9 +529,6 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     borderRadius: 10,
   },
-  signupButton: {
-    backgroundColor: "#f5f5dc",
-  },
   signUpText: {
     color: '#4A3C39',
     fontFamily: 'Kanit-Medium'
@@ -530,7 +546,7 @@ const styles = StyleSheet.create({
   detail: {
     color: '#4A3C39',
     fontSize: 18,
-    fontFamily: 'Kanit-Bold',
+    fontFamily: 'Kanit-Medium',
     paddingLeft: 15,
   },
   meetingDetail: {
@@ -542,7 +558,8 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
   },
   containerMeeting: {
-    backgroundColor: "#f5f5dc",
+    backgroundColor: "#f5f3f2",
+    opacity: 0.6,
     margin: 20,
     borderRadius: 10,
   },
@@ -550,7 +567,14 @@ const styles = StyleSheet.create({
     color: '#4A3C39',
     fontSize: 18,
     paddingLeft: 15,
-    fontFamily: 'Kanit-Bold',
+    fontFamily: 'Kanit-Medium',
+    paddingBottom: 12,
+  },
+  hostBy: {
+    color: '#4A3C39',
+    fontSize: 13,
+    paddingLeft: 15,
+    fontFamily: 'Kanit-Italic',
     paddingBottom: 12,
   },
   headMeeting: {

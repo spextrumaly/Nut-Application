@@ -10,7 +10,7 @@ import {
   ImageBackground
 } from 'react-native';
 import { connect } from 'react-redux';
-
+import AwesomeButton from "react-native-really-awesome-button";
 import { Calendar } from 'react-native-calendars';
 import { store } from '../../Store/Store';
 import moment from "moment";
@@ -72,9 +72,16 @@ class CreateMeetingEndCalendar extends Component {
           <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.addMoreTime(this.state.hourStart, this.state.minutesStart, this.state.hourEnd, this.state.minutesEnd)}>
             <Text style={styles.signUpText}>Add More Time</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.Continue(this.state.hourStart, this.state.minutesStart, this.state.hourEnd, this.state.minutesEnd, navigate)}>
-            <Text style={styles.signUpText}>Continue</Text>
-          </TouchableHighlight>
+            <AwesomeButton
+                style={{opacity: 0.8}}
+                backgroundDarker='#4A3C39'
+                backgroundColor='#7B6B68'
+                width={250}
+                borderRadius={30}
+                onPress={() => this.props.Continue(this.state.hourStart, this.state.minutesStart, this.state.hourEnd, this.state.minutesEnd, navigate)}>
+              
+                <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Continue</Text>
+              </AwesomeButton>
         </View>
       </ImageBackground>
     );

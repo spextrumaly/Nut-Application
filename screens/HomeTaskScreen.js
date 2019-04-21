@@ -14,7 +14,7 @@ import moment from "moment";
 import { store } from '../Store/Store';
 import { connect } from 'react-redux';
 import * as firebase from 'firebase';
-
+import AwesomeButton from "react-native-really-awesome-button";
 import { fetchAllTask, changeStatus, addNewChecklist, addCheckedChecklist } from '../src/fetchData';
 
 import CheckBoxListTask from '../components/CheckBoxListTask';
@@ -78,7 +78,7 @@ class HomeTaskScreen extends React.Component {
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')} />
             <View>
               <Text style={styles.taskText}>{taskName}</Text>
-              <Text style={styles.inListText}>Status : {taskStatus}</Text>
+              <Text style={styles.inListText}>Status: {taskStatus}</Text>
               <View style={styles.progress}>
                 <Progress.Bar color={'#f5f5dc'} progress={this.statusbar() || 0} width={130} />
               </View>
@@ -147,12 +147,30 @@ class HomeTaskScreen extends React.Component {
               </View>
               <View style={styles.containerFooter}>
                 <View style={styles.footer}>
-                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.doneTask(this.props.tasks, this.props.TaskId, navigate, this.props.ProjectId)}>
+                <AwesomeButton
+                style={{opacity: 0.8, marginLeft: 10, marginRight: 10}}
+                  backgroundDarker='#4A3C39'
+                  backgroundColor='#7B6B68'
+                  width={150}
+                  borderRadius={10}
+                  onPress={() => this.props.doneTask(this.props.tasks, this.props.TaskId, navigate, this.props.ProjectId)}>
+                  <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Done</Text>
+                </AwesomeButton>
+                <AwesomeButton
+                style={{opacity: 0.8, marginLeft: 10, marginRight: 10}}
+                  backgroundDarker='#4A3C39'
+                  backgroundColor='#7B6B68'
+                  width={150}
+                  borderRadius={10}
+                  onPress={() => this.props.deleteTask(this.props.tasks, this.props.TaskId, navigate, this.props.ProjectId)}>
+                  <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Delete</Text>
+                </AwesomeButton>
+                  {/* <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.doneTask(this.props.tasks, this.props.TaskId, navigate, this.props.ProjectId)}>
                     <Text style={styles.signUpText}>Done Task</Text>
                   </TouchableHighlight>
                   <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.deleteTask(this.props.tasks, this.props.TaskId, navigate, this.props.ProjectId)}>
                     <Text style={styles.signUpText}>Delete Task</Text>
-                  </TouchableHighlight>
+                  </TouchableHighlight> */}
                 </View>
               </View>
             </ScrollView>
@@ -291,7 +309,7 @@ const styles = StyleSheet.create({
   inListText: {
     paddingLeft: 10,
     color: '#f5f5dc',
-    fontFamily: 'Kanit-Bold',
+    fontFamily: 'Kanit-Medium',
   },
   progress: {
     paddingLeft: 10,
@@ -306,7 +324,8 @@ const styles = StyleSheet.create({
     maxHeight: '75%',
     margin: 10,
     marginTop: 20,
-    backgroundColor: '#f5f5dc',
+    backgroundColor: '#f5f3f2',
+    opacity: 0.6,
     borderRadius: 10,
   },
   containerFooter: {
@@ -315,7 +334,7 @@ const styles = StyleSheet.create({
   footer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#4A3C39',
+    justifyContent: 'center'
   },
   item: {
     flexDirection: 'column',
@@ -327,7 +346,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 5,
     color: '#4A3C39',
-    fontFamily: 'Kanit-Bold',
+    fontFamily: 'Kanit-Medium',
 
   },
   memberText: {

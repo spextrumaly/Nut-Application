@@ -6,6 +6,8 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+
 export default class Task extends Component {
     render() {
         return (
@@ -14,7 +16,7 @@ export default class Task extends Component {
                 <View style={styles.taskText}>
                   {/* <Text style={styles.taskText}>Create Date : {this.props.val.date}</Text> */}
                   {/* <Text style={styles.taskText}>Project : {this.props.val.name}</Text> */}
-                  <Text style={styles.titleText}>{this.props.val.task}</Text>
+                  <Text style={styles.titleText}><FontAwesome name="tasks" size={13} color="#4A3C39" />  {this.props.val.task}</Text>
                   {/* <Text style={styles.taskText}>OWNER : {this.props.val.owner}</Text> */}
                 </View>
                 <View style={styles.containerPeople}>

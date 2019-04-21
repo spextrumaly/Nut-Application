@@ -5,7 +5,7 @@ import moment from "moment";
 import { connect } from 'react-redux';
 import { fetchAllMeetingPlan } from '../../src/fetchData';
 import * as firebase from 'firebase';
-
+import AwesomeButton from "react-native-really-awesome-button";
 class LocationMeeting extends Component {
   static navigationOptions = {
     header: null,
@@ -72,9 +72,17 @@ class LocationMeeting extends Component {
               types: 'food'
             }}
           />      
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.AddMeeting(this.props.meetingStateName, this.props.meetingStateDetail, this.props.meetingStateStartDate, this.props.meetingStateStartHour, this.props.meetingStateStartMinutes, this.props.meetingStateEndHour, this.props.meetingStateEndMinutes, this.props.meetingStateLocation, this.props.meetingOnProjectId, this.props.userDetail.name, navigate)}>
-            <Text style={styles.signUpText}>Add Meeting</Text>
-          </TouchableHighlight>
+          <View style={styles.buttonDiv}>
+            <AwesomeButton
+              style={styles.buttonContainer}
+              backgroundDarker='#4A3C39'
+              backgroundColor='#7B6B68'
+              width={300}
+              borderRadius={30}
+              onPress={() => this.props.AddMeeting(this.props.meetingStateName, this.props.meetingStateDetail, this.props.meetingStateStartDate, this.props.meetingStateStartHour, this.props.meetingStateStartMinutes, this.props.meetingStateEndHour, this.props.meetingStateEndMinutes, this.props.meetingStateLocation, this.props.meetingOnProjectId, this.props.userDetail.name, navigate)}>
+              <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Add Meeting</Text>
+            </AwesomeButton>
+          </View>
         </View>
       </ImageBackground>
     );
@@ -167,16 +175,15 @@ const styles = StyleSheet.create({
   containerLocation: {
     backgroundColor: 'white',
   },
-  buttonContainer: {
-    height:45,
+  buttonDiv: {
+    width: '100%',
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
-    width:250,
-    borderRadius:30,
-    top: '60%',
-    marginLeft: '20%',
-    marginRight: '20%',
+  },
+  buttonContainer: {
+    opacity: 0.8,
+
   },
   signupButton: {
     backgroundColor: "#f5f5dc",
