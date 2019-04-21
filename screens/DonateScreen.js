@@ -10,13 +10,12 @@ import {
   TouchableWithoutFeedback,
   Animated,
   Button,
+  WebView,
   Image
 } from 'react-native';
 import Project from '../components/Project';
 import { connect } from 'react-redux'
 
-const showAnimation = "slideInUp"
-const hideAnimation = "slideOutDown"
 class HomeProjectScreen extends React.Component {
   static navigationOptions = {
     header: null,
@@ -45,13 +44,13 @@ class HomeProjectScreen extends React.Component {
       });
       return (
           <View style={styles.container}>
-            <View key={this.props.keyval} style={styles.task}>
-              <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
-              <View>
-                <Text style={styles.taskText}>Donate</Text>
-              </View>
-            </View>
             <View style={styles.body}>
+              <WebView
+                source={{uri: 'https://donorbox.org/nut-application-donate'}}
+                style={{marginTop: 30}}
+                
+                
+              />
             </View>
           </View>
       );
@@ -109,7 +108,7 @@ const styles = StyleSheet.create({
     // marginBottom: 100
   },
   body: {
-    backgroundColor: '#f5f3f2',
+    backgroundColor: '#fff',
     flex: 1,
   },
   footer: {
@@ -188,6 +187,7 @@ const styles = StyleSheet.create({
     padding: 15,
     paddingTop: 40,    
     flexDirection: 'row',
+    zIndex: 20,
     alignItems: 'center',
     backgroundColor: "#4A3C39",
   },
