@@ -222,7 +222,7 @@ class MeetingScreen extends React.Component {
             {onVote ? this.renderTime(startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan) : <Text style={styles.meetingDetail}>{startHour} : {startMinutes} - {endHour} : {endMinutes}</Text>}
             <Text  style={styles.meetingDate} >Location</Text>
             <Text style={styles.meetingDetail}>{!onVote ? meetingLocation : meetingLocationPlan}</Text>
-            <Text  style={styles.meetingDate} >Host By {!onVote ? ownerNameMeeting : ownerName}</Text>
+            <Text  style={styles.hostBy} >Host By {!onVote ? ownerNameMeeting : ownerName}</Text>
           </View>
           { !onVote ?
             <View style={styles.containerFooter}>
@@ -489,7 +489,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingLeft: 10,
     paddingTop: 5,
-    color: '#f5f5dc'
+    color: '#f5f5dc',
+    fontFamily: 'Kanit-Regular'
   },
   projectDeleteText: {
     fontSize: 13,
@@ -545,7 +546,7 @@ const styles = StyleSheet.create({
   detail: {
     color: '#4A3C39',
     fontSize: 18,
-    fontFamily: 'Kanit-Bold',
+    fontFamily: 'Kanit-Medium',
     paddingLeft: 15,
   },
   meetingDetail: {
@@ -566,7 +567,14 @@ const styles = StyleSheet.create({
     color: '#4A3C39',
     fontSize: 18,
     paddingLeft: 15,
-    fontFamily: 'Kanit-Bold',
+    fontFamily: 'Kanit-Medium',
+    paddingBottom: 12,
+  },
+  hostBy: {
+    color: '#4A3C39',
+    fontSize: 13,
+    paddingLeft: 15,
+    fontFamily: 'Kanit-Italic',
     paddingBottom: 12,
   },
   headMeeting: {

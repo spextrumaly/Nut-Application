@@ -78,7 +78,7 @@ class HomeTaskScreen extends React.Component {
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')} />
             <View>
               <Text style={styles.taskText}>{taskName}</Text>
-              <Text style={styles.inListText}>Status : {taskStatus}</Text>
+              <Text style={styles.inListText}>Status: {taskStatus}</Text>
               <View style={styles.progress}>
                 <Progress.Bar color={'#f5f5dc'} progress={this.statusbar() || 0} width={130} />
               </View>
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
   inListText: {
     paddingLeft: 10,
     color: '#f5f5dc',
-    fontFamily: 'Kanit-Bold',
+    fontFamily: 'Kanit-Medium',
   },
   progress: {
     paddingLeft: 10,
