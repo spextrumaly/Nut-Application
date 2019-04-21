@@ -68,6 +68,20 @@ export function fetchAllTask(callback, projectID) {
   })
 }
 
+export function fetchAllTaskNewFeed(callback, clearFunction) {
+  let uID =  firebase.auth().currentUser.uid;
+  firebase.database().ref('task/')
+  .on('value',function(snapshot){
+    clearFunction()
+    snapshot.forEach(function(child){
+      firebase.database().ref('task/' + child.key)
+        .once('value', function(snapshot){
+          callback(snapshot.val())
+        })
+    })
+  })
+}
+
 export function joinProject(projectCode){
   // rom ku
   let uID =  firebase.auth().currentUser.uid;

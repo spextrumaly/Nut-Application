@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 firebase.initializeApp(firebaseConfig);
 
 import { Container, Content, Header, Form, Input, Item, Button, Label } from 'native-base'
-import { fetchAllProject, fetchAllMeeting, fetchAllData, fetchAllMeetingPlan } from '../src/fetchData';
+import { fetchAllProject, fetchAllMeeting, fetchAllData, fetchAllTask, fetchAllMeetingPlan, fetchAllTaskNewFeed } from '../src/fetchData';
 
 
 class App extends React.Component {
@@ -25,6 +25,7 @@ class App extends React.Component {
         this.props.fetchDispatchAllProject()
         this.props.fetchDispatchAllMeeting()
         this.props.fetchDispatchAllMeetingPlan()
+        this.props.fetchDispatchAllTask()
         this.props.navigation.navigate('App');
       }
     })
@@ -151,6 +152,12 @@ class App extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    projects: state.projects,
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     fetchDispatchAllData: () => {
@@ -176,10 +183,15 @@ function mapDispatchToProps(dispatch) {
         dispatch({ type: 'FETCH_ALL_MEETING_PLAN', payload: meetings })
       }, () => dispatch({ type: 'FETCH_CLEAR_ALL_MEETING_PLAN' }))
     },
+    fetchDispatchAllTask: () => {
+      fetchAllTaskNewFeed((tasks) => {
+        dispatch({ type: 'FETCH_ALL_TASK_NEW_FEED', payload: tasks })
+      }, () => dispatch({ type: 'FETCH_CLEAR_ALL_TASK_FEED' }))
+    },
   }
 }
 
-export default connect(null, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)
 
 
 const styles = StyleSheet.create({

@@ -41,7 +41,8 @@ const initialState = {
   taskStateDetail: '',
   newfeeds: [],
   meetingOnProjectId: '',
-  statusLogin: false
+  statusLogin: false,
+  tasksNewFeed: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -94,6 +95,14 @@ const reducer = (state = initialState, action) => {
     case 'FETCH_ALL_TASK':
       return Object.assign({}, state, {
         tasks: state.tasks.concat(action.payload)
+      })
+    case 'FETCH_ALL_TASK_NEW_FEED':
+      return Object.assign({}, state, {
+        tasksNewFeed: state.tasksNewFeed.concat(action.payload)
+      })
+    case 'FETCH_CLEAR_ALL_TASK_FEED':
+      return Object.assign({}, state, {
+        tasksNewFeed: []
       })
     case 'DELETE_MEETING':
     return { 

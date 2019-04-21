@@ -60,15 +60,9 @@ class ProjectScreen extends React.Component {
         }
       })
 
-      this.props.tasks.map((val, key)=>{
-        if( moment().isAfter(val.deadlineDate)){
-          this.props.lateTask(this.props.tasks, this.props.TaskId, navigate)
-        }
-      });
-
       let activeTasks = this.props.tasks.map((val, key)=>{
         if( val.ProjectID == this.props.ProjectId){
-          if(val.status == 'active') {
+          if(val.status == 'active' && !moment().isAfter(val.deadlineDate)) {
             return <Task key={key} keyval={key} val={val}
             deleteMethod={()=>this.deleteTask(key)}
             detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
@@ -97,7 +91,7 @@ class ProjectScreen extends React.Component {
 
       let lateTasks = this.props.tasks.map((val, key)=>{
         if( val.ProjectID == this.props.ProjectId){
-          if(val.status == 'late') {
+          if(moment().isAfter(val.deadlineDate)) {
             return <Task key={key} keyval={key} val={val}
             detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
             />
@@ -250,7 +244,7 @@ function mapDispatchToProps(dispatch) {
       })
       navigate('HomeTask')
     },
-    lateTask(tasks, taskId, navigate) {
+    lateTask(tasks, taskId, navigate, projectId) {
       changeStatus('late', taskId)
       dispatch({ type: 'FETCH_CLEAR_ALL_TASK' })
       fetchAllTask((tasks) => {
