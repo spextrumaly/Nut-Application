@@ -18,7 +18,7 @@ export default class MeetingOnProject extends Component {
                   {/* <Text style={styles.taskText}>OWNER : {this.props.val.owner}</Text> */}
                 </View>
                 <View style={styles.containerPeople}>
-                  <Text style={styles.taskText}>1 people</Text>
+                  <Text style={styles.taskText}>{this.props.val.ownerName}</Text>
                   <Image style={styles.peopleIcon} source={require('../assets/images/people.png')}/>
                 </View>
                 {/* <TouchableOpacity onPress={this.props.deleteMethod} style={styles.taskDelete}>
@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   peopleIcon:{
-    width:20,
-    height:20,
+    width:15,
+    height:15,
     margin:3,
   },
   containerPeople: {
@@ -53,5 +53,6 @@ const styles = StyleSheet.create({
   },
   taskText: {
     padding: 5,
+    fontSize: 10
   },
 });

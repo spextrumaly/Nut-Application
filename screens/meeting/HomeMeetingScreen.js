@@ -6,7 +6,8 @@ import {
   View,
   Image,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
+  ImageBackground
 } from 'react-native';
 import { connect } from 'react-redux';
 import moment from "moment";
@@ -143,6 +144,12 @@ class MeetingScreen extends React.Component {
         ownerName = val.ownerName
       }
     });
+    let ownerNameMeeting
+    this.props.meetings.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        ownerNameMeeting = val.ownerName
+      }
+    });
     let meetingOnProjectId
     this.props.meetingsPlan.map((val) => {
       if (val.id == this.props.MeetingId) {
@@ -194,46 +201,55 @@ class MeetingScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView>
+        {/* <ImageBackground source={require('../../assets/images/bg.png')}style={{width: '100%', height: '100%'}}> */}
           <View style={styles.task}>
             <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')} />
-            <View>
+            <View style={styles.headMeeting}>
               <Text style={styles.taskText}>{onVote ? meetingPlanName : meetingName}</Text>
               <Text style={styles.taskSubText}>id : {!onVote ? id : idPlan}</Text>
-              { !onVote ?
-                <TouchableOpacity onPress={() => this.props.deleteMeeting(this.props.MeetingId, navigate)} style={styles.projectDelete}>
-                  <Text style={styles.projectDeleteText}>Delete</Text>
+            </View>
+          </View>
+          <View style={styles.containerMeeting}>
+            <Text style={styles.detail}>Detail</Text>
+            <Text style={styles.meetingDetail}>{!onVote ? meetingDetail : meetingPlanDetail}</Text>
+            <Text style={styles.meetingDate}>Date : {!onVote ? startDate : startDatePlan}</Text>
+            {onVote ? <Text  style={styles.meetingDate} >Vote Time To Meeting</Text> : <Text  style={styles.meetingDate}>Time To Meeting</Text>}
+            {onVote ? this.renderTime(startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan) : <Text style={styles.meetingDetail}>{startHour} : {startMinutes} - {endHour} : {endMinutes}</Text>}
+            <Text  style={styles.meetingDate} >Location</Text>
+            <Text style={styles.meetingDetail}>{!onVote ? meetingLocation : meetingLocationPlan}</Text>
+            <Text  style={styles.meetingDate} >Host By {!onVote ? ownerNameMeeting : ownerName}</Text>
+          </View>
+          { !onVote ?
+            <View style={styles.containerFooter}>
+              <View style={styles.footer}>
+                <TouchableOpacity onPress={() => this.props.deleteMeeting(this.props.MeetingId, navigate)} style={[styles.buttonContainer, styles.signupButton]}>
+                  <Text style={styles.signUpText}>Delete</Text>
                 </TouchableOpacity>
-                : 
-                null
-              }
+              </View>
             </View>
-          </View>
-          <Text>Detail</Text>
-          <Text>{!onVote ? meetingDetail : meetingPlanDetail}</Text>
-          <Text>Date : {!onVote ? startDate : startDatePlan}</Text>
-          {onVote ? <Text>Vote Time To Meeting</Text> : <Text>Time To Meeting</Text>}
-          {onVote ? this.renderTime(startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan) : <Text>{startHour} : {startMinutes} - {endHour} : {endMinutes}</Text>}
-          <Text>Location</Text>
-          <Text>{!onVote ? meetingLocation : meetingLocationPlan}</Text>
+            : 
+            null
+          }
           {onVote ? <View style={styles.containerFooter}>
-            <View style={styles.footer}>
-              {!showCloseVote ?
-                <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.voteTime(this.state.selectedIndex, this.props.MeetingId, navigate)}>
-                  <Text style={styles.signUpText}>Vote Time</Text>
-                </TouchableHighlight>
-                :
-                null
-              }
-              {showCloseVote ?
-                <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.closeVoteTime(this.props.MeetingId, vote, startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan, navigate, meetingPlanName, meetingPlanDetail, meetingLocationPlan, meetingOnProjectId, ownerName, startDatePlan, member)}>
-                  <Text style={styles.signUpText}>Close Vote Time</Text>
-                </TouchableHighlight>
-                :
-                null
-              }
+              <View style={styles.footer}>
+                {!showCloseVote ?
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.voteTime(this.state.selectedIndex, this.props.MeetingId, navigate)}>
+                    <Text style={styles.signUpText}>Vote Time</Text>
+                  </TouchableHighlight>
+                  :
+                  null
+                }
+                {showCloseVote ?
+                  <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.props.closeVoteTime(this.props.MeetingId, vote, startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan, navigate, meetingPlanName, meetingPlanDetail, meetingLocationPlan, meetingOnProjectId, ownerName, startDatePlan, member)}>
+                    <Text style={styles.signUpText}>Close Vote Time</Text>
+                  </TouchableHighlight>
+                  :
+                  null
+                }
+              </View>
             </View>
-          </View>
-            : null}
+              : null}
+          {/* </ImageBackground> */}
         </ScrollView>
       </View>
     );
@@ -359,6 +375,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(MeetingScreen)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#4A3C39',
   },
   containerScrollViewHolder: {
     flex: 1,
@@ -498,10 +515,41 @@ const styles = StyleSheet.create({
   },
   containerFooter: {
     margin: 10,
+    marginTop: 5,
   },
   footer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#D3D3D3',
+    marginLeft: 30,
+    marginRight: 30,
   },
+  detail: {
+    color: '#4A3C39',
+    fontSize: 18,
+    fontFamily: 'Kanit-Regular',
+    paddingLeft: 15,
+  },
+  meetingDetail: {
+    color: '#4A3C39',
+    fontSize: 15,
+    paddingLeft: 25,
+    marginRight: 25,
+    fontFamily: 'Kanit-Regular',
+    paddingBottom: 12,
+  },
+  containerMeeting: {
+    backgroundColor: "#f5f5dc",
+    margin: 20,
+    borderRadius: 10,
+  },
+  meetingDate: {
+    color: '#4A3C39',
+    fontSize: 18,
+    paddingLeft: 15,
+    fontFamily: 'Kanit-Regular',
+    paddingBottom: 12,
+  },
+  headMeeting: {
+    marginTop: 20,
+  }
 });
