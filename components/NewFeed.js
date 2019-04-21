@@ -11,11 +11,9 @@ import moment from "moment";
 export default class NewFeed extends React.Component {
   render() {  
     return (
-        <View>
           <View key={this.props.keyval} style={styles.project}>
           {this.createNewFeed()}
           </View>
-        </View>
     );
   }
 
@@ -26,7 +24,7 @@ export default class NewFeed extends React.Component {
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
             <View>
-              <Text style={styles.projectNameText}>Created the {this.props.val.ProjectName} project</Text>
+              <Text style={styles.nameText}>Created the {this.props.val.name} project</Text>
               <Text style={styles.projectOwnerText}>by Undefind User</Text>
             </View>
           </View>
@@ -42,7 +40,7 @@ export default class NewFeed extends React.Component {
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
             <View>
-              <Text style={styles.projectNameText}>Deleted the {this.props.val.ProjectName} project</Text>
+              <Text style={styles.nameText}>Deleted the {this.props.val.name} project</Text>
               <Text style={styles.projectOwnerText}>by Undefind User</Text>
             </View>
           </View>
@@ -58,8 +56,8 @@ export default class NewFeed extends React.Component {
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
             <View>
-              <Text style={styles.projectNameText}>Created the {this.props.val.task} task</Text>
-              <Text style={styles.projectOwnerText}>on the {this.props.val.ProjectName} project</Text>
+              <Text style={styles.nameText}>Created the {this.props.val.task} task</Text>
+              <Text style={styles.projectOwnerText}>on the {this.props.val.name} project</Text>
               <Text style={styles.projectOwnerText}>by Undefind User</Text>
             </View>
           </View>
@@ -75,8 +73,8 @@ export default class NewFeed extends React.Component {
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
             <View>
-              <Text style={styles.projectNameText}>Delete the {this.props.val.task} task</Text>
-              <Text style={styles.projectOwnerText}>on the {this.props.val.ProjectName} project</Text>
+              <Text style={styles.nameText}>Delete the {this.props.val.task} task</Text>
+              <Text style={styles.projectOwnerText}>on the {this.props.val.name} project</Text>
               <Text style={styles.projectOwnerText}>by Undefind User</Text>
             </View>
           </View>
@@ -92,7 +90,7 @@ export default class NewFeed extends React.Component {
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
             <View>
-              <Text style={styles.projectNameText}>Created the {this.props.val.meetingName} meeting</Text>
+              <Text style={styles.nameText}>Created the {this.props.val.meetingName} meeting</Text>
               <Text style={styles.projectOwnerText}>by Undefind User</Text>
             </View>
           </View>
@@ -108,7 +106,7 @@ export default class NewFeed extends React.Component {
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
             <View>
-              <Text style={styles.projectNameText}>Deleted the {this.props.val.meetingName} meeting</Text>
+              <Text style={styles.nameText}>Deleted the {this.props.val.meetingName} meeting</Text>
               <Text style={styles.projectOwnerText}>by Undefind User</Text>
             </View>
           </View>
