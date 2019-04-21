@@ -46,7 +46,7 @@ HomeStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
+          ? 'ios-home'
           : 'md-information-circle'
       }
     />
@@ -83,7 +83,7 @@ ProjectStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
+          ? 'ios-bookmarks'
           : 'md-information-circle'
       }
     />

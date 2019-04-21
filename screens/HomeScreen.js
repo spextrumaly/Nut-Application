@@ -66,41 +66,50 @@ class HomeScreen extends React.Component {
             <View style={styles.body}>
               <ScrollView style={styles.scrollContainer}>
               <View style={styles.projectContainer}>
-                <View style={styles.containerFeed}>
                 {
-                  meetings && meetings.length ? <View style={styles.containerTitle}><Text style={styles.titleFeed}>Active Meetings</Text></View> : null
+                  meetings && meetings.length ? 
+                  <View style={styles.containerFeed}>
+                    <View style={styles.containerTitle}>
+                      <Text style={styles.titleFeed}>Active Meetings</Text>
+                    </View>
+                    <View style={styles.meetings}>
+                      {meetings}
+                    </View>
+                  </View> : null
                 }
-                  <View style={styles.meetings}>
-                    {meetings}
-                  </View>
-                </View>
-                <View style={styles.containerFeed}>
                 {
                   activetasksNewFeed.find(function(element) {
                     if(element !== undefined){
                       return true
                     }
                     ;
-                  })  ? <View style={styles.containerTitle}><Text style={styles.titleFeed}>Active Task</Text></View> : null
+                  })  ? 
+                  <View style={styles.containerFeed}>
+                    <View style={styles.containerTitle}>
+                      <Text style={styles.titleFeed}>Active Task</Text>
+                    </View>
+                    <View style={styles.meetings}>
+                      {activetasksNewFeed}
+                    </View>
+                  </View> : null
                 }
-                  <View style={styles.meetings}>
-                    {activetasksNewFeed}
-                  </View>
-                </View>
-                <View style={styles.containerFeed}>
                 {
                   latetasksNewFeed.find(function(element) {
                     if(element !== undefined){
                       return true
                     }
                     ;
-                  }) ? <View style={styles.containerTitle}><Text style={styles.titleFeed}>Late Task</Text></View> : null
-                }
-                  <View style={styles.meetings}>
-                    {latetasksNewFeed}
-                  </View>
+                  }) ? 
+                  <View style={styles.containerFeed}>
+                    <View style={styles.containerTitle}>
+                      <Text style={styles.titleFeed}>Late Task</Text>
+                    </View>
+                    <View style={styles.meetings}>
+                      {latetasksNewFeed}
+                    </View>
+                  </View> : null
+                  }
                 </View>
-              </View>
               </ScrollView>
             </View>
           </View>
