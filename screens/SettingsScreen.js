@@ -101,12 +101,27 @@ export default class SettingScreen extends React.Component {
   }
   _reset = async () => {
     var user = await firebase.auth().currentUser
+    console.log('test', user.displayName)
     var projectRef = await firebase.database().ref('user/' + user.uid + '/project/')
     var meetingRef = await firebase.database().ref('user/' + user.uid + '/meeting/')
     var meetingPlanRef = await firebase.database().ref('user/' + user.uid + '/meetingPlan/')
-    await projectRef.remove()
-    await meetingRef.remove()
-    await meetingPlanRef.remove()
+    projectRef.remove()
+    meetingRef.remove()
+    meetingPlanRef.remove()
+    var query = firebase.database().ref("task").orderByKey();
+    query.once("value")
+      .then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          var key = childSnapshot.key; // "ada"
+          testRef = firebase.database().ref('task/' + key + '/ownerName').once('value').then(function(snapshot) {
+            var owner = snapshot.val()
+            if(owner === user.displayName){
+              firebase.database().ref('task/' + key).remove()
+            }
+          })
+          // Cancel enumeration
+      });
+    });
     AlertIOS.alert('Reset', 'Reset Completed!')
   }
 }
