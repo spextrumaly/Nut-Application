@@ -15,7 +15,7 @@ export default class MeetingOnProject extends Component {
                 <View style={styles.taskText}>
                   {/* <Text style={styles.taskText}>Create Date : {this.props.val.date}</Text> */}
                   {/* <Text style={styles.taskText}>Project : {this.props.val.name}</Text> */}
-                  <Text><Ionicons name="md-people" size={16} color="#4A3C39" />  {this.props.val.meetingName}</Text>
+                  <Text style={styles.titleText}><Ionicons name="md-people" size={16} color="#4A3C39" />  {this.props.val.meetingName}</Text>
                   {/* <Text style={styles.taskText}>OWNER : {this.props.val.owner}</Text> */}
                 </View>
                 <View style={styles.containerPeople}>
@@ -58,4 +58,9 @@ const styles = StyleSheet.create({
     color: '#4A3C39',
     fontFamily: 'Kanit-Regular'
   },
+  titleText: {
+    fontSize: 15,
+    color: '#4A3C39',
+    fontFamily: 'Kanit-Medium'
+  }
 });
