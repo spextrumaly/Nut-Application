@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 firebase.initializeApp(firebaseConfig);
 
 import { Container, Content, Header, Form, Input, Item, Button, Label } from 'native-base'
-import { fetchAllProject, fetchAllMeeting, fetchAllData, fetchAllTask, fetchAllMeetingPlan, fetchAllTaskNewFeed } from '../src/fetchData';
+import { fetchAllProject, fetchAllMeeting, fetchAllData, fetchAllTaskFirst, fetchAllMeetingPlan, fetchAllTaskNewFeed } from '../src/fetchData';
 
 
 class App extends React.Component {
@@ -26,6 +26,7 @@ class App extends React.Component {
         this.props.fetchDispatchAllMeeting()
         this.props.fetchDispatchAllMeetingPlan()
         this.props.fetchDispatchAllTask()
+        this.props.fetchDispatchAllTaskFirst()
         this.props.navigation.navigate('App');
       }
     })
@@ -186,6 +187,12 @@ function mapDispatchToProps(dispatch) {
       fetchAllTaskNewFeed((tasks) => {
         dispatch({ type: 'FETCH_ALL_TASK_NEW_FEED', payload: tasks })
       }, () => dispatch({ type: 'FETCH_CLEAR_ALL_TASK_FEED' }))
+    },
+    fetchDispatchAllTaskFirst: () => {
+      dispatch({ type: 'FETCH_CLEAR_ALL_TASK' })
+      fetchAllTaskFirst((tasks) => {
+        dispatch({ type: 'FETCH_ALL_TASK_FIRST', payload: tasks })
+      })
     },
   }
 }

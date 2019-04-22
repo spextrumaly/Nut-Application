@@ -96,6 +96,10 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         tasks: state.tasks.concat(action.payload)
       })
+    case 'FETCH_ALL_TASK_FIRST':
+      return Object.assign({}, state, {
+        tasks: state.tasks.concat(action.payload)
+      })
     case 'FETCH_ALL_TASK_NEW_FEED':
       return Object.assign({}, state, {
         tasksNewFeed: state.tasksNewFeed.concat(action.payload)
