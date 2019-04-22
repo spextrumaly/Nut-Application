@@ -22,6 +22,7 @@ import MeetingScreen from '../screens/meeting/HomeMeetingScreen';
 import JoinMeetingScreen from '../screens/meeting/JoinMeetingScreen';
 import SelectProjectCreate from '../screens/SelectProjectCreate';
 import DonateScreen from '../screens/DonateScreen';
+import AboutUsScreen from '../screens/AboutUsScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -118,6 +119,7 @@ MeetingsStack.navigationOptions = {
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
   DonateScreen: DonateScreen,
+  AboutUsScreen: AboutUsScreen
 });
 
 SettingsStack.navigationOptions = {
