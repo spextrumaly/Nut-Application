@@ -215,12 +215,12 @@ class MeetingScreen extends React.Component {
             </View>
           </View>
           <View style={styles.containerMeeting}>
-            <Text style={styles.detail}>Detail</Text>
+            <Text style={styles.detail}>DETAIL</Text>
             <Text style={styles.meetingDetail}>{!onVote ? meetingDetail : meetingPlanDetail}</Text>
-            <Text style={styles.meetingDate}>Date : {!onVote ? startDate : startDatePlan}</Text>
-            {onVote ? <Text  style={styles.meetingDate} >Vote Time To Meeting</Text> : <Text  style={styles.meetingDate}>Time To Meeting</Text>}
+            <Text style={styles.meetingDate}>DATE : {!onVote ? startDate : startDatePlan}</Text>
+            {onVote ? <Text  style={styles.meetingDate} >SELECT MEETING TIME</Text> : <Text  style={styles.meetingDate}>MEETING TIME</Text>}
             {onVote ? this.renderTime(startHourPlan, startMinutesPlan, endHourPlan, endMinutesPlan) : <Text style={styles.meetingDetail}>{startHour} : {startMinutes} - {endHour} : {endMinutes}</Text>}
-            <Text  style={styles.meetingDate} >Location</Text>
+            <Text  style={styles.meetingDate} >LOCATION</Text>
             <Text style={styles.meetingDetail}>{!onVote ? meetingLocation : meetingLocationPlan}</Text>
             <Text  style={styles.hostBy} >Host By {!onVote ? ownerNameMeeting : ownerName}</Text>
           </View>
@@ -548,6 +548,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Kanit-Medium',
     paddingLeft: 15,
+    
   },
   meetingDetail: {
     color: '#4A3C39',
@@ -562,6 +563,8 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     margin: 20,
     borderRadius: 10,
+    
+    paddingTop: 15
   },
   meetingDate: {
     color: '#4A3C39',

@@ -50,10 +50,11 @@ class ProjectScreen extends React.Component {
   }
   render() {
       const {navigate} = this.props.navigation;
-      let id = this.props.projects.map((val) => {
+      let id 
+      this.props.projects.map((val) => {
         if(val){
           if(val.id == this.props.ProjectId) {
-            return val.id
+            id = val.id
           }
         }
       })
@@ -116,7 +117,7 @@ class ProjectScreen extends React.Component {
       });
 
       let screenWidth = Dimensions.get('window').width;
-
+      console.log('test', id)
       return (
           <View style={styles.container}>
               <View style={styles.task}>

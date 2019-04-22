@@ -1,5 +1,6 @@
 import React from 'react';
 import * as Animatable from 'react-native-animatable';
+import { LinearGradient } from 'expo'
 import {
   ScrollView,
   StyleSheet,
@@ -8,6 +9,7 @@ import {
   View,
   TextInput,
   TouchableHighlight,
+  ImageBackground,
   Button,
   Image,
   Dimensions,
@@ -54,6 +56,8 @@ class HomeScreen extends React.Component {
               />
       });
       return (
+        <ImageBackground source={require('../assets/images/bg.gif')}style={{width: '100%', height: '100%'}}>
+
           <View style={styles.container}>
             <View key={this.props.keyval} style={styles.task}>
               <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
@@ -73,7 +77,9 @@ class HomeScreen extends React.Component {
                       <Text style={styles.titleFeed}>Active Meetings</Text>
                     </View>
                     <View style={styles.meetings}>
+                  <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%'}}>
                       {meetings}
+                  </ImageBackground>
                     </View>
                   </View> : null
                 }
@@ -89,7 +95,9 @@ class HomeScreen extends React.Component {
                       <Text style={styles.titleFeed}>Active Task</Text>
                     </View>
                     <View style={styles.meetings}>
+                    <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%'}}>
                       {activetasksNewFeed}
+                    </ImageBackground>
                     </View>
                   </View> : null
                 }
@@ -105,7 +113,9 @@ class HomeScreen extends React.Component {
                       <Text style={styles.titleFeed}>Late Task</Text>
                     </View>
                     <View style={styles.meetings}>
+                    <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%'}}>
                       {latetasksNewFeed}
+                    </ImageBackground>
                     </View>
                   </View> : null
                   }
@@ -113,6 +123,7 @@ class HomeScreen extends React.Component {
               </ScrollView>
             </View>
           </View>
+        </ImageBackground>
       );
   }
 }
@@ -157,7 +168,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#f5f3f2',
   },
   topicContainer: {
     width: '100%',

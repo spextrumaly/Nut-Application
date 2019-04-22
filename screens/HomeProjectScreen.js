@@ -9,6 +9,7 @@ import {
   View,
   TouchableWithoutFeedback,
   Animated,
+  ImageBackground,
   Button,
   Image
 } from 'react-native';
@@ -162,8 +163,8 @@ const styles = StyleSheet.create({
     // marginBottom: 100
   },
   body: {
-    backgroundColor: '#f5f3f2',
     flex: 1,
+    backgroundColor: '#f5f3f2'
   },
   footer: {
       position: 'absolute',
