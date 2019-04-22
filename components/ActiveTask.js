@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     backgroundColor: 'white',
     borderRadius: 5,
-    opacity: 0.75,
+    opacity: 0.65,
   },
     headCard: {
       position: 'relative',

@@ -5,6 +5,7 @@ import {
   View,
   TextInput,
   TouchableHighlight,
+  TouchableOpacity,
   Image,
   Alert,
   ImageBackground
@@ -23,6 +24,8 @@ class CreateMeetingEndCalendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      timeStartPick: false,
+      timeEndPick: false,
       hourStart: '00',
       minutesStart: '00',
       hourEnd: '00',
@@ -53,25 +56,32 @@ class CreateMeetingEndCalendar extends Component {
             onConfirm={this._handleDatePickedEnd}
             onCancel={this._hideDateTimePickerEnd}
           />
-          <View style={styles.containerPickTime}>
-            <TouchableHighlight style={[styles.textPickContainer, styles.bg]}>
-              <Text style={styles.signUpText}>Start time {this.state.hourStart} : {this.state.minutesStart}</Text>
-            </TouchableHighlight>
-            <TouchableHighlight style={[styles.buttonPickContainer, styles.signupButton]} onPress={this._showDateTimePicker}>
-              <Text style={styles.signUpText}>Pick Start time</Text>
-            </TouchableHighlight>
+          <View style={styles.clockPicker}>
+            <View style={styles.containerPickTime}>
+              <TouchableOpacity 
+                style={[styles.textPickContainer, styles.bg]}
+                onPress={this._showDateTimePicker}>
+                { this.state.timeStartPick ? <Text style={styles.signUpText}>{this.state.hourStart} : {this.state.minutesStart}</Text> :  <Text style={styles.signUpText}>Start Time</Text> } 
+              </TouchableOpacity>
+            </View>
+            <View style={styles.containerPickTime}>
+              <TouchableOpacity
+                style={[styles.textPickContainer, styles.bg]}
+                onPress={this._showDateTimePickerEnd}>
+                { this.state.timeEndPick ? <Text style={styles.signUpText}>{this.state.hourEnd} : {this.state.minutesEnd}</Text> :  <Text style={styles.signUpText}>End Time</Text> } 
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.containerPickTime}>
-            <TouchableHighlight style={[styles.textPickContainer, styles.bg]}>
-              <Text style={styles.signUpText}>End time {this.state.hourEnd} : {this.state.minutesEnd}</Text>
-            </TouchableHighlight>
-            <TouchableHighlight style={[styles.buttonPickContainer, styles.signupButton]} onPress={this._showDateTimePickerEnd}>
-              <Text style={styles.signUpText}>Pick End time</Text>
-            </TouchableHighlight>
-          </View>
-          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.addMoreTime(this.state.hourStart, this.state.minutesStart, this.state.hourEnd, this.state.minutesEnd)}>
-            <Text style={styles.signUpText}>Add More Time</Text>
-          </TouchableHighlight>
+          <AwesomeButton
+                style={{opacity: 0.7, marginTop: 10, marginBottom: 40}}
+                backgroundDarker='#f5f3f2'
+                backgroundColor='#fff'
+                width={50}
+                height={50}
+                borderRadius={100}
+                onPress={() => {this.addMoreTime(this.state.hourStart, this.state.minutesStart, this.state.hourEnd, this.state.minutesEnd); this.setState({ timeStartPick: false, timeEndPick: false });}}>
+                <Text style={{ color: '#4A3C39', fontFamily: 'Kanit-Medium', fontSize: 20 }}>+</Text>
+              </AwesomeButton>
             <AwesomeButton
                 style={{opacity: 0.8}}
                 backgroundDarker='#4A3C39'
@@ -79,7 +89,6 @@ class CreateMeetingEndCalendar extends Component {
                 width={250}
                 borderRadius={30}
                 onPress={() => this.props.Continue(this.state.hourStart, this.state.minutesStart, this.state.hourEnd, this.state.minutesEnd, navigate)}>
-              
                 <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Continue</Text>
               </AwesomeButton>
         </View>
@@ -93,7 +102,7 @@ class CreateMeetingEndCalendar extends Component {
     this.setState({ hourEnd: "00",minutesEnd: "00"})
   }
 
-  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true, timeStartPick: true });
 
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
@@ -105,7 +114,7 @@ class CreateMeetingEndCalendar extends Component {
     this._hideDateTimePicker();
   };
 
-  _showDateTimePickerEnd = () => this.setState({ isDateTimePickerVisibleEnd: true });
+  _showDateTimePickerEnd = () => this.setState({ isDateTimePickerVisibleEnd: true, timeEndPick: true });
 
   _hideDateTimePickerEnd = () => this.setState({ isDateTimePickerVisibleEnd: false });
 
@@ -143,6 +152,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  clockPicker: {
+    width: '60%',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    opacity: 0.7
+  },
   topicContainer: {
     width: '100%',
     height: 100,
@@ -151,6 +166,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+    marginLeft: -20,
+    marginRight: -20,
   },
   textStep: {
     fontSize: 20,
@@ -191,10 +208,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 150,
-    marginLeft: 15,
+    width: 200,
     marginTop: 25,
-    borderRadius: 10,
+    borderRadius: 30,
   },
   signupButton: {
     backgroundColor: "#f5f5dc",
