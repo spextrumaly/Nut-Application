@@ -164,6 +164,10 @@ function mapDispatchToProps(dispatch) {
               [newKey]: true
             })
           })
+        } else {
+          userRef.update({
+            [newKey] : true
+            })
         }
       })
       navigate('Meetings');
