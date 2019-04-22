@@ -225,7 +225,7 @@ class MeetingScreen extends React.Component {
             <Text style={styles.meetingDetail}>{!onVote ? meetingLocation : meetingLocationPlan}</Text>
             <Text  style={styles.hostBy} >Host By {!onVote ? ownerNameMeeting : ownerName}</Text>
           </View>
-          <AwesomeButton
+          {/* <AwesomeButton
             style={{opacity: 0.8}}
             backgroundDarker='#4A3C39'
             backgroundColor='#7B6B68'
@@ -233,7 +233,7 @@ class MeetingScreen extends React.Component {
             borderRadius={30}
             onPress={() => lineShare(this.props.MeetingId, 'meeting')}>
             <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Invite</Text>
-          </AwesomeButton>
+          </AwesomeButton> */}
           { !onVote ?
             <View style={styles.containerFooter}>
               <View style={styles.footer}>
@@ -249,7 +249,19 @@ class MeetingScreen extends React.Component {
               </View>
             </View>
             : 
-            null
+            <View style={styles.containerFooter}>
+              <View style={styles.footer}>
+                <AwesomeButton
+                    style={{opacity: 0.8}}
+                    backgroundDarker='#4A3C39'
+                    backgroundColor='#7B6B68'
+                    stretch={true}
+                    borderRadius={30}
+                    onPress={() => lineShare(this.props.MeetingId, 'meeting')}>
+                    <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Invite</Text>
+                  </AwesomeButton>
+              </View>
+            </View>
           }
           {onVote ? <View style={styles.containerFooter}>
               <View style={styles.footer}>
