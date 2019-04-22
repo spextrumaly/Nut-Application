@@ -10,6 +10,8 @@ import {
   TextInput,
 } from 'react-native';
 import * as Progress from 'react-native-progress';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { Makiko } from 'react-native-textinput-effects';
 import moment from "moment";
 import { store } from '../Store/Store';
 import { connect } from 'react-redux';
@@ -28,7 +30,7 @@ class HomeTaskScreen extends React.Component {
     super(props);
     this.state = {
       checklist: [],
-      text: 'Write list...',
+      text: '',
     };
   }
 
@@ -124,22 +126,28 @@ class HomeTaskScreen extends React.Component {
                       </View>
                     </View>
                     <View style = { styles.containerTopic }>
-                      <View style = { styles.containerMember } >
-                        {/* <Image style={styles.memberIcon} source={require('../assets/images/checkList.png')}/> */}
-                        <Text style= { styles.headCard} >CHECKLIST</Text>
-                      </View>
                       <View style = { styles.containerCheckList } >
-                        { checklist ? checklist : null}
-                        <View style={{flexDirection: 'row',}}>
-                          <TextInput
-                            style={{height: 30, borderColor: 'gray', borderWidth: 1, width: '40%', margin: 10, marginLeft: 15, color: 'gray', backgroundColor: 'white'}}
+                        <View>
+                          {/* <TextInput
+                            style={{height: 30, width: '40%', margin: 10, marginLeft: 15, color: 'gray', backgroundColor: 'white'}}
                             onChangeText={(text) => this.setState({text})}
                             value={this.state.text}
-                          />
-                          <TouchableHighlight style={[styles.buttonContainerAddList, styles.addTaskButton]} onPress={() => this.props.addListTask(this.state.text, this.props.TaskId, this.props.ProjectId)}>
+                          /> */}
+                            <Makiko
+                              label={'Add checklist here'}
+                              iconClass={FontAwesomeIcon}
+                              iconName={'pencil'}
+                              onChangeText={(text) => this.setState({text})}
+                              onEndEditing={() => {this.props.addListTask(this.state.text, this.props.TaskId, this.props.ProjectId); this.setState({text: ''});}}
+                              value={this.state.text}
+                              iconColor={'white'}
+                              inputStyle={{ color: '#4A3C39', textAlign: 'center',fontFamily: 'Kanit-Regular' }}
+                            />
+                          {/* <TouchableHighlight style={[styles.buttonContainerAddList, styles.addTaskButton]} onPress={() => this.props.addListTask(this.state.text, this.props.TaskId, this.props.ProjectId)}>
                             <Text style={styles.signUpText}>Add CheckList</Text>
-                          </TouchableHighlight>
+                          </TouchableHighlight> */}
                         </View>
+                        { checklist ? checklist : null}
                       </View>
                     </View>
                   </View>                         
