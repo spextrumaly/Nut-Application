@@ -127,17 +127,30 @@ class ProjectScreen extends React.Component {
                   <Text style={styles.taskSubText}
                     onPress={() => {Clipboard.setString(id.toString()); AlertIOS.alert('Alert', 'Copied NutID to clipboard!'); }}>
                     NutID: {id}</Text>
-                    <AwesomeButton
-                      style={{marginTop: 10, marginLeft: 9}}
-                      backgroundDarker='#900c3f'
-                      backgroundColor='#c70039'
-                      width={60}
-                      height={30}
-                      borderRadius={10}
-                      onPress={() => this.props.deleteProject(this.props.projects, this.props.ProjectId, navigate)}
-                    >
-                      <Text style={{ color: '#fff', fontFamily: 'Kanit-Medium', fontSize: 13}}>Delete</Text>
-                    </AwesomeButton>
+                    <View style={styles.containerBtn}>
+                      <AwesomeButton
+                        style={{marginTop: 10, marginLeft: 9}}
+                        backgroundDarker='#372c2a'
+                        backgroundColor='#4A3C39'
+                        width={60}
+                        height={30}
+                        borderRadius={10}
+                        onPress= {() => lineShare(this.props.ProjectId, 'project')}
+                        >
+                        <Text style={{ color: '#fff', fontFamily: 'Kanit-Medium', fontSize: 13}}>Invite</Text>
+                      </AwesomeButton>
+                      <AwesomeButton
+                        style={{marginTop: 10, marginLeft: 9}}
+                        backgroundDarker='#900c3f'
+                        backgroundColor='#c70039'
+                        width={60}
+                        height={30}
+                        borderRadius={10}
+                        onPress={() => this.props.deleteProject(this.props.projects, this.props.ProjectId, navigate)}
+                      >
+                        <Text style={{ color: '#fff', fontFamily: 'Kanit-Medium', fontSize: 13}}>Delete</Text>
+                      </AwesomeButton>
+                    </View>
                 </View>
               </View>
               <View style = { styles.containerScrollViewHolder }>
@@ -168,7 +181,7 @@ class ProjectScreen extends React.Component {
                   </View>
                 </ImageBackground>
               </View>
-              <AwesomeButton 
+              {/* <AwesomeButton 
                 style={styles.createBtnAnimate}
                 backgroundDarker='#372c2a'
                 backgroundColor='#4A3C39'
@@ -177,7 +190,7 @@ class ProjectScreen extends React.Component {
                 onPress= {() => lineShare(this.props.ProjectId, 'project')}
                 >
                 <Text style={styles.signUpText}>Invite</Text>
-              </AwesomeButton>
+              </AwesomeButton> */}
               {/* <ScrollView style={styles.scrollContainer}>
                   {tasks}
               </ScrollView> */}
@@ -339,6 +352,9 @@ const styles = StyleSheet.create({
   },
   containerScrollViewHolder: {
     flex: 1,
+  },
+  containerBtn: {
+    flexDirection: 'row'
   },
   containerCard: {
     borderRadius: 5,
