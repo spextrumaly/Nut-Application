@@ -57,7 +57,7 @@ export default class SettingScreen extends React.Component {
         </View>
         <View style={styles.groupButton}>
           <View style={styles.project}>
-            <TouchableOpacity onPress={this.props.detailTaskMethod}>
+            <TouchableOpacity onPress = { () => this._aboutus()}>
               <View style={styles.headCard}>
               <Image style={styles.otherIcon} source={require('../assets/images/aboutUs.png')}/>
                 <View>
@@ -120,6 +120,9 @@ export default class SettingScreen extends React.Component {
 
   _donate = () => {
     this.props.navigation.navigate('DonateScreen');
+  }
+  _aboutus = () => {
+    this.props.navigation.navigate('AboutUsScreen');
   }
   _reset = async () => {
     var user = await firebase.auth().currentUser
