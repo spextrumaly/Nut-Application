@@ -99,7 +99,9 @@ function mapDispatchToProps(dispatch) {
       dispatch({ type: 'ADD_MEETING_START_STATE',
         date: date
       })
-      navigate('CalendarMeetingEnd')
+      if(date) {
+        navigate('CalendarMeetingEnd')
+      }
     }
   }
 }

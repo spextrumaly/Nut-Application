@@ -38,7 +38,7 @@ class JoinMeetingScreen extends Component {
     Animated.spring(this.animatedValueContinue, {
       toValue: 1,
     }).start(() => {
-      this.props.addProject(this.state.idMeeting, navigate)
+      this.props.addProject(this.state.idMeeting, navigate, this.props.meetingsPlan)
     })
   }
   render() {
@@ -79,13 +79,14 @@ class JoinMeetingScreen extends Component {
 function mapStateToProps(state) {
   return {
       allMeetings: state.allMeetings,
-      idMeetingShare: state.idMeetingShare
+      idMeetingShare: state.idMeetingShare,
+      meetingsPlan: state.meetingsPlan
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    addProject: (id, navigate) => {
+    addProject: (id, navigate, meetings) => {
       joinMeeting(id)
       dispatch({ type: 'FETCH_CLEAR_ALL_MEETING' })
       // fetchAllMeeting((meetings) => {
