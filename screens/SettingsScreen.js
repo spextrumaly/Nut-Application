@@ -7,7 +7,9 @@ import {
   Image,
   AlertIOS,
   Linking,
+  ImageBackground,
   TouchableHighlight,
+  TouchableOpacity,
   AsyncStorage,
 } from 'react-native';
 import * as firebase from 'firebase';
@@ -19,69 +21,89 @@ export default class SettingScreen extends React.Component {
 
     
   render() {
+    var user = firebase.auth().currentUser
     return (
       <View style={styles.container}>
         <View key={this.props.keyval} style={styles.task}>
+        
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
-            <Text style={styles.taskText}>Setting</Text>
+            <Text style={styles.taskText}>{user.displayName}</Text>
+            <Text style={styles.subNameText}>{user.email}</Text>
           </View>
         </View>
         <ScrollView style={styles.scrollContainer}>
-          <TouchableHighlight
-            onPress = { () => this._reset()}>
-            <View style={styles.containerSetting}>
-              <Image style={styles.settingIcon} source={require('../assets/images/profile.png')}/>
-              <View style={styles.containerTopicSetting}>
-                <Text style={styles.textSetting}>Reset Profile</Text>
+        <View style={styles.groupButton}>
+          <View style={styles.project}>
+            <TouchableOpacity onPress = { () => this._reset()}>
+              <View style={styles.headCard}>
+              <Image style={styles.otherIcon} source={require('../assets/images/profile.png')}/>
+                <View>
+                  <Text style={styles.nameText}>Reset Profile</Text>
+                </View>
               </View>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight>
-            <View style={styles.containerSetting}>
-              <Image style={styles.settingIcon} source={require('../assets/images/reminder.png')}/>
-              <View style={styles.containerTopicSetting}>
-                <Text style={styles.textSetting}>Reminder</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.project}>
+            <TouchableOpacity onPress={() => this._signOutAsync()}>
+              <View style={styles.headCard}>
+              <Image style={styles.otherIcon} source={require('../assets/images/logout.png')}/>
+                <View>
+                  <Text style={styles.nameText}>Logout</Text>
+                </View>
               </View>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight>
-            <View style={styles.containerSetting}>
-              <Image style={styles.settingIcon} source={require('../assets/images/aboutUs.png')}/>
-              <View style={styles.containerTopicSetting}>
-                <Text style={styles.textSetting}>About Us</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.groupButton}>
+          <View style={styles.project}>
+            <TouchableOpacity onPress={this.props.detailTaskMethod}>
+              <View style={styles.headCard}>
+              <Image style={styles.otherIcon} source={require('../assets/images/aboutUs.png')}/>
+                <View>
+                  <Text style={styles.nameText}>About us</Text>
+                </View>
               </View>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight>
-            <View style={styles.containerSetting}>
-              <Image style={styles.settingIcon} source={require('../assets/images/privacy.png')}/>
-              <View style={styles.containerTopicSetting}>
-                <Text style={styles.textSetting}>Terms & Privacy</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.project}>
+            <TouchableOpacity onPress={this.props.detailTaskMethod}>
+              <View style={styles.headCard}>
+              <Image style={styles.otherIcon} source={require('../assets/images/privacy.png')}/>
+                <View>
+                  <Text style={styles.nameText}>Terms & Privacy</Text>
+                </View>
               </View>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight
-            onPress = { () => this._donate()}
-            // onPress={() => Linking.openURL('https://donorbox.org/nut-application-donate')}
-          >
-            <View style={styles.containerSetting}>
-              <Image style={styles.settingIcon} source={require('../assets/images/donate.png')}/>
-              <View style={styles.containerTopicSetting}>
-                <Text style={styles.textSetting}>Donate & Support</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.project}>
+            <TouchableOpacity onPress = { () => this._donate()}>
+              <View style={styles.headCard}>
+              <Image style={styles.otherIcon} source={require('../assets/images/donate.png')}/>
+                <View>
+                  <Text style={styles.nameText}>Donate & Support</Text>
+                </View>
               </View>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={() => this._signOutAsync()}>
-            <View style={styles.containerSetting}>
-              <View style={styles.containerIconTopicSetting}>
-                <Image style={styles.settingIcon} source={require('../assets/images/logout.png')}/>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.groupButton}>
+          <View style={styles.project}>
+            <TouchableOpacity onPress={this.props.detailTaskMethod}>
+              <View style={styles.headCard}>
+              <Image style={styles.otherIcon} source={require('../assets/images/reminder.png')}/>
+                <View>
+                  <Text style={styles.nameText}>Share this app</Text>
+                </View>
               </View>
-              <View style={styles.containerTopicSetting}>
-                <Text style={styles.textSetting}>Logout</Text>
-              </View>
-            </View>
-          </TouchableHighlight>          
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.groupButton}>
+          <View>
+            <Text style={styles.thankyou}>Thank you for using our application :&#41;</Text>
+        </View>
+        </View>
         </ScrollView>
       </View>
     );
@@ -162,14 +184,16 @@ const styles = StyleSheet.create({
   task: {
     position: 'relative',
     padding: 15,
-    paddingTop: 40,    
-    flexDirection: 'row',
+    paddingTop: 50,
+    paddingBottom: 20,
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: "#4A3C39",
+    
   },
   inputIcon:{
-    width:30,
-    height:30,
+    width:60,
+    height:60,
     margin:5,
     justifyContent: 'center'
   },
@@ -177,11 +201,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 25,
-    paddingLeft: 10,
-    paddingTop: 10,
     fontFamily: 'Kanit-Bold',
-    paddingBottom: 10,
     color: '#f5f5dc'
+  },
+  subNameText: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 16,
+    fontFamily: 'Kanit-Italic',
+    color: '#f5f5dc',
+    opacity: 0.6
+
   },
   settingIcon:{
     width:40,
@@ -205,5 +235,84 @@ const styles = StyleSheet.create({
   containerIconTopicSetting: {
     borderBottomWidth:1,
     borderBottomColor: '#4A3C39',
-  }
+  },
+  project: {
+    flex: 1,
+    flexDirection: 'column',
+    padding: 12,
+    borderBottomWidth:1,
+    borderBottomColor: '#ffffff',
+    borderTopWidth:1,
+    borderTopColor: '#ffffff',
+    marginLeft: 0,
+    shadowColor: '#696969',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 1,
+    marginRight: 0,
+    backgroundColor: 'white',
+    borderRadius: 5,
+    opacity: 0.75,
+  },
+    headCard: {
+      position: 'relative',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+    },
+    otherIcon:{
+      width:20,
+      height:20,
+      marginLeft: 10,
+      marginTop: 3,
+    },
+    bodyDeadline: {
+      position: 'absolute',
+      zIndex: 11,
+      right: 5,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    nameText: {
+      paddingLeft: 30,
+      fontSize: 17,
+      fontFamily: 'Kanit-Regular'
+    },
+    projectOwnerText: {
+      paddingLeft: 10,
+      fontSize: 10,
+      fontFamily: 'Kanit-Italic'
+    },
+    projectText: {
+      fontSize: 10,
+      color: '#696969',
+      fontFamily: 'Kanit-Regular'
+    },
+    thankyou: {
+      textAlign: 'center',
+      fontSize: 18,
+      color: '#696969',
+      opacity: 0.5,
+      fontFamily: 'Kanit-Italic'
+    },
+    projectDelete: {
+        backgroundColor: '#4A3C39',
+        padding: 10,
+        width: 70,
+        marginLeft: 20,
+        borderRadius:15,
+      },
+    projectDetail: {
+      backgroundColor: '#4A3C39',
+      padding: 10,
+      width: 70,
+      marginLeft: 10,
+      borderRadius:15,
+  },
+    projectDeleteText: {
+        color: 'white'
+    },
+    groupButton: {
+      marginTop: 30,
+    }
 });
