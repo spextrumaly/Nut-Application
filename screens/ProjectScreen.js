@@ -20,7 +20,7 @@ import MeetingOnProject from '../components/MeetingOnProject';
 import { store } from '../Store/Store';
 import moment from "moment";
 import { connect } from 'react-redux'
-import { fetchAllTask, changeStatus } from '../src/fetchData';
+import { fetchAllTask, changeStatus, lineShare } from '../src/fetchData';
 
 const showAnimation = "slideInUp"
 const hideAnimation = "slideOutDown"
@@ -168,6 +168,16 @@ class ProjectScreen extends React.Component {
                   </View>
                 </ImageBackground>
               </View>
+              <AwesomeButton 
+                style={styles.createBtnAnimate}
+                backgroundDarker='#372c2a'
+                backgroundColor='#4A3C39'
+                width={170}
+                borderRadius={30}
+                onPress= {() => lineShare(this.props.ProjectId, 'project')}
+                >
+                <Text style={styles.signUpText}>Invite</Text>
+              </AwesomeButton>
               {/* <ScrollView style={styles.scrollContainer}>
                   {tasks}
               </ScrollView> */}

@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import moment from "moment";
 import * as firebase from 'firebase';
 import VoteTime from '../../components/VoteTimeMeeting'
-import { addVote, fetchAllMeetingPlan, fetchAllMeeting } from '../../src/fetchData';
+import { addVote, lineShare, fetchAllMeeting } from '../../src/fetchData';
 import AwesomeButton from "react-native-really-awesome-button";
 
 class MeetingScreen extends React.Component {
@@ -225,6 +225,15 @@ class MeetingScreen extends React.Component {
             <Text style={styles.meetingDetail}>{!onVote ? meetingLocation : meetingLocationPlan}</Text>
             <Text  style={styles.hostBy} >Host By {!onVote ? ownerNameMeeting : ownerName}</Text>
           </View>
+          <AwesomeButton
+            style={{opacity: 0.8}}
+            backgroundDarker='#4A3C39'
+            backgroundColor='#7B6B68'
+            stretch={true}
+            borderRadius={30}
+            onPress={() => lineShare(this.props.MeetingId, 'meeting')}>
+            <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Invite</Text>
+          </AwesomeButton>
           { !onVote ?
             <View style={styles.containerFooter}>
               <View style={styles.footer}>

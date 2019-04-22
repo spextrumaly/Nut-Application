@@ -22,9 +22,10 @@ class JoinMeetingScreen extends Component {
     this.handlePressInContinue = this.handlePressInContinue.bind(this);
     this.handlePressOutContinue = this.handlePressOutContinue.bind(this);
     this.state = {
-      idMeeting: '',
+      idMeeting:this.props.idMeetingShare,
     }
   }
+
   componentWillMount() {
     this.animatedValueContinue = new Animated.Value(1);
   }
@@ -45,6 +46,7 @@ class JoinMeetingScreen extends Component {
     const animatedStyleContinue = {
       transform: [{ scale: this.animatedValueContinue}]
     }
+    console.log('idMeeting:',this.state.idMeeting)
     return (
       <ImageBackground source={require('../../assets/images/bg.png')}style={{width: '100%', height: '100%'}}>
         <View style={styles.container}>
@@ -52,7 +54,7 @@ class JoinMeetingScreen extends Component {
             <Image style={styles.inputIcon} source={require('../../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder='Enter your Nut ID...'
+              placeholder={this.props.idMeetingShare ? this.props.idMeetingShare: "Enter Id"}
               onChangeText={(idMeeting)=> this.setState({idMeeting})}
               value={this.state.idMeeting}
               placeholderTextColor='grey'
@@ -77,6 +79,7 @@ class JoinMeetingScreen extends Component {
 function mapStateToProps(state) {
   return {
       allMeetings: state.allMeetings,
+      idMeetingShare: state.idMeetingShare
   }
 }
 
