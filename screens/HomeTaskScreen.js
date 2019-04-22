@@ -136,6 +136,7 @@ class HomeTaskScreen extends React.Component {
                             <Makiko
                               label={'Add checklist here'}
                               iconClass={FontAwesomeIcon}
+                              style={{borderRadius: 10}}
                               iconName={'pencil'}
                               onChangeText={(text) => this.setState({text})}
                               onEndEditing={() => {this.props.addListTask(this.state.text, this.props.TaskId, this.props.ProjectId); this.setState({text: ''});}}
