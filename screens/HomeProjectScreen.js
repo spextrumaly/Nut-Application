@@ -3,6 +3,7 @@ import * as Animatable from 'react-native-animatable';
 import AwesomeButton from "react-native-really-awesome-button";
 import {
   ScrollView,
+  RefreshControl,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -28,8 +29,21 @@ class HomeProjectScreen extends React.Component {
         showSelect: false,
         showCreate: false,
         showJoin: false,
-        anim: false
+        anim: false,
+        refreshing: false,
     };
+    let projects = null
+  }
+  _onRefresh = async () => {
+    this.setState({refreshing: true})
+    await this.fetchData()
+
+  }
+  fetchData = () => {
+    setTimeout(() => {
+      this.render()
+      this.setState({refreshing: false})
+    }, 1000);
   }
   componentWillMount() {
     this.animatedValueAdd = new Animated.Value(0);
@@ -37,6 +51,7 @@ class HomeProjectScreen extends React.Component {
   render() {
       const {navigate} = this.props.navigation;
       console.log(this.props.projects)
+
       let projects = this.props.projects.map((val, key)=>{
           if(val) {
             return <Project key={key} keyval={key} val={val}
@@ -53,7 +68,14 @@ class HomeProjectScreen extends React.Component {
               </View>
             </View>
             <View style={styles.body}>
-              <ScrollView style={styles.scrollContainer}>
+              <ScrollView style={styles.scrollContainer}
+                refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh}
+                />
+                }
+              >
               <View style={styles.projectContainer}>
                 {projects}
               </View>

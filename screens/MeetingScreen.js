@@ -4,6 +4,7 @@ import AwesomeButton from "react-native-really-awesome-button";
 import {
   ScrollView,
   StyleSheet,
+  RefreshControl,
   Text,
   Animated,
   View,
@@ -26,8 +27,20 @@ class MeetingScreen extends React.Component {
       showSelect: false,
       showCreate: false,
       showJoin: false,
-      anim: false
+      anim: false,
+      refreshing: false,
     };
+  }
+  _onRefresh = async () => {
+    this.setState({refreshing: true})
+    await this.fetchData()
+
+  }
+  fetchData = () => {
+    setTimeout(() => {
+      this.render()
+      this.setState({refreshing: false})
+    }, 1000);
   }
   componentWillMount() {
     this.animatedValueAdd = new Animated.Value(0);
@@ -55,7 +68,14 @@ class MeetingScreen extends React.Component {
           </View>
         </View>
         <View style={styles.body}>
-          <ScrollView style={styles.scrollContainer}>
+          <ScrollView style={styles.scrollContainer}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />
+            }
+          >
           <View style={styles.projectContainer}>
             {meetings}
             {meetingPlan}
