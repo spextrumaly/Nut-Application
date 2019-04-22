@@ -67,7 +67,7 @@ export default class SettingScreen extends React.Component {
             </TouchableOpacity>
           </View>
           <View style={styles.project}>
-            <TouchableOpacity onPress={this.props.detailTaskMethod}>
+            <TouchableOpacity onPress = { () => this._terms()}>
               <View style={styles.headCard}>
               <Image style={styles.otherIcon} source={require('../assets/images/privacy.png')}/>
                 <View>
@@ -123,6 +123,9 @@ export default class SettingScreen extends React.Component {
   }
   _aboutus = () => {
     this.props.navigation.navigate('AboutUsScreen');
+  }
+  _terms = () => {
+    this.props.navigation.navigate('TermsConditionScreen');
   }
   _reset = async () => {
     var user = await firebase.auth().currentUser
