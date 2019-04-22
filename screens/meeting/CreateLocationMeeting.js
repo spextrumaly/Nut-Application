@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
+    top: '60%'
   },
   buttonContainer: {
     opacity: 0.8,
