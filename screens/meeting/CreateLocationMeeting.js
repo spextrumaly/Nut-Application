@@ -79,7 +79,7 @@ class LocationMeeting extends Component {
               backgroundColor='#7B6B68'
               width={300}
               borderRadius={30}
-              onPress={() => this.props.AddMeeting(this.props.meetingStateName, this.props.meetingStateDetail, this.props.meetingStateStartDate, this.props.meetingStateStartHour, this.props.meetingStateStartMinutes, this.props.meetingStateEndHour, this.props.meetingStateEndMinutes, this.props.meetingStateLocation, this.props.meetingOnProjectId, this.props.userDetail.name, navigate)}>
+              onPress={() => this.props.AddMeeting(this.props.meetingStateName, this.props.meetingStateDetail, this.props.meetingStateStartDate, this.props.meetingStateStartHour, this.props.meetingStateStartMinutes, this.props.meetingStateEndHour, this.props.meetingStateEndMinutes, this.props.meetingStateLocation, this.props.meetingOnProjectId, this.props.userDetail.name, navigate, this.props.projects)}>
               <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Add Meeting</Text>
             </AwesomeButton>
           </View>
@@ -100,7 +100,8 @@ function mapStateToProps(state) {
     meetingStateEndMinutes: state.meetingStateEndMinutes,
     meetingStateLocation: state.meetingStateLocation,
     meetingOnProjectId: state.meetingOnProjectId,
-    userDetail: state.userDetail
+    userDetail: state.userDetail,
+    projects: state.projects
   }
 }
 
@@ -112,11 +113,28 @@ function mapDispatchToProps(dispatch) {
   for (var i = 0; i < 5; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return {
-    AddMeeting: (name, detail, startDate, startHour, startMinutes, endHour, endMinutes, location, meetingOnProjectId, ownerName, navigate) => {
+    AddMeeting: (name, detail, startDate, startHour, startMinutes, endHour, endMinutes, location, meetingOnProjectId, ownerName, navigate, projects) => {
       let uID = firebase.auth().currentUser.uid;
       meetingRef = firebase.database().ref('meetingPlan/')
       userRef = firebase.database().ref('user/' + uID +'/meetingPlan/')
-      //add to ref/project
+      let member
+      if(meetingOnProjectId) {
+        projects.map((val) => {
+          if(val){
+            if(val.id == meetingOnProjectId) {
+              member = val.member
+            }
+          }
+        })
+      } else {
+        member = {
+          [uID] : {
+            timestamp : Date.now(),
+            status : 'master'
+            }
+        }
+      }
+      console.log("MMMM : ", member)
       meetingRef.push({
         'meetingName': name,
         'meetingDetail': detail,
@@ -133,20 +151,20 @@ function mapDispatchToProps(dispatch) {
         'countVote': 0,
         'ownerName': ownerName,
         
-      member : {
-        [uID] : {
-          timestamp : Date.now(),
-          status : 'master'
-          }
-        }
+      member : member
       }).then((snap) =>{
         newKey = snap.key
         meetingRef.child(newKey).update({
           id : newKey
         })
-        userRef.update({
-        [newKey] : true
-        })
+        if(meetingOnProjectId) {
+          Object.keys(member).map(key => {
+            userRef = firebase.database().ref('user/' + key + '/meetingPlan/')
+            userRef.update({
+              [newKey]: true
+            })
+          })
+        }
       })
       navigate('Meetings');
     },

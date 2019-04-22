@@ -42,6 +42,7 @@ class MeetingScreen extends React.Component {
     let meetingPlanName
     this.props.meetingsPlan.map((val) => {
       if (val.id == this.props.MeetingId) {
+        console.log(val)
         meetingPlanName = val.meetingName
       }
     });
