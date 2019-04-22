@@ -5,6 +5,7 @@ import {
   Text,
   View,
   Image,
+  AlertIOS,
   Linking,
   TouchableHighlight,
   AsyncStorage,
@@ -27,11 +28,12 @@ export default class SettingScreen extends React.Component {
           </View>
         </View>
         <ScrollView style={styles.scrollContainer}>
-          <TouchableHighlight>
+          <TouchableHighlight
+            onPress = { () => this._reset()}>
             <View style={styles.containerSetting}>
               <Image style={styles.settingIcon} source={require('../assets/images/profile.png')}/>
               <View style={styles.containerTopicSetting}>
-                <Text style={styles.textSetting}>Edit Profile</Text>
+                <Text style={styles.textSetting}>Reset Profile</Text>
               </View>
             </View>
           </TouchableHighlight>
@@ -97,7 +99,18 @@ export default class SettingScreen extends React.Component {
   _donate = () => {
     this.props.navigation.navigate('DonateScreen');
   }
+  _reset = async () => {
+    var user = await firebase.auth().currentUser
+    var projectRef = await firebase.database().ref('user/' + user.uid + '/project/')
+    var meetingRef = await firebase.database().ref('user/' + user.uid + '/meeting/')
+    var meetingPlanRef = await firebase.database().ref('user/' + user.uid + '/meetingPlan/')
+    await projectRef.remove()
+    await meetingRef.remove()
+    await meetingPlanRef.remove()
+    AlertIOS.alert('Reset', 'Reset Completed!')
+  }
 }
+
 
 const styles = StyleSheet.create({
   container: {

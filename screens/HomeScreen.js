@@ -21,6 +21,8 @@ import { store } from '../Store/Store';
 import { connect } from 'react-redux';
 import moment from "moment";
 import { fetchAllTask } from '../src/fetchData';
+import { FontAwesome } from '@expo/vector-icons';
+
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -74,7 +76,7 @@ class HomeScreen extends React.Component {
                   meetings && meetings.length ? 
                   <View style={styles.containerFeed}>
                     <View style={styles.containerTitle}>
-                      <Text style={styles.titleFeed}>Active Meetings</Text>
+                      <Text style={styles.titleFeed}>Active Meetings <FontAwesome name="circle" size={12} color="#2ab200" /></Text>
                     </View>
                     <View style={styles.meetings}>
                   <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%'}}>
@@ -92,7 +94,7 @@ class HomeScreen extends React.Component {
                   })  ? 
                   <View style={styles.containerFeed}>
                     <View style={styles.containerTitle}>
-                      <Text style={styles.titleFeed}>Active Task</Text>
+                      <Text style={styles.titleFeed}>Active Task <FontAwesome name="circle" size={12} color="#2ab200" /></Text>
                     </View>
                     <View style={styles.meetings}>
                     <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%'}}>
@@ -110,7 +112,7 @@ class HomeScreen extends React.Component {
                   }) ? 
                   <View style={styles.containerFeed}>
                     <View style={styles.containerTitle}>
-                      <Text style={styles.titleFeed}>Late Task</Text>
+                      <Text style={styles.titleFeed}>Late Task <FontAwesome name="circle" size={12} color="#D90033" /></Text>
                     </View>
                     <View style={styles.meetings}>
                     <ImageBackground source={require('../assets/images/bg.png')}style={{width: '100%'}}>
