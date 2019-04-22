@@ -24,7 +24,7 @@ class JoinProjectScreen extends Component {
     this.handlePressInContinue = this.handlePressInContinue.bind(this);
     this.handlePressOutContinue = this.handlePressOutContinue.bind(this);
     this.state = {
-      idProject: '',
+      idProject: this.props.idProjectShare,
     }
   }
   componentWillMount() {
@@ -55,7 +55,7 @@ class JoinProjectScreen extends Component {
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder='Enter your Nut ID...'
+              placeholder={this.props.idProjectShare ? this.props.idProjectShare: "Enter Id"}
               onChangeText={(idProject)=> this.setState({idProject})}
               value={this.state.idProject}
               placeholderTextColor='grey'
@@ -80,6 +80,7 @@ class JoinProjectScreen extends Component {
 function mapStateToProps(state) {
   return {
       allProjects: state.allProjects,
+      idProjectShare: state.idProjectShare
   }
 }
 

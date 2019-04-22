@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 import { AsyncStorage } from 'react-native';
+import { Linking } from 'expo';
 
 export function fetchAllData(callback) {
   let uID =  firebase.auth().currentUser.uid;
@@ -157,6 +158,13 @@ export function addCheckedChecklist( taskID, checklistValue ){
 	ref.update({
 	  checked : !checklistValue.checked
   })
+}
+
+export function lineShare( id , type){
+  let h_url = 'https://nut-project-32750.firebaseapp.com/?'
+  let a_url = Linking.makeUrl('/', { id : id , type : type});
+
+  Linking.openURL('line://msg/text/?' + h_url + a_url);
 }
 
 

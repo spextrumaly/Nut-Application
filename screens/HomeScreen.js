@@ -22,6 +22,7 @@ import { connect } from 'react-redux';
 import moment from "moment";
 import { fetchAllTask } from '../src/fetchData';
 import { FontAwesome } from '@expo/vector-icons';
+import { Linking } from 'expo';
 
 
 class HomeScreen extends React.Component {
@@ -32,6 +33,27 @@ class HomeScreen extends React.Component {
   constructor(props){
     super(props);
   }
+
+  componentDidMount() {
+    Linking.getInitialURL().then(url => {
+      //const { path, queryParams } = Linking.parse(url);
+      Linking.openURL(url);
+      console.log('app.js url', url.spilt('/'));
+      
+    });
+    let a = Linking.addEventListener("url", this._handleUrl);
+    console.log('app.js a', a)
+  }
+  _handleUrl = url => {
+    let { path, queryParams } = Linking.parse(url);
+    let a = url.url
+    if(a.split('?')[1]){
+      if(a.split('?')[1].toString().split('&')[1].toString().split('=')[1] == 'meeting'){
+        this.props.shareLineMeeting(a.split('?')[1].toString().split('&')[0].toString().split('=')[1], this.props.navigation.navigate)
+      } else {
+        this.props.shareLineProject(a.split('?')[1].toString().split('&')[0].toString().split('=')[1], this.props.navigation.navigate)      }
+    }
+  };
 
   render() {
       const {navigate} = this.props.navigation;
@@ -136,7 +158,9 @@ function mapStateToProps(state) {
     projects: state.projects,
     tasksNewFeed: state.tasksNewFeed,
     meetings: state.meetings,
-    userDetail: state.userDetail
+    userDetail: state.userDetail,
+    idMeetingShare: state.idMeetingShare,
+    idProjectShare: state.idProjectShare
   }
 }
 
@@ -159,6 +183,18 @@ function mapDispatchToProps(dispatch) {
         id: val.id
       })
       navigate('HomeTask')
+    },
+    shareLineMeeting: (id, navigate) => {
+      dispatch({ type: 'SET_ID_SHARE_MEETING',  
+        id: id
+      })
+      navigate('JoinMeeting')
+    },
+    shareLineProject: (id, navigate) => {
+      dispatch({ type: 'SET_ID_SHARE_PROJECT',  
+        id: id
+      })
+      navigate('JoinProject')
     },
   }
 }

@@ -42,7 +42,9 @@ const initialState = {
   newfeeds: [],
   meetingOnProjectId: '',
   statusLogin: false,
-  tasksNewFeed: []
+  tasksNewFeed: [],
+  idMeetingShare: '',
+  idProjectShare: '',
 }
 
 const reducer = (state = initialState, action) => {
@@ -272,6 +274,14 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         MeetingId: action.id
       })
+    case 'SET_ID_SHARE_MEETING':
+      return Object.assign({}, state, {
+        idMeetingShare: action.id
+    })
+    case 'SET_ID_SHARE_PROJECT':
+    return Object.assign({}, state, {
+      idProjectShare: action.id
+  })
     default:
       return state
   }
