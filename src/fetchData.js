@@ -18,7 +18,7 @@ export function fetchAllProject(callback, clearFunction) {
     clearFunction()
     snapshot.forEach(function(child){
       firebase.database().ref('project/' + child.key)
-        .once('value', function(snapshot){
+        .on('value', function(snapshot){
           callback(snapshot.val())
         })
     })
@@ -32,7 +32,7 @@ export function fetchAllMeeting(callback, clearFunction) {
     clearFunction()
     snapshot.forEach(function(child){
       firebase.database().ref('meeting/' + child.key)
-        .once('value', function(snapshot){
+        .on('value', function(snapshot){
           console.log("test:", snapshot.val())
           callback(snapshot.val())
         })
@@ -47,7 +47,7 @@ export function fetchAllMeetingPlan(callback, clearFunction) {
     clearFunction()
     snapshot.forEach(function(child){
       firebase.database().ref('meetingPlan/' + child.key)
-        .once('value', function(snapshot){
+        .on('value', function(snapshot){
           console.log("test:", snapshot.val())
           callback(snapshot.val())
         })
@@ -76,7 +76,7 @@ export function fetchAllTaskNewFeed(callback, clearFunction) {
     clearFunction()
     snapshot.forEach(function(child){
       firebase.database().ref('task/' + child.key)
-        .once('value', function(snapshot){
+        .on('value', function(snapshot){
           callback(snapshot.val())
         })
     })
