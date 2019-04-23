@@ -141,6 +141,17 @@ class ProjectScreen extends React.Component {
                       </AwesomeButton>
                       <AwesomeButton
                         style={{marginTop: 10, marginLeft: 9}}
+                        backgroundDarker='#114313'
+                        backgroundColor='#2ec32d'
+                        width={70}
+                        height={30}
+                        borderRadius={10}
+                        onPress= {() => this._summaryButton()}
+                        >
+                        <Text style={{ color: '#fff', fontFamily: 'Kanit-Medium', fontSize: 13}}>Summary</Text>
+                      </AwesomeButton>
+                      <AwesomeButton
+                        style={{marginTop: 10, marginLeft: 9}}
                         backgroundDarker='#900c3f'
                         backgroundColor='#c70039'
                         width={60}
@@ -245,6 +256,9 @@ class ProjectScreen extends React.Component {
           </View>
       );
   }
+  _summaryButton(){
+    this.props.navigation.navigate('SummaryScreen');
+  }
   addTask(){
     if(this.state.showSelect == true) {
       Animated.timing(this.animatedValueAdd, {
@@ -324,7 +338,6 @@ function mapDispatchToProps(dispatch) {
               }
             })
           })
-
       }
       const deleteUserProject = () => {
         deleteProjectAll(() => {
