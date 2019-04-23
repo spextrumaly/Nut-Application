@@ -23,6 +23,7 @@ import JoinMeetingScreen from '../screens/meeting/JoinMeetingScreen';
 import SelectProjectCreate from '../screens/SelectProjectCreate';
 import DonateScreen from '../screens/DonateScreen';
 import AboutUsScreen from '../screens/AboutUsScreen';
+import SummaryScreen from '../screens/SummaryScreen';
 import TermsConditionScreen from '../screens/TermsConditionScreen';
 
 const HomeStack = createStackNavigator({
@@ -69,6 +70,7 @@ const ProjectStack = createStackNavigator({
   CalendarMeeting: CalendarMeetingScreen,
   CalendarMeetingEnd: CalendarMeetingEndScreen,
   LocationMeeting: LocationMeetingScreen,
+  SummaryScreen: SummaryScreen,
   // Meetings: MeetingsScreen,
   // Meeting: MeetingScreen,
 });

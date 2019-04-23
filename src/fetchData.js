@@ -96,6 +96,19 @@ export function fetchAllTaskFirst(callback) {
   })
 }
 
+export function fetchMember(callback, id) {
+  var memberRef = firebase.database().ref('project/' +  id + '/member/')
+  var query = memberRef.orderByKey()
+  query.once('value',function(snapshot){
+    snapshot.forEach(function(child){
+      firebase.database().ref('user/' + child.key + '/name')
+        .once('value', function(snapshot){
+          callback(snapshot.val())
+        })
+    })
+  })
+}
+
 export function joinProject(projectCode){
   // rom ku
   let uID =  firebase.auth().currentUser.uid;
