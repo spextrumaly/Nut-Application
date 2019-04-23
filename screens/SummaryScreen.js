@@ -20,7 +20,7 @@ import MeetingOnProject from '../components/MeetingOnProject';
 import { store } from '../Store/Store';
 import moment from "moment";
 import { connect } from 'react-redux'
-import { fetchMember } from '../src/fetchData';
+import { fetchMember, fetchAllTask } from '../src/fetchData';
 
 const showAnimation = "slideInUp"
 const hideAnimation = "slideOutDown"
@@ -79,7 +79,24 @@ class ProjectScreen extends React.Component {
       if(val) {
         return <Text>{val}</Text>
       }
-    });
+    })
+
+    let task
+    this.props.projects.map((val) => {
+      if(val) {
+        if(val.id === this.props.ProjectId){
+          task = val.task
+        }
+      }
+    })
+
+    console.log(task)
+    // let tasks = this.props.tasks.map((val) => {
+    //   if(val.ProjectID === this.props.ProjectId){
+    //     return val
+    //   }
+    // })
+
     // this.fetchMember((name) => {
     //   this.setState({ members: name})
     // })
@@ -143,7 +160,8 @@ class ProjectScreen extends React.Component {
 function mapStateToProps(state) {
   return {
     ProjectId: state.ProjectId,
-    memberName: state.memberName
+    memberName: state.memberName,
+    projects: state.projects,
   }
 }
 
@@ -154,7 +172,7 @@ function mapDispatchToProps(dispatch) {
       fetchMember((members) => {
         dispatch({ type: 'FETCH_ALL_MEMBER', payload: members })
       }, id)
-    }
+    },
   }
 }
 
