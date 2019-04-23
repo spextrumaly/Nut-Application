@@ -273,7 +273,7 @@ class MeetingScreen extends React.Component {
                     stretch={true}
                     borderRadius={30}
                     onPress={() => this.props.voteTime(this.state.selectedIndex, this.props.MeetingId, navigate)}>
-                    <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Voting</Text>
+                    <Text style={{ color: '#f5f3f2', fontFamily: 'Kanit-Medium' }}>Vote</Text>
                   </AwesomeButton>
                   :
                   null
