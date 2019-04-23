@@ -15,13 +15,12 @@ import {
   Clipboard,
   ImageBackground,
 } from 'react-native';
-import Task from '../components/Task';
 import MeetingOnProject from '../components/MeetingOnProject';
 import { store } from '../Store/Store';
 import moment from "moment";
 import { connect } from 'react-redux'
 import { fetchMember, fetchAllTask } from '../src/fetchData';
-
+import Task from '../components/SummaryTask'
 const showAnimation = "slideInUp"
 const hideAnimation = "slideOutDown"
 
@@ -77,84 +76,83 @@ class ProjectScreen extends React.Component {
   render() {
     let members = this.props.memberName.map((val)=>{
       if(val) {
-        return <Text>{val}</Text>
+        return <Text style={styles.memberText}>{val}, </Text>
       }
     })
-
-    let task
+    let details = ''
+    let name = ''
     this.props.projects.map((val) => {
       if(val) {
         if(val.id === this.props.ProjectId){
-          task = val.task
+          details = val.detail
+        }
+      }
+    })
+    this.props.projects.map((val) => {
+      if(val) {
+        if(val.id === this.props.ProjectId){
+          name = val.name
         }
       }
     })
 
-    console.log(task)
-    // let tasks = this.props.tasks.map((val) => {
-    //   if(val.ProjectID === this.props.ProjectId){
-    //     return val
-    //   }
-    // })
+    let lateTasks = this.props.tasks.map((val, key)=>{
+      if( val.ProjectID == this.props.ProjectId){
+        if(moment().isAfter(val.deadlineDate) && val.status == 'active') {
+          return <Task key={key} keyval={key} val={val} type='late'
+          detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
+          />
+        }
+      }
+    });
 
-    // this.fetchMember((name) => {
-    //   this.setState({ members: name})
-    // })
-    // var meetingRef = await firebase.database().ref('user/' + user.uid + '/meeting/')
-    // var meetingPlanRef = await firebase.database().ref('user/' + user.uid + '/meetingPlan/')
-    // projectRef.remove()
-    // meetingRef.remove()
-    // meetingPlanRef.remove()
-    // var query = firebase.database().ref("task").orderByKey();
-    // query.once("value")
-    //   .then(function(snapshot) {
-    //     snapshot.forEach(function(childSnapshot) {
-    //       var key = childSnapshot.key; // "ada"
-    //       testRef = firebase.database().ref('task/' + key + '/ownerName').once('value').then(function(snapshot) {
-    //         var owner = snapshot.val()
-    //         if(owner === user.displayName){
-    //           firebase.database().ref('task/' + key).remove()
-    //         }
-    //       })
-    //       // Cancel enumeration
-    //   });
-    // });
+    let doneTasks = this.props.tasks.map((val, key)=>{
+      if( val.ProjectID == this.props.ProjectId){
+        if(val.status == 'done') {
+          return <Task key={key} keyval={key} val={val} type='done'
+          detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
+          />
+        }
+      }
+    });
+
+    let activeTasks = this.props.tasks.map((val, key)=>{
+      if( val.ProjectID == this.props.ProjectId){
+        if(val.status == 'active' && !moment().isAfter(val.deadlineDate)) {
+          return <Task key={key} keyval={key} val={val} type='active'
+          deleteMethod={()=>this.deleteTask(key)}
+          detailTaskMethod={() => this.props.detailTaskMethod(navigate, val)}
+          />
+        }
+      }
+    });
+
+
     return (
       <View style={styles.container}>
         <View key={this.props.keyval} style={styles.task}>
           <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
           <View>
-            <Text style={styles.taskText}>Summary</Text>
+            <Text style={styles.taskText}>{name}</Text>
+            <Text style={styles.taskSubText}>{details}</Text>
+            <View style={styles.project}>
+              {members}
+            </View>
           </View>
         </View>
-      <View style={styles.body}>
-       {members}
+        <ScrollView style={styles.scrollContainer}>
+          <View style={styles.body}>
+            <View style={styles.bodyTask}>
+              {activeTasks}
+              {lateTasks}
+              {doneTasks}
+            </View>
+          </View>
+        </ScrollView>
       </View>
-    </View>
     );
   }
 
-  addTask(){
-    if(this.state.showSelect == true) {
-      Animated.timing(this.animatedValueAdd, {
-        toValue: 0,
-        duration: 200
-      }).start(() => {
-        this.setState({anim: false});
-        setTimeout(() => this.setState({
-          showSelect: false
-      }), 500)
-      })
-    } else {
-      Animated.timing(this.animatedValueAdd, {
-        toValue: 1,
-        duration: 200
-      }).start(() => {
-        this.setState({showSelect: true});
-        this.setState({anim: true});
-      })
-    }
-  }
 }
 
 function mapStateToProps(state) {
@@ -162,6 +160,7 @@ function mapStateToProps(state) {
     ProjectId: state.ProjectId,
     memberName: state.memberName,
     projects: state.projects,
+    tasks: state.tasks
   }
 }
 
@@ -184,6 +183,11 @@ const styles = StyleSheet.create({
   },
   containerScrollViewHolder: {
     flex: 1,
+  },
+  body: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#f5f3f2'
   },
   containerBtn: {
     flexDirection: 'row'
@@ -223,7 +227,6 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
-    marginBottom: 100,
     paddingTop: 10
   },
   footer: {
@@ -285,7 +288,8 @@ const styles = StyleSheet.create({
   task: {
     position: 'relative',
     padding: 15,
-    paddingTop: 40,    
+    paddingTop: 50,    
+    paddingBottom: 20,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: "#4A3C39",
@@ -302,17 +306,27 @@ const styles = StyleSheet.create({
     fontFamily: 'Kanit-Bold',
     fontSize: 25,
     paddingLeft: 10,
-    paddingTop: 10,
     color: '#f5f5dc'
   },
   taskSubText: {
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: 'Kanit-Regular',
+    fontFamily: 'Kanit-Medium',
     fontSize: 15,
     paddingLeft: 10,
-    paddingTop: 5,
-    color: '#f5f5dc'
+    color: '#f5f5dc',
+    opacity: 0.7
+  },
+  memberText: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    fontFamily: 'Kanit-Medium',
+    fontSize: 10,
+    opacity: 0.7,
+    paddingLeft: 4,
+    color: '#4A3C39'
   },
   projectDeleteText: {
     fontSize: 13,
@@ -339,5 +353,24 @@ const styles = StyleSheet.create({
   signUpText: {
     color: 'white',
     fontFamily: 'Kanit-Medium'
+  },
+  project: {
+    flexDirection: 'row',
+    padding: 6,
+    borderBottomWidth:1,
+    borderBottomColor: '#f5f5dc',
+    borderTopWidth:1,
+    borderTopColor: '#f5f5dc',
+    marginLeft: 10,
+    marginTop: 10,
+    shadowColor: '#696969',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 1,
+    marginRight: 0,
+    backgroundColor: '#f5f5dc',
+    borderRadius: 5,
+    opacity: 0.75,
   },
 });

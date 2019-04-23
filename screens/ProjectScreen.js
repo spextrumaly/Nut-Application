@@ -141,14 +141,14 @@ class ProjectScreen extends React.Component {
                       </AwesomeButton>
                       <AwesomeButton
                         style={{marginTop: 10, marginLeft: 9}}
-                        backgroundDarker='#114313'
-                        backgroundColor='#2ec32d'
-                        width={70}
+                        backgroundDarker='#372c2a'
+                        backgroundColor='#4A3C39'
+                        width={60}
                         height={30}
                         borderRadius={10}
                         onPress= {() => this._summaryButton()}
                         >
-                        <Text style={{ color: '#fff', fontFamily: 'Kanit-Medium', fontSize: 13}}>Summary</Text>
+                        <Text style={{ color: '#fff', fontFamily: 'Kanit-Medium', fontSize: 13}}>Detail</Text>
                       </AwesomeButton>
                       <AwesomeButton
                         style={{marginTop: 10, marginLeft: 9}}
