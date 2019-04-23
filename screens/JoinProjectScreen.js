@@ -55,7 +55,7 @@ class JoinProjectScreen extends Component {
             <Image style={styles.inputIcon} source={require('../assets/images/icon.png')}/>
             <TextInput style={styles.inputs}
               style={styles.textInput}
-              placeholder={this.props.idProjectShare ? this.props.idProjectShare: "Enter Id"}
+              placeholder={this.props.idProjectShare ? this.props.idProjectShare: "Enter Your NutID"}
               onChangeText={(idProject)=> this.setState({idProject})}
               value={this.state.idProject}
               placeholderTextColor='grey'
