@@ -215,6 +215,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 16,
     fontFamily: 'Kanit-Italic',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     color: '#f5f5dc',
     opacity: 0.6
 
