@@ -87,7 +87,7 @@ export default class SettingScreen extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.groupButton}>
+        {/* <View style={styles.groupButton}>
           <View style={styles.project}>
             <TouchableOpacity onPress={this.props.detailTaskMethod}>
               <View style={styles.headCard}>
@@ -98,7 +98,7 @@ export default class SettingScreen extends React.Component {
               </View>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
         <View style={styles.groupButton}>
           <View>
             <Text style={styles.thankyou}>Thank you for using our application :&#41;</Text>

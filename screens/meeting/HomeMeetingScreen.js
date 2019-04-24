@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import moment from "moment";
 import * as firebase from 'firebase';
 import VoteTime from '../../components/VoteTimeMeeting'
-import { addVote, lineShare, fetchAllMeeting } from '../../src/fetchData';
+import { addVote, lineShare, fetchMemberMeeting } from '../../src/fetchData';
 import AwesomeButton from "react-native-really-awesome-button";
 
 class MeetingScreen extends React.Component {
@@ -29,6 +29,10 @@ class MeetingScreen extends React.Component {
       selectedTime: false,
       selectedIndex: [],
     };
+  }
+
+  componentDidMount() {
+    this.props.fetchDispatchAllMemberMeeting(this.props.MeetingId)
   }
 
   render() {
@@ -196,12 +200,25 @@ class MeetingScreen extends React.Component {
         }
       }
     });
-    let member
     this.props.meetingsPlan.map((val) => {
       if (val.id == this.props.MeetingId) {
         member = val.member
       }
     });
+    let member
+    this.props.meetings.map((val) => {
+      if (val.id == this.props.MeetingId) {
+        member = val.member
+      }
+    });
+    let members = this.props.memberNameMeeting.map((val)=>{
+      if(val) {
+        return <Text style={styles.memberText}>{val}, </Text>
+      }
+    })
+
+    console.log('mb', members)
+    
     return (
       <View style={styles.container}>
         <ImageBackground source={require('../../assets/images/bg.png')}style={{width: '100%', height: '100%'}}>
@@ -213,6 +230,12 @@ class MeetingScreen extends React.Component {
               <Text style={styles.taskSubText}
                     onPress={() => {!onVote ? Clipboard.setString(id.toString()) : Clipboard.setString(idPlan.toString()); AlertIOS.alert('Alert', 'Copied MeetingID to clipboard!'); }}>
                     MeetingID: {!onVote ? id : idPlan}</Text>
+            {!onVote ? 
+              <View style={styles.project}>
+                {members}
+              </View> 
+              : null
+            }
             </View>
           </View>
           <View style={styles.containerMeeting}>
@@ -333,13 +356,20 @@ function mapStateToProps(state) {
   return {
     meetings: state.meetings,
     MeetingId: state.MeetingId,
-    meetingsPlan: state.meetingsPlan
+    meetingsPlan: state.meetingsPlan,
+    memberNameMeeting: state.memberNameMeeting
   }
 }
 
 function mapDispatchToProps(dispatch) {
   var timestamp = moment().format();
   return {
+    fetchDispatchAllMemberMeeting: (id) => {
+      dispatch({ type: 'FETCH_CLEAR_MEMBER_MEETING' })
+      fetchMemberMeeting((members) => {
+        dispatch({ type: 'FETCH_ALL_MEMBER_MEETING', payload: members })
+      }, id)
+    },
     deleteMeeting: (meetingId, navigate) => {
       const deleteMeetingAll = (cb) => {
         firebase.database().ref('meeting/' + meetingId).once('value')
@@ -432,6 +462,17 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 20,
     marginBottom: 20,
+  },
+  memberText: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    fontFamily: 'Kanit-Medium',
+    fontSize: 10,
+    opacity: 0.7,
+    paddingLeft: 4,
+    color: '#4A3C39'
   },
   item:
   {
@@ -604,5 +645,24 @@ const styles = StyleSheet.create({
   },
   headMeeting: {
     marginTop: 20,
-  }
+  },
+  project: {
+    flexDirection: 'row',
+    padding: 6,
+    borderBottomWidth:1,
+    borderBottomColor: '#f5f5dc',
+    borderTopWidth:1,
+    borderTopColor: '#f5f5dc',
+    marginLeft: 10,
+    marginTop: 10,
+    shadowColor: '#696969',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 1,
+    marginRight: 0,
+    backgroundColor: '#f5f5dc',
+    borderRadius: 5,
+    opacity: 0.75,
+  },
 });

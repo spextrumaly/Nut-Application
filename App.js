@@ -45,7 +45,8 @@ const initialState = {
   tasksNewFeed: [],
   idMeetingShare: '',
   idProjectShare: '',
-  memberName: []
+  memberName: [],
+  memberNameMeeting: [],
 }
 
 const reducer = (state = initialState, action) => {
@@ -77,6 +78,10 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         memberName: []
       })
+    case 'FETCH_CLEAR_MEMBER_MEETING':
+      return Object.assign({}, state, {
+        memberNameMeeting: []
+      })
     case 'FETCH_CLEAR_ALL_MEETING_PLAN':
       return Object.assign({}, state, {
         meetingsPlan: []
@@ -96,6 +101,13 @@ const reducer = (state = initialState, action) => {
       if(action.payload != null){
         return Object.assign({}, state, {
           memberName: state.memberName.concat(action.payload)
+        })
+      }
+      return state
+    case 'FETCH_ALL_MEMBER_MEETING':
+      if(action.payload != null){
+        return Object.assign({}, state, {
+          memberNameMeeting: state.memberNameMeeting.concat(action.payload)
         })
       }
       return state
