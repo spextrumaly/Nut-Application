@@ -96,10 +96,12 @@ class CreateMeetingCalendar extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     Continue: (date, navigate) => {
-      dispatch({ type: 'ADD_MEETING_START_STATE',
+      if(date){
+        dispatch({ type: 'ADD_MEETING_START_STATE',
         date: date
-      })
-      navigate('CalendarMeetingEnd')
+        })
+        navigate('CalendarMeetingEnd')
+      }
     }
   }
 }

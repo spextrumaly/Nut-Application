@@ -121,6 +121,7 @@ function mapDispatchToProps(dispatch) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return {
     AddProject: (date, name, detail, ownerName, navigate) => {
+      if(date){
       let uID = firebase.auth().currentUser.uid;
       console.log(uID)
       projectRef = firebase.database().ref('project/')
@@ -154,6 +155,7 @@ function mapDispatchToProps(dispatch) {
       //   dispatch({ type: 'FETCH_ALL_PROJECT', payload: projects })
       // })
       navigate('HomeProject');
+    }
     }
   }
 }

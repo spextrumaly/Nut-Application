@@ -136,14 +136,14 @@ class App extends React.Component {
               >
                 <Text style={{ color: 'white', fontFamily: 'Kanit-Regular' }}> Login With Facebook</Text>
               </AwesomeButton>
-              <AwesomeButton style={{ marginTop: 10}}
+              {/* <AwesomeButton style={{ marginTop: 10}}
                 stretch={true}
                 backgroundDarker='#900c3f'
                 backgroundColor='#c70039'
                 onPress={this._loginWithGoogle}
               >
                 <Text style={{ color: 'white', fontFamily: 'Kanit-Regular' }}> Login With Google</Text>
-              </AwesomeButton>
+              </AwesomeButton> */}
             </View>
           </View>
         </ImageBackground>

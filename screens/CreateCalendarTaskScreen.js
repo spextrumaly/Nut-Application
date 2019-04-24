@@ -118,6 +118,7 @@ function mapDispatchToProps(dispatch) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return {
     addTask: (date, name, detail, projectId, ownerName, navigate) => {
+      if(date){
       let projectRef = firebase.database().ref('project/'+projectId+'/task')
       let taskRef = firebase.database().ref('task/')
       taskRef.push({
@@ -145,6 +146,7 @@ function mapDispatchToProps(dispatch) {
         dispatch({ type: 'FETCH_ALL_TASK', payload: tasks })
       }, projectId)
       navigate('Project');
+      }
     }
   }
 }
