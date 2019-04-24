@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Image,
+  AlertIOS,
   Alert,
   ImageBackground
 } from 'react-native';
@@ -79,7 +80,7 @@ class CreateMeetingEndCalendar extends Component {
                 width={50}
                 height={50}
                 borderRadius={100}
-                onPress={() => {this.addMoreTime(this.state.hourStart, this.state.minutesStart, this.state.hourEnd, this.state.minutesEnd); this.setState({ timeStartPick: false, timeEndPick: false });}}>
+                onPress={() => {this.addMoreTime(this.state.hourStart, this.state.minutesStart, this.state.hourEnd, this.state.minutesEnd); this.setState({ timeStartPick: false, timeEndPick: false }); AlertIOS.alert('Alert', 'Add time completed!');}}>
                 <Text style={{ color: '#4A3C39', fontFamily: 'Kanit-Medium', fontSize: 20 }}>+</Text>
               </AwesomeButton>
             <AwesomeButton

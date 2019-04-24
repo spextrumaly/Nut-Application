@@ -242,6 +242,13 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         meetingStateStartDate : action.date,
       })
+    case 'ADD_MEETING_END_STATE_CLEAR':
+      return {...state,
+        meetingStateEndHour : [],
+        meetingStateEndMinutes : [],
+        meetingStateStartHour : [],
+        meetingStateStartMinutes : []
+      }
     case 'ADD_MEETING_END_STATE':
       return {...state,
         meetingStateEndHour : state.meetingStateEndHour.concat(action.hourEnd),

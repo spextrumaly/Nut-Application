@@ -106,6 +106,7 @@ class CreateMeeting extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     Continue: (name, detail, navigate) => {
+      dispatch({ type: 'ADD_MEETING_END_STATE_CLEAR'})
       dispatch({ type: 'ADD_MEETING_STATE',
         name: name, detail : detail
       })
